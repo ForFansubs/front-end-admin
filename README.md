@@ -45,11 +45,7 @@ REACT_APP_DEV_API_URL="" // Dev ortamında istekleri yapmak için kullanacağı 
 <html lang="tr">
   <head>
     <meta charset="utf-8" />
-    <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#3B3E42">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
     <title>Site name</title>
   </head>
   <body>
