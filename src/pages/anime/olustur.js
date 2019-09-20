@@ -17,7 +17,7 @@ export default function AnimeCreate() {
     const handleInputChange = name => event => {
         const data = event.target.value
 
-        setAnimeData(oldData => ({ ...animeData, [name]: data }))
+        setAnimeData(oldData => ({ ...oldData, [name]: data }))
     }
 
     async function handleMALSubmit(th) {

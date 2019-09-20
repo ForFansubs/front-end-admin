@@ -9,7 +9,7 @@ import ToastNotification, { payload } from '../../../components/toastify/toast'
 
 import { Button, Box, FormControl, InputLabel, Select, MenuItem, Typography, Grid } from '@material-ui/core'
 import { defaultEpisodeData, defaultAnimeData } from '../../../components/pages/default-props';
-import { getFullAnimeList, getAnimeData, addWatchlink, getWatchlinks, deleteWatchlink } from '../../../config/api-routes';
+import { getFullAnimeList, getAnimeData, getWatchlinks, deleteWatchlink } from '../../../config/api-routes';
 import { handleSelectData, handleEpisodeTitleFormat, handleEpisodeSelectData } from '../../../components/pages/functions';
 
 export default function WatchlinkCreate() {

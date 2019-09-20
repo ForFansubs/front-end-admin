@@ -1,49 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { useGlobal } from 'reactn'
 import { Redirect } from 'react-router-dom'
-import PropTypes from 'prop-types';
 
 import SwipeableViews from 'react-swipeable-views';
 import { useTheme } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import Typography from '@material-ui/core/Typography';
-import Box from '@material-ui/core/Box';
 
 import MangaCreate from './olustur'
 import MangaUpdate from './duzenle'
 import MangaDelete from './sil'
 
-function TabPanel(props) {
-    const { children, value, index, ...other } = props;
-
-    return (
-        <Typography
-            component="div"
-            role="tabpanel"
-            hidden={value !== index}
-            id={`vertical-tabpanel-${index}`}
-            aria-labelledby={`vertical-tab-${index}`}
-            {...other}
-        >
-            <Box p={2} bgcolor="background.level2" boxShadow={2}>{children}</Box>
-        </Typography>
-    );
-}
-
-TabPanel.propTypes = {
-    children: PropTypes.node,
-    index: PropTypes.any.isRequired,
-    value: PropTypes.any.isRequired,
-};
-
-function a11yProps(index) {
-    return {
-        id: `vertical-tab-${index}`,
-        'aria-controls': `vertical-tabpanel-${index}`,
-    };
-}
+import {a11yProps, TabPanel} from "../../components/pages/default-components";
 
 export default function VerticalTabs() {
     const theme = useTheme()
@@ -52,7 +21,7 @@ export default function VerticalTabs() {
     const [error, setError] = useState(false)
 
     useEffect(() => {
-        if (!adminPermList["add-manga"]) {
+        if (!adminPermList["add-manga"] && !adminPermList["update-manga"] && !adminPermList["delete-manga"]) {
             setError(true)
         }
     }, [adminPermList])

@@ -53,4 +53,34 @@ const defaultMangaData = {
     confirm: false,
 }
 
-export { defaultAnimeData, defaultEpisodeData, defaultTaBatchData, defaultWatchLinkData, defaultMangaData }
+const defaultUserData = {
+    name: "",
+    email: "",
+    password: "",
+    password2: ""
+}
+
+const defaultUserUpdateData = {
+    id: null,
+    slug: "",
+    name: "",
+    password: "",
+    permission_level: "",
+    avatar: "",
+    email: ""
+}
+
+const defaultPermissionData = {
+    name: "",
+    color: "",
+    permission_set: ""
+}
+
+const defaultPermissionUpdateData = {
+    id: null,
+    name: "",
+    color: "",
+    permission_set: ""
+}
+
+export { defaultAnimeData, defaultEpisodeData, defaultTaBatchData, defaultWatchLinkData, defaultMangaData, defaultUserData, defaultUserUpdateData, defaultPermissionData, defaultPermissionUpdateData }

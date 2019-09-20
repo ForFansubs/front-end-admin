@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/puzzleadmin.iml" filepath="$PROJECT_DIR$/.idea/puzzleadmin.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../puzzlefront/.idea/puzzlefront.iml" filepath="$PROJECT_DIR$/../puzzlefront/.idea/puzzlefront.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../puzzlesubs.comv2/.idea/puzzlesubs.comv2.iml" filepath="$PROJECT_DIR$/../puzzlesubs.comv2/.idea/puzzlesubs.comv2.iml" />
+    </modules>
+  </component>
+</project>

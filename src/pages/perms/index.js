@@ -8,11 +8,9 @@ import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 
-import EpisodeCreate from './olustur'
-import EpisodeUpdate from './duzenle'
-import EpisodeDelete from './sil'
-import EpisodeWatchLinkIndex from './izlemelinkiindex'
-import EpisodeDownloadLinkIndex from './indirmelinkiindex'
+import PermissionCreate from './olustur'
+import PermissionUpdate from './duzenle'
+import PermissionDelete from './sil'
 
 import {a11yProps, TabPanel} from "../../components/pages/default-components";
 
@@ -25,7 +23,7 @@ export default function VerticalTabs() {
     const [error, setError] = useState(false)
 
     useEffect(() => {
-        if (!adminPermList["add-episode"] && !adminPermList["update-episode"] && !adminPermList["delete-episode"]) {
+        if (!adminPermList["add-permission"] && !adminPermList["update-permission"] && !adminPermList["delete-permission"]) {
             setError(true)
         }
     }, [adminPermList, token])
@@ -50,11 +48,9 @@ export default function VerticalTabs() {
                     variant="fullWidth"
                     aria-label="Yatay menüler"
                 >
-                    {adminPermList["add-episode"] ? <Tab label="Oluştur" {...a11yProps(0)} /> : ""}
-                    {adminPermList["update-episode"] ? <Tab label="Düzenle" {...a11yProps(1)} /> : ""}
-                    {adminPermList["delete-episode"] ? <Tab label="Sil" {...a11yProps(2)} /> : ""}
-                    {adminPermList["add-watch-link"] ? <Tab label="İzleme" {...a11yProps(3)} /> : ""}
-                    {adminPermList["add-download-link"] ? <Tab label="İndirme" {...a11yProps(4)} /> : ""}
+                    {adminPermList["add-permission"] ? <Tab label="Oluştur" {...a11yProps(0)} /> : ""}
+                    {adminPermList["update-permission"] ? <Tab label="Düzenle" {...a11yProps(1)} /> : ""}
+                    {adminPermList["delete-permission"] ? <Tab label="Sil" {...a11yProps(2)} /> : ""}
                 </Tabs>
             </AppBar>
             <SwipeableViews
@@ -62,29 +58,19 @@ export default function VerticalTabs() {
                 index={value}
                 onChangeIndex={handleChangeIndex}
             >
-                {adminPermList["add-episode"] ?
+                {adminPermList["add-permission"] ?
                     <TabPanel value={value} index={0} dir={theme.direction}>
-                        {value === 0 ? <EpisodeCreate /> : ""}
+                        {value === 0 ? <PermissionCreate /> : ""}
                     </TabPanel>
                     : ""}
-                {adminPermList["update-episode"] ?
+                {adminPermList["update-permission"] ?
                     <TabPanel value={value} index={1} dir={theme.direction}>
-                        {value === 1 ? <EpisodeUpdate theme={theme} /> : 0}
+                        {value === 1 ? <PermissionUpdate theme={theme} /> : 0}
                     </TabPanel>
                     : ""}
-                {adminPermList["delete-episode"] ?
+                {adminPermList["delete-permission"] ?
                     <TabPanel value={value} index={2} dir={theme.direction}>
-                        {value === 2 ? <EpisodeDelete theme={theme} /> : 0}
-                    </TabPanel>
-                    : ""}
-                {adminPermList["add-watch-link"] ?
-                    <TabPanel value={value} index={3} dir={theme.direction}>
-                        {value === 3 ? <EpisodeWatchLinkIndex /> : 0}
-                    </TabPanel>
-                    : ""}
-                {adminPermList["add-download-link"] ?
-                    <TabPanel value={value} index={4} dir={theme.direction}>
-                        {value === 4 ? <EpisodeDownloadLinkIndex /> : 0}
+                        {value === 2 ? <PermissionDelete theme={theme} /> : 0}
                     </TabPanel>
                     : ""}
             </SwipeableViews>

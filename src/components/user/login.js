@@ -5,9 +5,8 @@ import { useTheme } from '@material-ui/styles'
 import { useDispatch } from 'reactn'
 import styled from 'styled-components'
 
-import ToastNotification from '../toastify/toast'
-
 import axios from '../../config/axios/axios'
+import { loginRoute } from '../../config/api-routes';
 
 const ModalContainer = styled(Box)`
     position: absolute;
@@ -64,20 +63,14 @@ export default function LoginModal() {
             password: userInfo.password
         }
 
-        axios.post('/user/login', userData)
+        axios.post(loginRoute, userData)
             .then(res => {
                 setUser(res.data)
                 setUserInfo(UserModel)
                 setErrContainer(errContainerModel)
             })
             .catch(err => {
-                const errors = err.response ? err.response.data : ""
-                const payload = {
-                    container: "register-error",
-                    type: "error",
-                    message: ""
-                }
-                ToastNotification(payload)
+                const errors = err.response.data.username ? err.response.data : { username: "Giriş yaparken bir sorun oluştu." }
                 setErrContainer({ ...errContainer, ...errors })
             })
     }

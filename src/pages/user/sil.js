@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from 'react'
 import { useGlobal } from 'reactn'
+
 import Find from 'lodash-es/find'
 import FindIndex from 'lodash-es/findIndex'
 import PullAt from 'lodash-es/pullAt'
+
 import axios from '../../config/axios/axios'
 import ToastNotification, { payload } from '../../components/toastify/toast'
 
 import { Button, Box, Modal, CircularProgress, FormControl, InputLabel, Select, MenuItem, Typography } from '@material-ui/core'
 import styled from 'styled-components'
-import { defaultAnimeData } from '../../components/pages/default-props';
-import { getFullAnimeList, deleteAnime } from '../../config/api-routes';
-import { handleSelectData } from '../../components/pages/functions';
+import { defaultUserData } from '../../components/pages/default-props';
+import { getFullUserList, deleteUser } from '../../config/api-routes';
 
 const ModalContainer = styled(Box)`
     position: absolute;
@@ -24,14 +25,14 @@ const ModalContainer = styled(Box)`
     }
 `
 
-export default function AnimeDelete(props) {
+export default function UserDelete(props) {
     const { theme } = props
     const token = useGlobal("user")[0].token
     const [data, setData] = useState([])
 
     const [open, setOpen] = useState(false)
 
-    const [currentAnimeData, setCurrentAnimeData] = useState({ ...defaultAnimeData })
+    const [currentUserData, setCurrentUserData] = useState({ ...defaultUserData })
     const [loading, setLoading] = useState(true)
 
     useEffect(() => {
@@ -40,7 +41,7 @@ export default function AnimeDelete(props) {
                 "Authorization": token
             }
 
-            const res = await axios.get(getFullAnimeList, { headers }).catch(res => res)
+            const res = await axios.get(getFullUserList, { headers }).catch(res => res)
             if (res.status === 200) {
                 setData(res.data)
                 setLoading(false)
@@ -54,34 +55,36 @@ export default function AnimeDelete(props) {
     }, [token])
 
     function handleChange(event) {
-        const animeData = handleSelectData(event.target.value)
-        const newData = Find(data, { name: animeData.name, version: animeData.version })
-        setCurrentAnimeData({ ...newData })
+        const newData = Find(data, { name: event.target.value })
+
+        setCurrentUserData({ ...newData })
         setOpen(true)
     }
 
     function handleDeleteButton(slug) {
-        const animeData = {
-            id: currentAnimeData.id
-        }
-
         const headers = {
             "Authorization": token
         }
 
-        axios.post(deleteAnime, animeData, { headers })
+        const userData = {
+            user_id: currentUserData.id
+        }
+
+
+        axios.post(deleteUser, userData, { headers })
             .then(_ => {
                 const newData = data
-                PullAt(newData, FindIndex(newData, { "slug": slug }))
+                PullAt(newData, FindIndex(newData, { id: currentUserData.id }))
                 handleClose()
-                setCurrentAnimeData({ ...defaultAnimeData })
+                setCurrentUserData({ ...defaultUserData })
                 setData(newData)
-                ToastNotification(payload("process-success", "success", "Anime başarıyla silindi."))
+                ToastNotification(payload("process-success", "success", "Kullanıcı başarıyla silindi."))
             })
-            .catch(_ => ToastNotification(payload("process-error", "error", "Animeyi silerken bir sorunla karşılaştık.")))
+            .catch(_ => ToastNotification(payload("process-error", "error", "Kullanıcıyı silerken bir sorunla karşılaştık.")))
     }
 
     function handleClose() {
+        setCurrentUserData({ ...defaultUserData })
         setOpen(false)
     }
 
@@ -94,17 +97,17 @@ export default function AnimeDelete(props) {
         <>
             {!loading && data.length ?
                 <FormControl fullWidth>
-                    <InputLabel htmlFor="anime-selector">Sileceğiniz animeyi seçin</InputLabel>
+                    <InputLabel htmlFor="anime-selector">Sileceğiniz kullanıcıyı seçin</InputLabel>
                     <Select
                         fullWidth
-                        value={currentAnimeData.name}
+                        value={`${currentUserData.name}`}
                         onChange={handleChange}
                         inputProps={{
                             name: "anime",
                             id: "anime-selector"
                         }}
                     >
-                        {data.map(d => <MenuItem key={d.id} value={`${d.name} [${d.version}]`}>{d.name} [{d.version}]</MenuItem>)}
+                        {data.map(d => <MenuItem key={d.id} value={`${d.name}`}>{d.name}</MenuItem>)}
                     </Select>
                 </FormControl>
                 : ""}
@@ -116,13 +119,13 @@ export default function AnimeDelete(props) {
             >
                 <ModalContainer theme={theme}>
                     <Box p={2} bgcolor="background.level2">
-                        <Typography variant="h4"><em>{currentAnimeData.name}</em> animesini silmek üzeresiniz.</Typography>
-                        <Typography variant="body1">Bu yıkıcı bir komuttur. Bu animeyle ilişkili bütün <b>bölümler</b>, <b>indirme</b> ve <b>izleme</b> linkleri silinecektir.</Typography>
+                        <Typography variant="h4"><em>{currentUserData.name}</em> kullanıcısını silmek üzeresiniz.</Typography>
+                        <Typography variant="body1">Bu yıkıcı bir komuttur. Kullanıcının açtığı tüm konularda "Silinmiş Üye" yazacaktır.</Typography>
                         <Button
                             style={{ marginRight: "5px" }}
                             variant="contained"
                             color="secondary"
-                            onClick={() => handleDeleteButton(currentAnimeData.slug)}>
+                            onClick={() => handleDeleteButton(currentUserData.slug)}>
                             Sil
                             </Button>
                         <Button

@@ -7,10 +7,13 @@ import Login from './components/user/login'
 
 import { useTheme } from '@material-ui/styles'
 
-const IndexPage = lazy(() => import('./pages/index/index'))
-const AnimePage = lazy(() => import('./pages/anime/index'))
-const EpisodePage = lazy(() => import('./pages/bolum/index'))
-const MangaPage = lazy(() => import('./pages/manga/index'))
+const IndexSayfa = lazy(() => import('./pages/index/index'))
+const AnimeSayfa = lazy(() => import('./pages/anime/index'))
+const BolumSayfa = lazy(() => import('./pages/bolum/index'))
+const MangaSayfa = lazy(() => import('./pages/manga/index'))
+const KullaniciSayfa = lazy(() => import('./pages/user/index'))
+const YetkiSayfa = lazy(() => import('./pages/perms/index'))
+const SistemSayfa = lazy(() => import('./pages/sistem/index')) 
 
 function App() {
   const theme = useTheme()
@@ -38,10 +41,13 @@ function App() {
               <Wrapper>
                 <Switch>
                   <Suspense fallback={<p></p>}>
-                    <Route path="/" exact component={IndexPage} />
-                    <Route path="/anime" exact component={AnimePage} />
-                    <Route path="/bolum" exact component={EpisodePage} />
-                    <Route path="/manga" exact component={MangaPage} />
+                    <Route path="/" exact component={IndexSayfa} />
+                    <Route path="/anime" exact component={AnimeSayfa} />
+                    <Route path="/bolum" exact component={BolumSayfa} />
+                    <Route path="/manga" exact component={MangaSayfa} />
+                    <Route path="/kullanici" exact component={KullaniciSayfa} />
+                    <Route path="/yetki" exact component={YetkiSayfa} />
+                    <Route path="/sistem" exact component={SistemSayfa} />
                   </Suspense>
                 </Switch>
               </Wrapper>

@@ -168,7 +168,7 @@ export default function MiniDrawer() {
                 <List>
                     {menuItems.map((item, index) => adminPermList[item.perm] || item.perm === false ?
                         (
-                            <NavLink to={item.link} onClick={handleDrawerClose} activeStyle={{ background: theme.palette.background.level1 }} key={item.text}>
+                            <NavLink to={item.link} exact onClick={handleDrawerClose} activeStyle={{ backgroundColor: theme.palette.background.level2 }} key={item.text}>
                                 <ListItem button style={{ backgroundColor: "inherit" }}>
                                     <ListItemIcon style={{ color: theme.palette.text.primary }}>{item.icon}</ListItemIcon>
                                     <ListItemText className={classes.ListItemText}><Typography variant="body2">{item.text}</Typography></ListItemText>
@@ -218,7 +218,10 @@ export default function MiniDrawer() {
                     </Link>
                     <div style={{ padding: "12px", display: "flex", alignItems: "center" }}>
                         {userInfo.success ?
-                            <img src={userInfo.avatar} style={{ height: "25px" }} alt={`${userInfo.username} avatar`} aria-labelledby={`${userInfo.username} avatar`} />
+                            userInfo.avatar ?
+                                <img src={userInfo.avatar} style={{ height: "25px" }} alt={`${userInfo.username} avatar`} aria-labelledby={`${userInfo.username} avatar`} />
+                                :
+                                <AccountCircle alt={`${userInfo.username} avatar`} aria-labelledby={`${userInfo.username} avatar`} />
                             :
                             <AccountCircle />
                         }

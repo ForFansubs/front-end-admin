@@ -115,6 +115,24 @@ const handleEpisodeTitleFormat = (data) => {
     else return `${episode_number}. Bölüm`
 }
 
+const handleGeneralSlugify = text => {
+    const a = 'àáäâèéëêìíïîòóöôùúüûñçßÿœæŕśńṕẃǵǹḿǘẍźḧ♭·/_,:;'
+    const b = 'aaaaeeeeiiiioooouuuuncsyoarsnpwgnmuxzhf------'
+    const p = new RegExp(a.split('').join('|'), 'g')
+
+    return text.toString().toLowerCase()
+        .replace(/\s+/g, '-') // Replace spaces with -
+        .replace(p, c =>
+            b.charAt(a.indexOf(c))) // Replace special chars
+        .replace(/&/g, '') // Replace & with 'and'
+        // eslint-disable-next-line
+        .replace(/[^\w\-]+/g, '') // Remove all non-word chars
+        // eslint-disable-next-line
+        .replace(/\-\-+/g, '-') // Replace multiple - with single -
+        .replace(/^-+/, '') // Trim - from start of text
+        .replace(/-+$/, '') // Trim - from end of text
+}
+
 export {
     checkMyAnimeListAnimeLink,
     checkMyAnimeListMangaLink,
@@ -123,5 +141,6 @@ export {
     handleSelectData,
     handleFeaturedSelectData,
     handleEpisodeSelectData,
-    handleEpisodeTitleFormat
+    handleEpisodeTitleFormat,
+    handleGeneralSlugify
 }

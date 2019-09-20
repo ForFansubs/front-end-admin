@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useGlobal } from 'reactn'
 import { Redirect } from 'react-router-dom'
-import PropTypes from 'prop-types';
 import axios from '../../config/axios/axios'
 
 import SwipeableViews from 'react-swipeable-views';
@@ -10,42 +9,13 @@ import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
-import Box from '@material-ui/core/Box';
 
 import WatchlinkCreate from './izlemelinki/olustur'
 import WatchLinkDelete from './izlemelinki/sil'
 import WarningBox from '../../components/warningerrorbox/warning';
 import { watchLinkList } from '../../config/api-routes';
 
-function TabPanel(props) {
-    const { children, value, index, ...other } = props;
-
-    return (
-        <Typography
-            component="div"
-            role="tabpanel"
-            hidden={value !== index}
-            id={`vertical-tabpanel-${index}`}
-            aria-labelledby={`vertical-tab-${index}`}
-            {...other}
-        >
-            <Box py={2} bgcolor="background.level2" boxShadow={2}>{children}</Box>
-        </Typography>
-    );
-}
-
-TabPanel.propTypes = {
-    children: PropTypes.node,
-    index: PropTypes.any.isRequired,
-    value: PropTypes.any.isRequired,
-};
-
-function a11yProps(index) {
-    return {
-        id: `vertical-tab-${index}`,
-        'aria-controls': `vertical-tabpanel-${index}`,
-    };
-}
+import {a11yProps, TabPanel} from "../../components/pages/default-components";
 
 export default function EpisodeWatchLinkIndex() {
     const theme = useTheme()
@@ -56,7 +26,7 @@ export default function EpisodeWatchLinkIndex() {
     const [error, setError] = useState(false)
 
     useEffect(() => {
-        if (!adminPermList["add-anime"]) {
+        if (!adminPermList["add-watch-link"] && !adminPermList["delete-watch-link"]) {
             setError(true)
         }
 

@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from 'react'
 import { useGlobal } from 'reactn'
+
 import Find from 'lodash-es/find'
 import FindIndex from 'lodash-es/findIndex'
 import PullAt from 'lodash-es/pullAt'
+
 import axios from '../../config/axios/axios'
 import ToastNotification, { payload } from '../../components/toastify/toast'
 
 import { Button, Box, Modal, CircularProgress, FormControl, InputLabel, Select, MenuItem, Typography } from '@material-ui/core'
 import styled from 'styled-components'
-import { defaultAnimeData } from '../../components/pages/default-props';
-import { getFullAnimeList, deleteAnime } from '../../config/api-routes';
-import { handleSelectData } from '../../components/pages/functions';
+import { defaultPermissionData } from '../../components/pages/default-props';
+import { getFullPermissionList, deletePermission } from '../../config/api-routes';
 
 const ModalContainer = styled(Box)`
     position: absolute;
@@ -24,14 +25,14 @@ const ModalContainer = styled(Box)`
     }
 `
 
-export default function AnimeDelete(props) {
+export default function PermissionDelete(props) {
     const { theme } = props
     const token = useGlobal("user")[0].token
-    const [data, setData] = useState([])
+    const [permissionData, setPermissionData] = useState([])
 
     const [open, setOpen] = useState(false)
 
-    const [currentAnimeData, setCurrentAnimeData] = useState({ ...defaultAnimeData })
+    const [currentPermissionData, setCurrentPermissionData] = useState({ ...defaultPermissionData })
     const [loading, setLoading] = useState(true)
 
     useEffect(() => {
@@ -40,9 +41,9 @@ export default function AnimeDelete(props) {
                 "Authorization": token
             }
 
-            const res = await axios.get(getFullAnimeList, { headers }).catch(res => res)
+            const res = await axios.get(getFullPermissionList, { headers }).catch(res => res)
             if (res.status === 200) {
-                setData(res.data)
+                setPermissionData(res.data)
                 setLoading(false)
             }
             else {
@@ -54,34 +55,36 @@ export default function AnimeDelete(props) {
     }, [token])
 
     function handleChange(event) {
-        const animeData = handleSelectData(event.target.value)
-        const newData = Find(data, { name: animeData.name, version: animeData.version })
-        setCurrentAnimeData({ ...newData })
+        const newData = Find(permissionData, { name: event.target.value })
+
+        setCurrentPermissionData({ ...newData })
         setOpen(true)
     }
 
-    function handleDeleteButton(slug) {
-        const animeData = {
-            id: currentAnimeData.id
-        }
-
+    function handleDeleteButton() {
         const headers = {
             "Authorization": token
         }
 
-        axios.post(deleteAnime, animeData, { headers })
+        const permissionPostData = {
+            permission_id: currentPermissionData.id
+        }
+
+
+        axios.post(deletePermission, permissionPostData, { headers })
             .then(_ => {
-                const newData = data
-                PullAt(newData, FindIndex(newData, { "slug": slug }))
+                const newData = permissionData
+                PullAt(newData, FindIndex(newData, { id: currentPermissionData.id }))
                 handleClose()
-                setCurrentAnimeData({ ...defaultAnimeData })
-                setData(newData)
-                ToastNotification(payload("process-success", "success", "Anime başarıyla silindi."))
+                setCurrentPermissionData({ ...defaultPermissionData })
+                setPermissionData(newData)
+                ToastNotification(payload("process-success", "success", "Yetki başarıyla silindi."))
             })
-            .catch(_ => ToastNotification(payload("process-error", "error", "Animeyi silerken bir sorunla karşılaştık.")))
+            .catch(_ => ToastNotification(payload("process-error", "error", "Yetkiyi silerken bir sorunla karşılaştık.")))
     }
 
     function handleClose() {
+        setCurrentPermissionData({ ...defaultPermissionData })
         setOpen(false)
     }
 
@@ -92,19 +95,19 @@ export default function AnimeDelete(props) {
     }
     return (
         <>
-            {!loading && data.length ?
+            {!loading && permissionData.length ?
                 <FormControl fullWidth>
-                    <InputLabel htmlFor="anime-selector">Sileceğiniz animeyi seçin</InputLabel>
+                    <InputLabel htmlFor="anime-selector">Sileceğiniz kullanıcıyı seçin</InputLabel>
                     <Select
                         fullWidth
-                        value={currentAnimeData.name}
+                        value={`${currentPermissionData.name}`}
                         onChange={handleChange}
                         inputProps={{
                             name: "anime",
                             id: "anime-selector"
                         }}
                     >
-                        {data.map(d => <MenuItem key={d.id} value={`${d.name} [${d.version}]`}>{d.name} [{d.version}]</MenuItem>)}
+                        {permissionData.map(d => <MenuItem key={d.id} value={`${d.name}`}>{d.name}</MenuItem>)}
                     </Select>
                 </FormControl>
                 : ""}
@@ -116,15 +119,15 @@ export default function AnimeDelete(props) {
             >
                 <ModalContainer theme={theme}>
                     <Box p={2} bgcolor="background.level2">
-                        <Typography variant="h4"><em>{currentAnimeData.name}</em> animesini silmek üzeresiniz.</Typography>
-                        <Typography variant="body1">Bu yıkıcı bir komuttur. Bu animeyle ilişkili bütün <b>bölümler</b>, <b>indirme</b> ve <b>izleme</b> linkleri silinecektir.</Typography>
+                        <Typography variant="h4"><em>{currentPermissionData.name}</em> kullanıcısını silmek üzeresiniz.</Typography>
+                        <Typography variant="body1">Bu yıkıcı bir komuttur. Yetkinın açtığı tüm konularda "Silinmiş Üye" yazacaktır.</Typography>
                         <Button
                             style={{ marginRight: "5px" }}
                             variant="contained"
                             color="secondary"
-                            onClick={() => handleDeleteButton(currentAnimeData.slug)}>
+                            onClick={() => handleDeleteButton(currentPermissionData.slug)}>
                             Sil
-                            </Button>
+                        </Button>
                         <Button
                             variant="contained"
                             color="primary"

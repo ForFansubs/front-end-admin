@@ -76,6 +76,12 @@ const overrides = {
         root: {
             marginBottom: "5px"
         }
+    },
+    MuiButton: {
+        root: {
+            marginBottom: "5px",
+            marginRight: "5px"
+        }
     }
 }
 
