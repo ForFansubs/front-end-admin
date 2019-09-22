@@ -8,7 +8,6 @@ import { useTheme } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import Typography from '@material-ui/core/Typography';
 
 import DownloadlinkCreate from './indirmelinki/olustur'
 import DownloadLinkDelete from './indirmelinki/sil'
@@ -63,8 +62,8 @@ export default function EpisodeDownloadLinkIndex() {
                     variant="fullWidth"
                     aria-label="Yatay menüler"
                 >
-                    {adminPermList["add-download-link"] ? <Tab label="Ekle" {...a11yProps(0)} /> : ""}
-                    {adminPermList["delete-download-link"] ? <Tab label="Sil" {...a11yProps(1)} /> : ""}
+                    <Tab disabled={!adminPermList["add-download-link"]} style={!adminPermList["add-download-link"] ? {display: "none"} : null} label="Ekle" {...a11yProps(0)} />
+                    <Tab disabled={!adminPermList["delete-download-link"]} style={!adminPermList["delete-download-link"] ? {display: "none"} : null} label="Sil" {...a11yProps(1)} />
                 </Tabs>
             </AppBar>
             <SwipeableViews
@@ -72,21 +71,20 @@ export default function EpisodeDownloadLinkIndex() {
                 index={value}
                 onChangeIndex={handleChangeIndex}
             >
-                {adminPermList["add-download-link"] ?
+                {adminPermList["add-download-link"] && value === 0 ?
                     <TabPanel value={value} index={0} dir={theme.direction}>
-                        {value === 0 ? <DownloadlinkCreate /> : ""}
+                        <DownloadlinkCreate />
                     </TabPanel>
-                    : ""}
-                {adminPermList["delete-download-link"] ?
+                    : <></>}
+                {adminPermList["delete-download-link"] && value === 1 ?
                     <TabPanel value={value} index={1} dir={theme.direction}>
-                        {value === 1 ? <DownloadLinkDelete /> : 0}
+                        <DownloadLinkDelete />
                     </TabPanel>
-                    : ""}
+                    : <></>}
             </SwipeableViews>
             {downloadLinkList.length ?
-                <WarningBox bgcolor="background.level1" mb={2}>
-                    <Typography variant="h4">Kabul edilen linkler</Typography>
-                    <Typography variant="h6">{downloadLinks.map((w, i) => i === downloadLinks.length - 1 ? w.toUpperCase() : `${w.toUpperCase()} - `)}</Typography>
+                <WarningBox bgcolor="background.level1" mb={2} variant="h6">
+                    {downloadLinks.map((w, i) => i === downloadLinks.length - 1 ? w.toUpperCase() : `${w.toUpperCase()} - `)}
                 </WarningBox>
                 : ""}
         </>

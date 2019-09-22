@@ -47,10 +47,10 @@ export default function VerticalTabs() {
                     variant="fullWidth"
                     aria-label="Yatay menüler"
                 >
-                    {adminPermList["add-anime"] ? <Tab label="Oluştur" {...a11yProps(0)} /> : ""}
-                    {adminPermList["update-anime"] ? <Tab label="Düzenle" {...a11yProps(1)} /> : ""}
-                    {adminPermList["delete-anime"] ? <Tab label="Sil" {...a11yProps(2)} /> : ""}
-                    {adminPermList["featured-anime"] ? <Tab label="Öne çıkar" {...a11yProps(3)} /> : ""}
+                    <Tab disabled={!adminPermList["add-anime"]} style={!adminPermList["add-anime"] ? {display: "none"} : null} label="Oluştur" {...a11yProps(0)} />
+                    <Tab disabled={!adminPermList["update-anime"]} style={!adminPermList["update-anime"] ? {display: "none"} : null} label="Düzenle" {...a11yProps(1)} />
+                    <Tab disabled={!adminPermList["delete-anime"]} style={!adminPermList["delete-anime"] ? {display: "none"} : null} label="Sil" {...a11yProps(2)} />
+                    <Tab disabled={!adminPermList["featured-anime"]} style={!adminPermList["featured-anime"] ? {display: "none"} : null} label="Öne çıkar" {...a11yProps(3)} />
                 </Tabs>
             </AppBar>
             <SwipeableViews
@@ -58,26 +58,26 @@ export default function VerticalTabs() {
                 index={value}
                 onChangeIndex={handleChangeIndex}
             >
-                {adminPermList["add-anime"] ?
+                {adminPermList["add-anime"] && value === 0 ?
                     <TabPanel value={value} index={0} dir={theme.direction}>
-                        {value === 0 ? <AnimeCreate /> : ""}
+                        <AnimeCreate />
                     </TabPanel>
-                    : ""}
-                {adminPermList["update-anime"] ?
+                    : <></>}
+                {adminPermList["update-anime"] && value === 1 ?
                     <TabPanel value={value} index={1} dir={theme.direction}>
-                        {value === 1 ? <AnimeUpdate /> : 0}
+                        <AnimeUpdate />
                     </TabPanel>
-                    : ""}
-                {adminPermList["delete-anime"] ?
+                    : <></>}
+                {adminPermList["delete-anime"] && value === 2?
                     <TabPanel value={value} index={2} dir={theme.direction}>
-                        {value === 2 ? <AnimeDelete theme={theme} /> : 0}
+                       <AnimeDelete theme={theme} />
                     </TabPanel>
-                    : ""}
-                {adminPermList["featured-anime"] ?
+                    : <></>}
+                {adminPermList["featured-anime"] && value === 3 ?
                     <TabPanel value={value} index={3} dir={theme.direction}>
-                        {value === 3 ? <AnimeFeatured /> : 0}
+                        <AnimeFeatured />
                     </TabPanel>
-                    : ""}
+                    : <></>}
             </SwipeableViews>
         </>
     );

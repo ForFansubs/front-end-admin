@@ -50,11 +50,11 @@ export default function VerticalTabs() {
                     variant="fullWidth"
                     aria-label="Yatay menüler"
                 >
-                    {adminPermList["add-episode"] ? <Tab label="Oluştur" {...a11yProps(0)} /> : ""}
-                    {adminPermList["update-episode"] ? <Tab label="Düzenle" {...a11yProps(1)} /> : ""}
-                    {adminPermList["delete-episode"] ? <Tab label="Sil" {...a11yProps(2)} /> : ""}
-                    {adminPermList["add-watch-link"] ? <Tab label="İzleme" {...a11yProps(3)} /> : ""}
-                    {adminPermList["add-download-link"] ? <Tab label="İndirme" {...a11yProps(4)} /> : ""}
+                    <Tab disabled={!adminPermList["add-episode"]} style={!adminPermList["add-episode"] ? {display: "none"} : null} label="Oluştur" {...a11yProps(0)} />
+                    <Tab disabled={!adminPermList["update-episode"]} style={!adminPermList["update-episode"] ? {display: "none"} : null} label="Düzenle" {...a11yProps(1)} />
+                    <Tab disabled={!adminPermList["delete-episode"]} style={!adminPermList["delete-episode"] ? {display: "none"} : null} label="Sil" {...a11yProps(2)} />
+                    <Tab disabled={!adminPermList["add-watch-link"]} style={!adminPermList["add-watch-link"] ? {display: "none"} : null} label="İzleme" {...a11yProps(3)} />
+                    <Tab disabled={!adminPermList["add-download-link"]} style={!adminPermList["add-download-link"] ? {display: "none"} : null} label="İndirme" {...a11yProps(4)} />
                 </Tabs>
             </AppBar>
             <SwipeableViews
@@ -62,31 +62,31 @@ export default function VerticalTabs() {
                 index={value}
                 onChangeIndex={handleChangeIndex}
             >
-                {adminPermList["add-episode"] ?
+                {adminPermList["add-episode"] && value === 0 ?
                     <TabPanel value={value} index={0} dir={theme.direction}>
-                        {value === 0 ? <EpisodeCreate /> : ""}
+                        <EpisodeCreate />
                     </TabPanel>
-                    : ""}
-                {adminPermList["update-episode"] ?
+                    : <></>}
+                {adminPermList["update-episode"] && value === 1 ?
                     <TabPanel value={value} index={1} dir={theme.direction}>
-                        {value === 1 ? <EpisodeUpdate theme={theme} /> : 0}
+                        <EpisodeUpdate theme={theme} />
                     </TabPanel>
-                    : ""}
-                {adminPermList["delete-episode"] ?
+                    : <></>}
+                {adminPermList["delete-episode"] && value === 2 ?
                     <TabPanel value={value} index={2} dir={theme.direction}>
-                        {value === 2 ? <EpisodeDelete theme={theme} /> : 0}
+                        <EpisodeDelete theme={theme} />
                     </TabPanel>
-                    : ""}
-                {adminPermList["add-watch-link"] ?
+                    : <></>}
+                {adminPermList["add-watch-link"] && value === 3 ?
                     <TabPanel value={value} index={3} dir={theme.direction}>
-                        {value === 3 ? <EpisodeWatchLinkIndex /> : 0}
+                        <EpisodeWatchLinkIndex />
                     </TabPanel>
-                    : ""}
-                {adminPermList["add-download-link"] ?
+                    : <></>}
+                {adminPermList["add-download-link"] && value === 4 ?
                     <TabPanel value={value} index={4} dir={theme.direction}>
-                        {value === 4 ? <EpisodeDownloadLinkIndex /> : 0}
+                        <EpisodeDownloadLinkIndex />
                     </TabPanel>
-                    : ""}
+                    : <></>}
             </SwipeableViews>
         </>
     );

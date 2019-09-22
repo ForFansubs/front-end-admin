@@ -8,7 +8,6 @@ import { useTheme } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import Typography from '@material-ui/core/Typography';
 
 import WatchlinkCreate from './izlemelinki/olustur'
 import WatchLinkDelete from './izlemelinki/sil'
@@ -63,8 +62,8 @@ export default function EpisodeWatchLinkIndex() {
                     variant="fullWidth"
                     aria-label="Yatay menüler"
                 >
-                    {adminPermList["add-watch-link"] ? <Tab label="Ekle" {...a11yProps(0)} /> : ""}
-                    {adminPermList["delete-watch-link"] ? <Tab label="Sil" {...a11yProps(1)} /> : ""}
+                    <Tab disabled={!adminPermList["add-watch-link"]} style={!adminPermList["add-watch-link"] ? {display: "none"} : null} label="Ekle" {...a11yProps(0)} />
+                    <Tab disabled={!adminPermList["delete-watch-link"]} style={!adminPermList["delete-watch-link"] ? {display: "none"} : null} label="Sil" {...a11yProps(1)} />
                 </Tabs>
             </AppBar>
             <SwipeableViews
@@ -72,21 +71,20 @@ export default function EpisodeWatchLinkIndex() {
                 index={value}
                 onChangeIndex={handleChangeIndex}
             >
-                {adminPermList["add-watch-link"] ?
+                {adminPermList["add-watch-link"] && value === 0 ?
                     <TabPanel value={value} index={0} dir={theme.direction}>
-                        {value === 0 ? <WatchlinkCreate /> : ""}
+                        <WatchlinkCreate />
                     </TabPanel>
-                    : ""}
-                {adminPermList["delete-watch-link"] ?
+                    : <></>}
+                {adminPermList["delete-watch-link"] && value === 1 ?
                     <TabPanel value={value} index={1} dir={theme.direction}>
-                        {value === 1 ? <WatchLinkDelete /> : 0}
+                        <WatchLinkDelete />
                     </TabPanel>
-                    : ""}
+                    : <></>}
             </SwipeableViews>
             {watchLinkList.length ?
-                <WarningBox bgcolor="background.level1" mb={2}>
-                    <Typography variant="h4">Kabul edilen linkler</Typography>
-                    <Typography variant="h6">{watchLinks.map((w, i) => i === watchLinks.length - 1 ? w.toUpperCase() : `${w.toUpperCase()} - `)}</Typography>
+                <WarningBox bgcolor="background.level1" mb={2} variant="h6">
+                    {watchLinks.map((w, i) => i === watchLinks.length - 1 ? w.toUpperCase() : `${w.toUpperCase()} - `)}
                 </WarningBox>
                 : ""}
         </>

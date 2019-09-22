@@ -46,9 +46,9 @@ export default function VerticalTabs() {
                     variant="fullWidth"
                     aria-label="Yatay menüler"
                 >
-                    {adminPermList["add-manga"] ? <Tab label="Oluştur" {...a11yProps(0)} /> : ""}
-                    {adminPermList["update-manga"] ? <Tab label="Düzenle" {...a11yProps(1)} /> : ""}
-                    {adminPermList["delete-manga"] ? <Tab label="Sil" {...a11yProps(2)} /> : ""}
+                    <Tab disabled={!adminPermList["add-manga"]} style={!adminPermList["add-manga"] ? {display: "none"} : null} label="Oluştur" {...a11yProps(0)} />
+                    <Tab disabled={!adminPermList["update-manga"]} style={!adminPermList["update-manga"] ? {display: "none"} : null} label="Düzenle" {...a11yProps(1)} />
+                    <Tab disabled={!adminPermList["delete-manga"]} style={!adminPermList["delete-manga"] ? {display: "none"} : null} label="Sil" {...a11yProps(2)} />
                 </Tabs>
             </AppBar>
             <SwipeableViews
@@ -56,21 +56,21 @@ export default function VerticalTabs() {
                 index={value}
                 onChangeIndex={handleChangeIndex}
             >
-                {adminPermList["add-manga"] ?
+                {adminPermList["add-manga"] && value === 0 ?
                     <TabPanel value={value} index={0} dir={theme.direction}>
-                        {value === 0 ? <MangaCreate /> : ""}
+                        <MangaCreate />
                     </TabPanel>
-                    : ""}
-                {adminPermList["update-manga"] ?
+                    : <></>}
+                {adminPermList["update-manga"] && value === 1 ?
                     <TabPanel value={value} index={1} dir={theme.direction}>
-                        {value === 1 ? <MangaUpdate /> : 0}
+                        <MangaUpdate />
                     </TabPanel>
-                    : ""}
-                {adminPermList["delete-manga"] ?
+                    : <></>}
+                {adminPermList["delete-manga"] && value === 2 ?
                     <TabPanel value={value} index={2} dir={theme.direction}>
-                        {value === 2 ? <MangaDelete theme={theme} /> : 0}
+                        <MangaDelete theme={theme} />
                     </TabPanel>
-                    : ""}
+                    : <></>}
             </SwipeableViews>
         </>
     );

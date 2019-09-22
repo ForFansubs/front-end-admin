@@ -6,7 +6,6 @@ import axios from '../../config/axios/axios'
 import Grid from '@material-ui/core/Grid'
 import Button from '@material-ui/core/Button'
 import Box from '@material-ui/core/Box'
-import { useTheme } from '@material-ui/core/styles';
 import {
     forceAnimeCoverArtUpdate,forceMangaCoverArtUpdate,
     forceAnimeHeaderUpdate, forceCFCachePurge, forceCoverArtUpdate,
@@ -18,9 +17,7 @@ import ToastNotification, {payload} from "../../components/toastify/toast";
 import {Typography} from "@material-ui/core";
 
 export default function VerticalTabs() {
-    const theme = useTheme()
     const token = useGlobal("user")[0].token
-    const [value, setValue] = useState(0)
     const [adminPermList] = useGlobal('adminPermList')
 
     const [error, setError] = useState(false)
