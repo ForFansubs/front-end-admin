@@ -15,9 +15,9 @@ export default function AnimeCreate() {
     const [animeData, setAnimeData] = useState({ ...defaultAnimeData, mal_get: jikanStatus.status ? false : true })
 
     const handleInputChange = name => event => {
-        const data = event.target.value
+        event.persist()
 
-        setAnimeData(oldData => ({ ...oldData, [name]: data }))
+        setAnimeData(oldData => ({ ...oldData, [name]: event.target.value }))
     }
 
     async function handleMALSubmit(th) {

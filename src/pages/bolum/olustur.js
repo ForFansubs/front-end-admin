@@ -43,9 +43,12 @@ export default function EpisodeCreate() {
     }
 
     const handleInputChange = name => event => {
+        event.persist()
         if (name === "special_type") {
             if (event.target.value === episodeData.special_type) return setEpisodeData(oldData => ({ ...oldData, special_type: "" }))
         }
+
+        console.log(event)
 
         setEpisodeData(oldData => ({ ...oldData, [name]: event.target.value }))
     }

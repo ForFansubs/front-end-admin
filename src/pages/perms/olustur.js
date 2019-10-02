@@ -13,9 +13,9 @@ export default function AnimeCreate() {
     const [permissionData, setPermissionData] = useState({ ...defaultPermissionData })
 
     const handleInputChange = name => event => {
-        const data = event.target.value
+        event.persist()
 
-        setPermissionData(oldData => ({ ...oldData, [name]: data }))
+        setPermissionData(oldData => ({ ...oldData, [name]: event.target.value }))
     }
 
     function handleDataSubmit(th) {

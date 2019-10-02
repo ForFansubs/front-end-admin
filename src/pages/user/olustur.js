@@ -13,9 +13,9 @@ export default function AnimeCreate() {
     const [userData, setUserData] = useState({ ...defaultUserData })
 
     const handleInputChange = name => event => {
-        const data = event.target.value
+        event.persist()
 
-        setUserData(oldData => ({ ...oldData, [name]: data }))
+        setUserData(oldData => ({ ...oldData, [name]: event.target.value }))
     }
 
     function handleDataSubmit(th) {

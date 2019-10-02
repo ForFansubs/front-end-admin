@@ -15,6 +15,7 @@ export default function MangaCreate() {
     const [mangaData, setMangaData] = useState({ ...defaultMangaData, mal_get: jikanStatus.status ? false : true })
 
     const handleInputChange = name => event => {
+        event.persist()
         setMangaData({ ...mangaData, [name]: event.target.value })
     }
 
