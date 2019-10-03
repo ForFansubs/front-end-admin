@@ -22,7 +22,17 @@ import HomeIcon from '@material-ui/icons/Home'
 import PublicIcon from '@material-ui/icons/Public'
 import AccountCircle from '@material-ui/icons/AccountCircle'
 
-import { indexPage, animePage, homePage, episodePage, mangaPage, userPage, permissionPage, administrativePage } from '../../config/front-routes'
+import {
+    indexPage,
+    animePage,
+    homePage,
+    episodePage,
+    mangaPage,
+    userPage,
+    permissionPage,
+    administrativePage,
+    logsPage
+} from '../../config/front-routes'
 import { fullLogo } from '../../config/theme/images'
 
 const useStyles = makeStyles(theme => ({
@@ -131,6 +141,12 @@ export default function MiniDrawer() {
             link: administrativePage,
             perm: "see-administrative-stuff",
             icon: <h2>Si</h2>
+        },
+        {
+            text: "Kayıtlar",
+            link: logsPage,
+            perm: "see-logs",
+            icon: <h2>Ka</h2>
         }
     ])
     const [menuItems2] = React.useState([

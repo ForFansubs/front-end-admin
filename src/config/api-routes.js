@@ -1,6 +1,7 @@
 //API uzantısına gerek yok, default axios importunda zaten ekleniyor                -Gereken Yetki-
 const indexURL = "/" // GET                                                         (see-admin-page)
 const isAdmin = "/kullanici/adminpage?withprops=true" // GET                        (see-admin-page)
+const getFullLogs = "/logs" // GET                                                  (see-logs)
 
 const getAnimeData = (slug) => `/anime/${slug}/admin-view` // GET                   (update-anime)
 const getFullAnimeList = "/anime/admin-liste" // GET                                (see-admin-page)
@@ -69,6 +70,7 @@ const jikanIndex = "https://api.jikan.moe/v3"
 export {
     indexURL,
     isAdmin,
+    getFullLogs,
     getAnimeData,
     getFullAnimeList,
     getFullFeaturedAnimeList,
