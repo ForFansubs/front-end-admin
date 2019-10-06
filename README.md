@@ -35,7 +35,7 @@ yazarak çalıştırabilirsiniz. Ancak startlamadan ya da buildlemeden önce aş
 
 #### 1. ./.env
 ```env
-REACT_APP_SITENAME="" // Sitenin isim alanı.
+REACT_APP_SITEURL="" // Sitenin isim alanı.
 REACT_APP_DEV_API_URL="" // Dev ortamında istekleri yapmak için kullanacağı alan adı. (http://localhost:5000 gibi)
 ``` 
 

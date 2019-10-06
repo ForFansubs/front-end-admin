@@ -57,7 +57,7 @@ function App() {
           )
         }
         else {
-          window.location.replace(process.env.REACT_APP_SITENAME);
+          window.location.replace(process.env.REACT_APP_SITEURL);
         }
       }
       else return (

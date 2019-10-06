@@ -117,7 +117,7 @@ addReducer('checkAdmin', (global, dispatch, token) => {
         .then(res => {
             const PERMISSION_LIST = JSON.parse(res.data.PERMISSION_LIST)
 
-            if (PERMISSION_LIST.length === 0) return window.location.replace(process.env.REACT_APP_SITENAME)
+            if (PERMISSION_LIST.length === 0) return window.location.replace(process.env.REACT_APP_SITEURL)
             dispatch.setAdmin(true)
             dispatch.setAdminPermList(PERMISSION_LIST)
             dispatch.setStatistics(res.data)

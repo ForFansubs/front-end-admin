@@ -30,7 +30,7 @@ export default function Footer() {
             <FooterDiv theme={theme}>
                 <FooterCopyrightText>
                     <Box display="flex" alignItems="center">
-                        <a href="http://aybertocarlos.com" rel="noopener noreferrer" target="_blank">
+                        <a href="https://aybertocarlos.github.io/" rel="noopener noreferrer" target="_blank">
                             <Typography variant="h6">aybertocarlos &copy; {(new Date()).getFullYear()}</Typography>
                         </a>
                     </Box>
