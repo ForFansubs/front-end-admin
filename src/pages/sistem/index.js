@@ -11,7 +11,7 @@ import {
     forceAnimeHeaderUpdate, forceCFCachePurge, forceCoverArtUpdate,
     forceHeaderOptimize,
     forceHeaderUpdate,
-    forceMangaHeaderUpdate, forceRestart
+    forceMangaHeaderUpdate
 } from "../../config/api-routes";
 import ToastNotification, {payload} from "../../components/toastify/toast";
 import {Typography} from "@material-ui/core";
@@ -63,11 +63,6 @@ export default function VerticalTabs() {
             .then(_ => ToastNotification(payload("process-success", "success", "İşlem başarıyla alındı.")))
             .catch(_ => ToastNotification(payload("process-error", "error", "İşlem alınırken bir sorunla karşılaştık.")))
     }
-    const handleForceRestart = () => {
-        axios.get(forceRestart, {headers: {"Authorization": token}})
-            .then(_ => ToastNotification(payload("process-success", "success", "İşlem başarıyla alındı.")))
-            .catch(_ => ToastNotification(payload("process-error", "error", "İşlem alınırken bir sorunla karşılaştık.")))
-    }
     const handleForceCFCachePurge = () => {
         axios.get(forceCFCachePurge, {headers: {"Authorization": token}})
             .then(_ => ToastNotification(payload("process-success", "success", "İşlem başarıyla alındı.")))
@@ -93,10 +88,9 @@ export default function VerticalTabs() {
                             <Button color="secondary" variant="outlined" onClick={handleAnimeCoverArtUpdate}> Animelerin cover artlarını güncelle</Button >
                             <Button color="secondary" variant="outlined" onClick={handleMangaCoverArtUpdate}> Mangaların cover artlarını güncelle</Button >
                         </Box>
-                        <Box mb={2}>
+                        {/*<Box mb={2}>
                             <Typography variant="h4" gutterBottom>Servis İşlemleri</Typography>
-                            <Button color="secondary" variant="outlined" onClick={handleForceRestart}> Servisi zorla yeniden başlat</Button >
-                        </Box>
+                        </Box>*/}
                         <Box mb={2}>
                             <Typography variant="h4" gutterBottom>Cache İşlemleri</Typography>
                             <Button color="secondary" variant="outlined" onClick={handleForceCFCachePurge}> Cloudflare cache'ini zorla temizle</Button >

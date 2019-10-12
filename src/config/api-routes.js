@@ -60,7 +60,6 @@ const forceMangaHeaderUpdate = "/sistem/force-manga-header-update/" // GET      
 const forceCoverArtUpdate = "/sistem/force-cover_art-update/" // GET                (see-administrative-stuff)
 const forceAnimeCoverArtUpdate = "/sistem/force-anime-cover_art-update/" // GET     (see-administrative-stuff)
 const forceMangaCoverArtUpdate = "/sistem/force-manga-cover_art-update/" // GET     (see-administrative-stuff)
-const forceRestart = "/sistem/force-restart/" // GET                                (see-administrative-stuff)
 const forceCFCachePurge = "/sistem/force-cf-cache-purge/" // GET                    (see-administrative-stuff)
 //--------------
 
@@ -108,7 +107,6 @@ export {
     forceCoverArtUpdate,
     forceAnimeCoverArtUpdate,
     forceMangaCoverArtUpdate,
-    forceRestart,
     forceCFCachePurge,
     loginRoute,
     jikanIndex

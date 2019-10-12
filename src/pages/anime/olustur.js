@@ -285,25 +285,11 @@ export default function AnimeCreate() {
                                 {
                                     animeData.getEpisodes
                                         ?
-                                        "TürkAnime'den bölümler çekilecek, videolar eklenecek"
+                                        "Bölümleri aç"
                                         :
-                                        "TürkAnime'den bölümler çekilmeyecek"
+                                        "Bölümleri açma"
                                 }
                             </Button>
-                            {
-                                animeData.getEpisodes
-                                    ?
-                                    <TextField
-                                        fullWidth
-                                        id="ta_link"
-                                        label="TürkAnime Linki"
-                                        value={animeData.ta_link}
-                                        onChange={handleInputChange("ta_link")}
-                                        margin="normal"
-                                        variant="filled"
-                                        helperText="https://www.turkanime.tv/anime/boruto-naruto-next-generations"
-                                        required />
-                                    : ""}
                         </Box>
                         <Button
                             variant="outlined"
