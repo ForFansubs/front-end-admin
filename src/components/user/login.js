@@ -82,7 +82,7 @@ export default function LoginModal() {
                 p={2}
                 bgcolor="background.level1"
                 boxShadow={2}>
-                <ModalTitle variant="h4">PuzzleSubs Admin - Giriş yap</ModalTitle>
+                <ModalTitle variant="h4">{process.env.REACT_APP_SITENAME} Admin - Giriş yap</ModalTitle>
                 <FormContainer autoComplete="off" onSubmit={event => handleSubmitForm(event)}>
                     <TextField
                         id="username"

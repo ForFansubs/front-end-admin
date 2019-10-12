@@ -1,8 +1,8 @@
 {
-  "name": "puzzleadmin",
+  "name": "forfansubsadmin",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://puzzlesubs.com/admin",
+  "homepage": "/admin",
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.25",
     "@fortawesome/free-brands-svg-icons": "^5.11.2",

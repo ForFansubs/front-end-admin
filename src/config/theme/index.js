@@ -95,6 +95,6 @@ const transitions = {
     }
 }
 
-const themeName = 'PuzzleSubs Dark Theme';
+const themeName = 'ForFansubs Dark Theme';
 
 export default createMuiTheme({ palette, typography, transitions, props, overrides, themeName });
