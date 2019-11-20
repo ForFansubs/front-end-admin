@@ -59,34 +59,27 @@ export default function MangaCreate() {
             }
         }
 
-        let turler = [], studyolar = []
+        let turler = [], yazarlar = []
         manga.data.genres.forEach(genre => turler.push(genre.name))
-        manga.data.studios.forEach(studio => studyolar.push(studio.name))
-        const date = new Date(manga.data.aired.from)
+        manga.data.authors.forEach(authors => yazarlar.push(authors.name.replace(',', '')))
+        const date = new Date(manga.data.published.from)
         const newMangaData = {
             cover_art: manga.data.image_url,
             name: manga.data.title,
             release_date: date,
-            studios: studyolar.join(','),
+            authors: yazarlar.join(','),
             genres: turler.join(','),
             premiered: manga.data.premiered,
             episode_count: manga.data.airing ? 0 : manga.data.episodes
         }
+
         const header = await axios.get(`/header-getir/${generalSlugify(manga.data.title)}`).catch(_ => _)
-        const synopsis = await axios.post('/ta-konu-getir/', { name: manga.data.title }).catch(_ => _)
 
         if (header.status === 200) {
             newMangaData.header = header.data.header
         }
         else {
             newMangaData.header = ""
-        }
-        if (synopsis.status === 200) {
-            newMangaData.synopsis = synopsis.data.konu
-            newMangaData.ta_link = synopsis.data.ta_link
-        }
-        else {
-            newMangaData.synopsis = "Eklenecek..."
         }
 
         setMangaData({ ...mangaData, ...newMangaData, mal_get: true })
