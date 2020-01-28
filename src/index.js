@@ -14,7 +14,6 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 
 addReactNDevTools()
-const version = "2.0.0"
 
 //Try reading localStorage before using it
 try {
@@ -55,7 +54,6 @@ setGlobal({
         version: ""
     },
     theme: settings.theme ? settings.theme : "dark",
-    changelog: version !== settings.version ? true : false,
     mobile: false
 })
 

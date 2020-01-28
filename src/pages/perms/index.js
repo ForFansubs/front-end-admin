@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { useGlobal } from 'reactn'
 import { Redirect } from 'react-router-dom'
 
-import SwipeableViews from 'react-swipeable-views';
 import { useTheme } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
@@ -12,7 +11,7 @@ import PermissionCreate from './olustur'
 import PermissionUpdate from './duzenle'
 import PermissionDelete from './sil'
 
-import {a11yProps, TabPanel} from "../../components/pages/default-components";
+import { a11yProps, TabPanel } from "../../components/pages/default-components";
 
 export default function VerticalTabs() {
     const theme = useTheme()
@@ -32,10 +31,6 @@ export default function VerticalTabs() {
         setValue(newValue)
     }
 
-    function handleChangeIndex(index) {
-        setValue(index)
-    }
-
     return (
         <>
             {error ? <Redirect to="/" /> : ""}
@@ -53,27 +48,21 @@ export default function VerticalTabs() {
                     {adminPermList["delete-permission"] ? <Tab label="Sil" {...a11yProps(2)} /> : ""}
                 </Tabs>
             </AppBar>
-            <SwipeableViews
-                axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
-                index={value}
-                onChangeIndex={handleChangeIndex}
-            >
-                {adminPermList["add-permission"] ?
-                    <TabPanel value={value} index={0} dir={theme.direction}>
-                        {value === 0 ? <PermissionCreate /> : ""}
-                    </TabPanel>
-                    : ""}
-                {adminPermList["update-permission"] ?
-                    <TabPanel value={value} index={1} dir={theme.direction}>
-                        {value === 1 ? <PermissionUpdate theme={theme} /> : 0}
-                    </TabPanel>
-                    : ""}
-                {adminPermList["delete-permission"] ?
-                    <TabPanel value={value} index={2} dir={theme.direction}>
-                        {value === 2 ? <PermissionDelete theme={theme} /> : 0}
-                    </TabPanel>
-                    : ""}
-            </SwipeableViews>
+            {adminPermList["add-permission"] ?
+                <TabPanel value={value} index={0} dir={theme.direction}>
+                    {value === 0 ? <PermissionCreate /> : ""}
+                </TabPanel>
+                : ""}
+            {adminPermList["update-permission"] ?
+                <TabPanel value={value} index={1} dir={theme.direction}>
+                    {value === 1 ? <PermissionUpdate theme={theme} /> : 0}
+                </TabPanel>
+                : ""}
+            {adminPermList["delete-permission"] ?
+                <TabPanel value={value} index={2} dir={theme.direction}>
+                    {value === 2 ? <PermissionDelete theme={theme} /> : 0}
+                </TabPanel>
+                : ""}
         </>
     );
 }

@@ -5,10 +5,10 @@ import { useGlobal } from 'reactn'
 import clsx from 'clsx'
 import useTheme from '@material-ui/styles/useTheme'
 import makeStyles from '@material-ui/styles/makeStyles'
-import SwipeableDrawer from '@material-ui/core/SwipeableDrawer'
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
 import List from '@material-ui/core/List'
+import SwipeableDrawer from '@material-ui/core/SwipeableDrawer'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import Divider from '@material-ui/core/Divider'
 import IconButton from '@material-ui/core/IconButton'
@@ -251,9 +251,8 @@ export default function MiniDrawer() {
                 hysteresis={0.01}
                 disableBackdropTransition={!iOS}
                 disableDiscovery={iOS}
-            >
-                <SidePanel />
-            </SwipeableDrawer>
+            ><SidePanel /></SwipeableDrawer>
+
         </div >
     )
 }

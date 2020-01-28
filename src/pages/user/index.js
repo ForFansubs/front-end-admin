@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { useGlobal } from 'reactn'
 import { Redirect } from 'react-router-dom'
 
-import SwipeableViews from 'react-swipeable-views';
 import { useTheme } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
@@ -12,7 +11,7 @@ import UserCreate from './olustur'
 import UserUpdate from './duzenle'
 import UserDelete from './sil'
 
-import {a11yProps, TabPanel} from "../../components/pages/default-components";
+import { a11yProps, TabPanel } from "../../components/pages/default-components";
 
 export default function VerticalTabs() {
     const theme = useTheme()
@@ -32,10 +31,6 @@ export default function VerticalTabs() {
         setValue(newValue)
     }
 
-    function handleChangeIndex(index) {
-        setValue(index)
-    }
-
     return (
         <>
             {error ? <Redirect to="/" /> : ""}
@@ -53,27 +48,21 @@ export default function VerticalTabs() {
                     {adminPermList["delete-user"] ? <Tab label="Sil" {...a11yProps(2)} /> : ""}
                 </Tabs>
             </AppBar>
-            <SwipeableViews
-                axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
-                index={value}
-                onChangeIndex={handleChangeIndex}
-            >
-                {adminPermList["add-user"] ?
-                    <TabPanel value={value} index={0} dir={theme.direction}>
-                        {value === 0 ? <UserCreate /> : ""}
-                    </TabPanel>
-                    : ""}
-                {adminPermList["update-user"] ?
-                    <TabPanel value={value} index={1} dir={theme.direction}>
-                        {value === 1 ? <UserUpdate theme={theme} /> : 0}
-                    </TabPanel>
-                    : ""}
-                {adminPermList["delete-user"] ?
-                    <TabPanel value={value} index={2} dir={theme.direction}>
-                        {value === 2 ? <UserDelete theme={theme} /> : 0}
-                    </TabPanel>
-                    : ""}
-            </SwipeableViews>
+            {adminPermList["add-user"] ?
+                <TabPanel value={value} index={0} dir={theme.direction}>
+                    {value === 0 ? <UserCreate /> : ""}
+                </TabPanel>
+                : ""}
+            {adminPermList["update-user"] ?
+                <TabPanel value={value} index={1} dir={theme.direction}>
+                    {value === 1 ? <UserUpdate theme={theme} /> : 0}
+                </TabPanel>
+                : ""}
+            {adminPermList["delete-user"] ?
+                <TabPanel value={value} index={2} dir={theme.direction}>
+                    {value === 2 ? <UserDelete theme={theme} /> : 0}
+                </TabPanel>
+                : ""}
         </>
     );
 }

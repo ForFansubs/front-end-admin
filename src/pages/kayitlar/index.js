@@ -5,7 +5,7 @@ import axios from '../../config/axios/axios'
 
 import Grid from '@material-ui/core/Grid'
 import Box from '@material-ui/core/Box'
-import {getFullLogs} from "../../config/api-routes";
+import { getFullLogs } from "../../config/api-routes";
 
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -29,7 +29,7 @@ export default function VerticalTabs() {
     const token = useGlobal("user")[0].token
     const [adminPermList] = useGlobal('adminPermList')
     const [data, setData] = useState([])
-    const [loading, setLoading] = useState(true)
+    // const [loading, setLoading] = useState(true)
 
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(25);
@@ -43,12 +43,12 @@ export default function VerticalTabs() {
             }
 
             // eslint-disable-next-line no-undef
-            const res = await axios.get(getFullLogs, {headers}).catch(res => res)
+            const res = await axios.get(getFullLogs, { headers }).catch(res => res)
             if (res.status === 200) {
                 setData(res.data)
-                setLoading(false)
+                // setLoading(false)
             } else {
-                setLoading(false)
+                // setLoading(false)
             }
         }
 
@@ -75,52 +75,52 @@ export default function VerticalTabs() {
             <Grid container>
                 <Grid item xs={12}>
                     <Box p={2} bgcolor="background.level2">
-                    <Table stickyHeader>
-                        <TableHead>
-                            <TableRow>
-                                {columns.map(column => (
-                                    <TableCell
-                                        key={column.id}
-                                        align={column.align}
-                                        style={{ minWidth: column.minWidth }}
-                                    >
-                                        {column.label}
-                                    </TableCell>
-                                ))}
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(row => {
-                                return (
-                                    <TableRow hover role="checkbox" tabIndex={-1} key={row.id}>
-                                        {columns.map(column => {
-                                            const value = row[column.id];
-                                            return (
-                                                <TableCell key={column.id} align={column.align}>
-                                                    {column.format && typeof value === 'number' ? column.format(value) : value}
-                                                </TableCell>
-                                            );
-                                        })}
-                                    </TableRow>
-                                );
-                            })}
-                        </TableBody>
-                    </Table>
-                    <TablePagination
-                        rowsPerPageOptions={[10, 25, 100]}
-                        component="div"
-                        count={data.length}
-                        rowsPerPage={rowsPerPage}
-                        page={page}
-                        backIconButtonProps={{
-                            'aria-label': 'previous page',
-                        }}
-                        nextIconButtonProps={{
-                            'aria-label': 'next page',
-                        }}
-                        onChangePage={handleChangePage}
-                        onChangeRowsPerPage={handleChangeRowsPerPage}
-                    />
+                        <Table stickyHeader>
+                            <TableHead>
+                                <TableRow>
+                                    {columns.map(column => (
+                                        <TableCell
+                                            key={column.id}
+                                            align={column.align}
+                                            style={{ minWidth: column.minWidth }}
+                                        >
+                                            {column.label}
+                                        </TableCell>
+                                    ))}
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(row => {
+                                    return (
+                                        <TableRow hover role="checkbox" tabIndex={-1} key={row.id}>
+                                            {columns.map(column => {
+                                                const value = row[column.id];
+                                                return (
+                                                    <TableCell key={column.id} align={column.align}>
+                                                        {column.format && typeof value === 'number' ? column.format(value) : value}
+                                                    </TableCell>
+                                                );
+                                            })}
+                                        </TableRow>
+                                    );
+                                })}
+                            </TableBody>
+                        </Table>
+                        <TablePagination
+                            rowsPerPageOptions={[10, 25, 100]}
+                            component="div"
+                            count={data.length}
+                            rowsPerPage={rowsPerPage}
+                            page={page}
+                            backIconButtonProps={{
+                                'aria-label': 'previous page',
+                            }}
+                            nextIconButtonProps={{
+                                'aria-label': 'next page',
+                            }}
+                            onChangePage={handleChangePage}
+                            onChangeRowsPerPage={handleChangeRowsPerPage}
+                        />
                     </Box>
                 </Grid>
             </Grid>

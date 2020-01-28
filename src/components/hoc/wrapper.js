@@ -10,8 +10,8 @@ import { green, red } from '@material-ui/core/colors'
 import styled from 'styled-components'
 
 const JikanStatusDiv = styled(Box)`
-    background-color: ${props => props.jikanstatus ? green["A700"] : red["A200"]}
-    color: ${props => props.jikanstatus ? "black" : "white"}
+    background-color: ${props => props.jikanstatus ? green["A700"] : red["A200"]};
+    color: ${props => props.jikanstatus ? "black" : "white"};
     text-align: center;
 `
 

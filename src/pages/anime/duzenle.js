@@ -209,6 +209,19 @@ export default function AnimeUpdate() {
                                     required
                                 />
                             </Grid>
+                            <Grid item xs={12} md={6}>
+                                <TextField
+                                    fullWidth
+                                    id="premiered"
+                                    label="Sezon"
+                                    value={currentAnimeData.premiered}
+                                    onChange={handleInputChange("premiered")}
+                                    margin="normal"
+                                    variant="filled"
+                                    helperText="Kış/İlkbahar/Yaz/Sonbahar XXXX"
+                                    required
+                                />
+                            </Grid>
                             <Grid item xs={12}>
                                 <FormControl component="fieldset" style={{ width: "100%", textAlign: "center" }}>
                                     <FormLabel component="legend">Versiyon</FormLabel>

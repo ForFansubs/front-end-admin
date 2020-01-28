@@ -3,7 +3,6 @@ import { useGlobal } from 'reactn'
 import { Redirect } from 'react-router-dom'
 import axios from '../../config/axios/axios'
 
-import SwipeableViews from 'react-swipeable-views';
 import { useTheme } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
@@ -14,7 +13,7 @@ import DownloadLinkDelete from './indirmelinki/sil'
 import WarningBox from '../../components/warningerrorbox/warning';
 import { downloadLinkList } from '../../config/api-routes';
 
-import {a11yProps, TabPanel} from "../../components/pages/default-components";
+import { a11yProps, TabPanel } from "../../components/pages/default-components";
 
 export default function EpisodeDownloadLinkIndex() {
     const theme = useTheme()
@@ -46,10 +45,6 @@ export default function EpisodeDownloadLinkIndex() {
         setValue(newValue)
     }
 
-    function handleChangeIndex(index) {
-        setValue(index)
-    }
-
     return (
         <>
             {error ? <Redirect to="/" /> : ""}
@@ -62,26 +57,21 @@ export default function EpisodeDownloadLinkIndex() {
                     variant="fullWidth"
                     aria-label="Yatay menüler"
                 >
-                    <Tab disabled={!adminPermList["add-download-link"]} style={!adminPermList["add-download-link"] ? {display: "none"} : null} label="Ekle" {...a11yProps(0)} />
-                    <Tab disabled={!adminPermList["delete-download-link"]} style={!adminPermList["delete-download-link"] ? {display: "none"} : null} label="Sil" {...a11yProps(1)} />
+                    <Tab disabled={!adminPermList["add-download-link"]} style={!adminPermList["add-download-link"] ? { display: "none" } : null} label="Ekle" {...a11yProps(0)} />
+                    <Tab disabled={!adminPermList["delete-download-link"]} style={!adminPermList["delete-download-link"] ? { display: "none" } : null} label="Sil" {...a11yProps(1)} />
                 </Tabs>
             </AppBar>
-            <SwipeableViews
-                axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
-                index={value}
-                onChangeIndex={handleChangeIndex}
-            >
-                {adminPermList["add-download-link"] && value === 0 ?
-                    <TabPanel value={value} index={0} dir={theme.direction}>
-                        <DownloadlinkCreate />
-                    </TabPanel>
-                    : <></>}
-                {adminPermList["delete-download-link"] && value === 1 ?
-                    <TabPanel value={value} index={1} dir={theme.direction}>
-                        <DownloadLinkDelete />
-                    </TabPanel>
-                    : <></>}
-            </SwipeableViews>
+
+            {adminPermList["add-download-link"] && value === 0 ?
+                <TabPanel value={value} index={0} dir={theme.direction}>
+                    <DownloadlinkCreate />
+                </TabPanel>
+                : <></>}
+            {adminPermList["delete-download-link"] && value === 1 ?
+                <TabPanel value={value} index={1} dir={theme.direction}>
+                    <DownloadLinkDelete />
+                </TabPanel>
+                : <></>}
             {downloadLinkList.length ?
                 <WarningBox bgcolor="background.level1" mb={2} variant="h6">
                     {downloadLinks.map((w, i) => i === downloadLinks.length - 1 ? w.toUpperCase() : `${w.toUpperCase()} - `)}
