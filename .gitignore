@@ -32,3 +32,5 @@ npm-debug.log*
 debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+src/static/fullLogo.gif

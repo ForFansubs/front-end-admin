@@ -33,7 +33,7 @@ import {
     administrativePage,
     logsPage
 } from '../../config/front-routes'
-import { fullLogo } from '../../config/theme/images'
+import { fullLogo, fullLogoGif } from '../../config/theme/images'
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -230,7 +230,12 @@ export default function MiniDrawer() {
                         <MenuIcon />
                     </IconButton>
                     <Link to={indexPage} className={classes.logoContainer}>
-                        <img className={classes.logo} src={fullLogo} alt="Site Logo" />
+                        {
+                            process.env.REACT_APP_HEADER_LOGO_TYPE === "gif" && fullLogoGif !== null ?
+                                <img title="Site logo" loading="lazy" className={classes.logo} src={fullLogoGif} alt="Site Logo" />
+                                :
+                                <img title="Site logo" loading="lazy" className={classes.logo} src={fullLogo} alt="Site Logo" />
+                        }
                     </Link>
                     <div style={{ padding: "12px", display: "flex", alignItems: "center" }}>
                         {userInfo.success ?
