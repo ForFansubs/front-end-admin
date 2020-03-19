@@ -219,7 +219,6 @@ export default function AnimeUpdate() {
                                     margin="normal"
                                     variant="filled"
                                     helperText="Kış/İlkbahar/Yaz/Sonbahar XXXX"
-                                    required
                                 />
                             </Grid>
                             <Grid item xs={12}>

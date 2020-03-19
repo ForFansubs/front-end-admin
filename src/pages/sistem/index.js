@@ -7,14 +7,14 @@ import Grid from '@material-ui/core/Grid'
 import Button from '@material-ui/core/Button'
 import Box from '@material-ui/core/Box'
 import {
-    forceAnimeCoverArtUpdate,forceMangaCoverArtUpdate,
+    forceAnimeCoverArtUpdate, forceMangaCoverArtUpdate,
     forceAnimeHeaderUpdate, forceCFCachePurge, forceCoverArtUpdate,
     forceHeaderOptimize,
     forceHeaderUpdate,
     forceMangaHeaderUpdate
 } from "../../config/api-routes";
-import ToastNotification, {payload} from "../../components/toastify/toast";
-import {Typography} from "@material-ui/core";
+import ToastNotification, { payload } from "../../components/toastify/toast";
+import { Typography } from "@material-ui/core";
 
 export default function VerticalTabs() {
     const token = useGlobal("user")[0].token
@@ -27,6 +27,8 @@ export default function VerticalTabs() {
             setError(true)
         }
     }, [adminPermList, token])
+
+    /*
 
     const handleForceHeaderOptimize = () => {
         axios.get(forceHeaderOptimize, {headers: {"Authorization": token}})
@@ -69,12 +71,15 @@ export default function VerticalTabs() {
             .catch(_ => ToastNotification(payload("process-error", "error", "İşlem alınırken bir sorunla karşılaştık.")))
     }
 
+    */
+
     return (
         <>
             {error ? <Redirect to="/" /> : ""}
             <Grid container>
                 <Grid item xs={12}>
                     <Box p={2} bgcolor="background.level2">
+                        {/*
                         <Box mb={2}>
                             <Typography variant="h4" gutterBottom>Header işlemleri</Typography>
                             <Button color="secondary" variant="outlined" onClick={handleHeaderUpdate}> Bütün konuların headerlarını güncelle</Button >
@@ -88,13 +93,17 @@ export default function VerticalTabs() {
                             <Button color="secondary" variant="outlined" onClick={handleAnimeCoverArtUpdate}> Animelerin cover artlarını güncelle</Button >
                             <Button color="secondary" variant="outlined" onClick={handleMangaCoverArtUpdate}> Mangaların cover artlarını güncelle</Button >
                         </Box>
-                        {/*<Box mb={2}>
+                        <Box mb={2}>
                             <Typography variant="h4" gutterBottom>Servis İşlemleri</Typography>
-                        </Box>*/}
+                        </Box>
                         <Box mb={2}>
                             <Typography variant="h4" gutterBottom>Cache İşlemleri</Typography>
                             <Button color="secondary" variant="outlined" onClick={handleForceCFCachePurge}> Cloudflare cache'ini zorla temizle</Button >
                         </Box>
+                        */}
+                        <Typography variant="h5">
+                            Fonksiyonların hepsi kararsız olduğu için bir sonraki güncellemeye kadar kapalı.
+                        </Typography>
                     </Box>
                 </Grid>
             </Grid>
