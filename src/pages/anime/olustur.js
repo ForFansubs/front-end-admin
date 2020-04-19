@@ -73,20 +73,12 @@ export default function AnimeCreate() {
             episode_count: anime.data.airing ? 0 : anime.data.episodes
         }
         const header = await axios.get(`/header-getir/${generalSlugify(anime.data.title)}`).catch(_ => _)
-        const synopsis = await axios.post('/ta-konu-getir/', { name: anime.data.title }).catch(_ => _)
 
         if (header.status === 200) {
             newAnimeData.header = header.data.header
         }
         else {
             newAnimeData.header = ""
-        }
-        if (synopsis.status === 200) {
-            newAnimeData.synopsis = synopsis.data.konu
-            newAnimeData.ta_link = synopsis.data.ta_link
-        }
-        else {
-            newAnimeData.synopsis = "Eklenecek..."
         }
 
         setAnimeData({ ...animeData, ...newAnimeData, mal_get: true })
