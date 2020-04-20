@@ -25,7 +25,7 @@ const ModalContainer = styled(Box)`
     }
 `
 
-export default function PermissionDelete(props) {
+export default function (props) {
     const { theme } = props
     const token = useGlobal("user")[0].token
     const [permissionData, setPermissionData] = useState([])
@@ -78,9 +78,9 @@ export default function PermissionDelete(props) {
                 handleClose()
                 setCurrentPermissionData({ ...defaultPermissionData })
                 setPermissionData(newData)
-                ToastNotification(payload("process-success", "success", "Rol başarıyla silindi."))
+                ToastNotification(payload("process-success", "success", "Yetki başarıyla silindi."))
             })
-            .catch(_ => ToastNotification(payload("process-error", "error", "Rolü silerken bir sorunla karşılaştık.")))
+            .catch(_ => ToastNotification(payload("process-error", "error", "Yetkiyi silerken bir sorunla karşılaştık.")))
     }
 
     function handleClose() {
@@ -97,7 +97,7 @@ export default function PermissionDelete(props) {
         <>
             {!loading && permissionData.length ?
                 <FormControl fullWidth>
-                    <InputLabel htmlFor="anime-selector">Sileceğiniz rolü seçin</InputLabel>
+                    <InputLabel htmlFor="anime-selector">Sileceğiniz kullanıcıyı seçin</InputLabel>
                     <Select
                         fullWidth
                         value={`${currentPermissionData.name}`}

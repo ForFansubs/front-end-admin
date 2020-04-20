@@ -1,3 +1,27 @@
+import PermissionList from '../../config/permission-list'
+
+const getPermList = () => {
+    const list = []
+    const flist = {}
+    PermissionList.map(p => {
+        if (p.main) list.push(p.main)
+        list.push(Object.values(p.perms))
+        if (p.subperms) {
+            p.subperms.map(s => {
+                if (s.main) list.push(s.main)
+                list.push(Object.values(s.perms))
+                return null
+            })
+        }
+        return null
+    })
+    list.flat().map(l => {
+        flist[l] = false
+        return null
+    })
+    return flist
+}
+
 const defaultAnimeData = {
     name: "",
     slug: "",
@@ -73,14 +97,14 @@ const defaultUserUpdateData = {
 const defaultPermissionData = {
     name: "",
     color: "",
-    permission_set: ""
+    permission_set: getPermList()
 }
 
 const defaultPermissionUpdateData = {
     id: null,
     name: "",
     color: "",
-    permission_set: ""
+    permission_set: getPermList()
 }
 
 export { defaultAnimeData, defaultEpisodeData, defaultTaBatchData, defaultWatchLinkData, defaultMangaData, defaultUserData, defaultUserUpdateData, defaultPermissionData, defaultPermissionUpdateData }

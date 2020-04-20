@@ -48,8 +48,8 @@ export default function VerticalTabs() {
                     <Tab disabled={!adminPermList["add-episode"]} style={!adminPermList["add-episode"] ? { display: "none" } : null} label="Oluştur" {...a11yProps(0)} />
                     <Tab disabled={!adminPermList["update-episode"]} style={!adminPermList["update-episode"] ? { display: "none" } : null} label="Düzenle" {...a11yProps(1)} />
                     <Tab disabled={!adminPermList["delete-episode"]} style={!adminPermList["delete-episode"] ? { display: "none" } : null} label="Sil" {...a11yProps(2)} />
-                    <Tab disabled={!adminPermList["add-watch-link"]} style={!adminPermList["add-watch-link"] ? { display: "none" } : null} label="İzleme" {...a11yProps(3)} />
-                    <Tab disabled={!adminPermList["add-download-link"]} style={!adminPermList["add-download-link"] ? { display: "none" } : null} label="İndirme" {...a11yProps(4)} />
+                    <Tab disabled={!adminPermList["see-watch-link"]} style={!adminPermList["see-watch-link"] ? { display: "none" } : null} label="İzleme" {...a11yProps(3)} />
+                    <Tab disabled={!adminPermList["see-download-link"]} style={!adminPermList["see-download-link"] ? { display: "none" } : null} label="İndirme" {...a11yProps(4)} />
                 </Tabs>
             </AppBar>
             {adminPermList["add-episode"] && value === 0 ?

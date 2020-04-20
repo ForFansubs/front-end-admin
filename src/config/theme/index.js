@@ -10,7 +10,7 @@ import { createMuiTheme } from '@material-ui/core/styles'
 const theme = {
     palette: {
         primary: { main: '#90caf9' },
-        secondary: { main: '#f48fb1' },
+        secondary: { main: 'rgb(255,127,80)' },
         background: {
             default: "#121212",
             level1: "#212121",
@@ -28,66 +28,76 @@ const theme = {
         },
     },
     typography: {
+        fontFamily: `'Rubik', sans-serif`,
         h1: {
-            fontFamily: `'Rubik', sans-serif`,
+
             fontWeight: "bold",
             fontSize: "4.8rem",
-            lineHeight: 1.25
+            lineHeight: 1.2
         },
         h2: {
-            fontFamily: `'Rubik', sans-serif`,
             fontWeight: "bold",
-            fontSize: "3rem"
+            fontSize: "3rem",
+            lineHeight: 1.2
         },
         h3: {
-            fontFamily: `'Rubik', sans-serif`,
             fontWeight: "bold",
-            fontSize: "2.4rem"
+            fontSize: "2.4rem",
+            lineHeight: 1.2
         },
         h4: {
-            fontFamily: `'Rubik', sans-serif`,
             fontWeight: "bold",
             fontSize: "1.7rem"
         },
         h5: {
-            fontFamily: `'Rubik', sans-serif`,
             fontWeight: "bold",
             fontSize: "1rem"
         },
         h6: {
-            fontFamily: `'Rubik', sans-serif`,
             fontWeight: "bold",
             fontSize: ".8rem"
         },
+        body1: {
+            fontFamily: "'Source Sans Pro', sans-serif"
+        },
         body2: {
-            fontFamily: "'Rubik', sans-serif",
+            fontFamily: "'Source Sans Pro', sans-serif",
             fontSize: ".8rem",
             fontWeight: "bold",
             letterSpacing: "0.0075em",
             lineHeight: 1.6
         },
         subtitle1: {
+            fontFamily: "'Source Sans Pro', sans-serif",
             lineHeight: 1.25
+        },
+        subtitle2: {
+            fontFamily: "'Source Sans Pro', sans-serif",
+            fontSize: "0.775rem"
         }
     },
     overrides: {
-        // Style sheet name ⚛️
-        MuiPaper: {
+        MuiFormLabel: {
             root: {
-                backgroundColor: "#212121"
-            }
+                '&$focused': {
+                    color: '#FFF',
+                }
+            },
+            focused: {}
         },
-        MuiFormControl: {
+        MuiOutlinedInput: {
             root: {
-                marginBottom: "5px"
-            }
+                '&$focused $notchedOutline': {
+                    color: '#FFF',
+                    borderColor: '#FFF'
+                }
+            },
+            focused: {}
         },
-        MuiButton: {
-            root: {
-                marginBottom: "5px",
-                marginRight: "5px"
-            }
-        }
+        defaultMargin: "80px 40px 24px",
+        defaultMarginMobile: "80px 24px 24px",
+        defaultMarginOverride: "-80px -40px 0",
+        defaultMarginMobileOverride: "-80px -24px 0"
     },
     transitions: {
         duration: {
@@ -98,7 +108,7 @@ const theme = {
             ease: "ease"
         }
     },
-    themeName: 'ForFansubs Dark Theme'
+    themeName: 'ForFansubs Admin Dark Theme'
 }
 
 merge(theme, custom)

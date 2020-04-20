@@ -28,6 +28,7 @@ import {
     homePage,
     episodePage,
     mangaPage,
+    bildirimPage,
     userPage,
     permissionPage,
     administrativePage,
@@ -109,31 +110,37 @@ export default function MiniDrawer() {
         {
             text: "Anime",
             link: animePage,
-            perm: "add-anime",
+            perm: "see-anime",
             icon: <h2>An</h2>
         },
         {
             text: "Bölüm",
             link: episodePage,
-            perm: "add-episode",
+            perm: "see-episode",
             icon: <h2>Bö</h2>
         },
         {
             text: "Manga",
             link: mangaPage,
-            perm: "add-manga",
+            perm: "see-manga",
             icon: <h2>Ma</h2>
+        },
+        {
+            text: "Bildirim",
+            link: bildirimPage,
+            perm: "see-notification",
+            icon: <h2>Bi</h2>
         },
         {
             text: "Kullanıcı",
             link: userPage,
-            perm: "add-user",
+            perm: "see-user",
             icon: <h2>Ku</h2>
         },
         {
             text: "Yetki",
             link: permissionPage,
-            perm: "add-permission",
+            perm: "see-permission",
             icon: <h2>Ye</h2>
         },
         {

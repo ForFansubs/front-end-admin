@@ -1,6 +1,7 @@
 const indexPage = "/"
 const animePage = "/anime"
 const mangaPage = "/manga"
+const bildirimPage = "/bildirim"
 const episodePage = "/bolum"
 const userPage = "/kullanici"
 const permissionPage = "/yetki"
@@ -12,6 +13,7 @@ export {
     indexPage,
     animePage,
     mangaPage,
+    bildirimPage,
     episodePage,
     userPage,
     permissionPage,
