@@ -5,7 +5,7 @@ import axios from '../../config/axios/axios'
 import ToastNotification, { payload } from '../../components/toastify/toast'
 
 import { Button, Grid, TextField, Box, FormControl, FormLabel, RadioGroup, FormControlLabel, Radio } from '@material-ui/core'
-import { checkMyAnimeListAnimeLink, generalSlugify } from '../../components/pages/functions';
+import { checkMyAnimeListAnimeLink, generalSlugify, checkYoutubeLink } from '../../components/pages/functions';
 import { defaultAnimeData } from '../../components/pages/default-props';
 import { jikanIndex, addAnime } from '../../config/api-routes';
 
@@ -66,27 +66,22 @@ export default function AnimeCreate() {
         const newAnimeData = {
             cover_art: anime.data.image_url,
             name: anime.data.title,
+            airing: anime.data.airing ? 1 : 0,
+            series_status: anime.data.status,
             release_date: date,
             studios: studyolar.join(','),
             genres: turler.join(','),
             premiered: anime.data.premiered,
-            episode_count: anime.data.airing ? 0 : anime.data.episodes
+            episode_count: anime.data.airing ? 0 : anime.data.episodes,
+            pv: anime.data.trailer_url
         }
         const header = await axios.get(`/header-getir/${generalSlugify(anime.data.title)}`).catch(_ => _)
-        const synopsis = await axios.post('/ta-konu-getir/', { name: anime.data.title }).catch(_ => _)
 
         if (header.status === 200) {
             newAnimeData.header = header.data.header
         }
         else {
             newAnimeData.header = ""
-        }
-        if (synopsis.status === 200) {
-            newAnimeData.synopsis = synopsis.data.konu
-            newAnimeData.ta_link = synopsis.data.ta_link
-        }
-        else {
-            newAnimeData.synopsis = "Eklenecek..."
         }
 
         setAnimeData({ ...animeData, ...newAnimeData, mal_get: true })
@@ -255,17 +250,65 @@ export default function AnimeCreate() {
                                 />
                             </Grid>
                             <Grid item xs={12}>
+                                <TextField
+                                    fullWidth
+                                    id="pv"
+                                    label="Anime Trailerı"
+                                    value={animeData.pv}
+                                    onChange={handleInputChange("pv")}
+                                    margin="normal"
+                                    variant="filled"
+                                    helperText="Sadece Youtube linki"
+                                    error={animeData.pv ? checkYoutubeLink(animeData.pv) : false}
+                                />
+                            </Grid>
+                            <Grid item xs={12} md={4}>
                                 <FormControl component="fieldset" style={{ width: "100%", textAlign: "center" }}>
                                     <FormLabel component="legend">Versiyon</FormLabel>
                                     <RadioGroup
                                         style={{ display: "flex", flexDirection: "row", justifyContent: "center" }}
                                         aria-label="version selector"
-                                        name="gender1"
+                                        name="version"
                                         value={animeData.version}
                                         onChange={handleInputChange("version")}
                                     >
                                         <FormControlLabel value="tv" control={<Radio />} label="TV" />
                                         <FormControlLabel value="bd" control={<Radio />} label="Blu-ray" />
+                                    </RadioGroup>
+                                </FormControl>
+                            </Grid>
+                            <Grid item xs={12} md={4}>
+                                <FormControl component="fieldset" style={{ width: "100%", textAlign: "center" }}>
+                                    <FormLabel component="legend">Seri Durumu [{animeData.airing ? "Seri şu anda yayınlanıyor" : "Seri şu anda yayınlanmıyor"}]</FormLabel>
+                                    <RadioGroup
+                                        style={{ display: "flex", flexDirection: "row", justifyContent: "center" }}
+                                        aria-label="series_status"
+                                        name="series status"
+                                        value={animeData.series_status}
+                                        onChange={handleInputChange("series_status")}
+                                    >
+                                        <FormControlLabel value="Currently Airing" control={<Radio />} label="Devam Ediyor" />
+                                        <FormControlLabel value="Finished Airing" control={<Radio />} label="Tamamlandı" />
+                                        <FormControlLabel value="Not yet aired" control={<Radio />} label="Daha yayınlanmadı" />
+                                        <FormControlLabel value="Ertelendi" control={<Radio />} label="Ertelendi" />
+                                        <FormControlLabel value="İptal Edildi" control={<Radio />} label="İptal Edildi" />
+                                    </RadioGroup>
+                                </FormControl>
+                            </Grid>
+                            <Grid item xs={12} md={4}>
+                                <FormControl component="fieldset" style={{ width: "100%", textAlign: "center" }}>
+                                    <FormLabel component="legend">Çeviri Durumu</FormLabel>
+                                    <RadioGroup
+                                        style={{ display: "flex", flexDirection: "row", justifyContent: "center" }}
+                                        aria-label="trans_status"
+                                        name="trans_status"
+                                        value={animeData.trans_status}
+                                        onChange={handleInputChange("trans_status")}
+                                    >
+                                        <FormControlLabel value="Devam Ediyor" control={<Radio />} label="Devam Ediyor" />
+                                        <FormControlLabel value="Tamamlandı" control={<Radio />} label="Tamamlandı" />
+                                        <FormControlLabel value="Ertelendi" control={<Radio />} label="Ertelendi" />
+                                        <FormControlLabel value="İptal Edildi" control={<Radio />} label="İptal Edildi" />
                                     </RadioGroup>
                                 </FormControl>
                             </Grid>

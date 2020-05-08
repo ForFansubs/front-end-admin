@@ -5,6 +5,13 @@ const checkMyAnimeListAnimeLink = function (link) {
     else return true
 }
 
+const checkYoutubeLink = function (link) {
+    const regex = /^(https?\:\/\/)?((www\.)?youtube\.com|youtu\.?be)\/.+$/
+
+    if (link.match(regex)) return false
+    else return true
+}
+
 const checkMyAnimeListMangaLink = function (link) {
     const regex = /(http|https):\/\/+myanimelist.net\/manga\/\d+([\w\-\.,@?^=%&amp;:/~\+#]*[\w\-\@?^=%&amp;/~\+#])?/ // eslint-disable-line
     if (link === "-") return false
@@ -136,6 +143,7 @@ const handleGeneralSlugify = text => {
 export {
     checkMyAnimeListAnimeLink,
     checkMyAnimeListMangaLink,
+    checkYoutubeLink,
     checkTurkAnimeLink,
     generalSlugify,
     handleSelectData,

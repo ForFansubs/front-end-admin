@@ -6,7 +6,7 @@ import axios from '../../config/axios/axios'
 import ToastNotification, { payload } from '../../components/toastify/toast'
 
 import { Button, Grid, TextField, CircularProgress, FormControl, InputLabel, Select, MenuItem, FormLabel, Radio, RadioGroup, FormControlLabel } from '@material-ui/core'
-import { checkMyAnimeListAnimeLink, handleSelectData } from '../../components/pages/functions';
+import { checkMyAnimeListAnimeLink, handleSelectData, checkYoutubeLink } from '../../components/pages/functions';
 import { defaultAnimeData } from '../../components/pages/default-props';
 import { getFullAnimeList, updateAnime } from '../../config/api-routes';
 
@@ -36,8 +36,8 @@ export default function AnimeUpdate() {
     }, [token])
 
     function handleChange(event) {
-        const animeData = handleSelectData(event.target.value)
-        const newData = Find(data, { name: animeData.name, version: animeData.version })
+        const currentAnimeData = handleSelectData(event.target.value)
+        const newData = Find(data, { name: currentAnimeData.name, version: currentAnimeData.version })
         setCurrentAnimeData({ ...newData });
     }
 
@@ -221,18 +221,66 @@ export default function AnimeUpdate() {
                                     helperText="Kış/İlkbahar/Yaz/Sonbahar XXXX"
                                 />
                             </Grid>
-                            <Grid item xs={12}>
+                            <Grid item xs={12} md={6}>
+                                <TextField
+                                    fullWidth
+                                    id="pv"
+                                    label="Anime Trailerı"
+                                    value={currentAnimeData.pv}
+                                    onChange={handleInputChange("pv")}
+                                    margin="normal"
+                                    variant="filled"
+                                    helperText="Sadece Youtube Linki"
+                                    error={currentAnimeData.pv ? checkYoutubeLink(currentAnimeData.pv) : false}
+                                />
+                            </Grid>
+                            <Grid item xs={12} md={4}>
                                 <FormControl component="fieldset" style={{ width: "100%", textAlign: "center" }}>
                                     <FormLabel component="legend">Versiyon</FormLabel>
                                     <RadioGroup
                                         style={{ display: "flex", flexDirection: "row", justifyContent: "center" }}
                                         aria-label="version selector"
-                                        name="gender1"
+                                        name="version"
                                         value={currentAnimeData.version}
                                         onChange={handleInputChange("version")}
                                     >
                                         <FormControlLabel value="tv" control={<Radio />} label="TV" />
                                         <FormControlLabel value="bd" control={<Radio />} label="Blu-ray" />
+                                    </RadioGroup>
+                                </FormControl>
+                            </Grid>
+                            <Grid item xs={12} md={4}>
+                                <FormControl component="fieldset" style={{ width: "100%", textAlign: "center" }}>
+                                    <FormLabel component="legend">Seri Durumu [{currentAnimeData.airing ? "Seri şu anda yayınlanıyor" : "Seri şu anda yayınlanmıyor"}]</FormLabel>
+                                    <RadioGroup
+                                        style={{ display: "flex", flexDirection: "row", justifyContent: "center" }}
+                                        aria-label="series_status"
+                                        name="series status"
+                                        value={currentAnimeData.series_status}
+                                        onChange={handleInputChange("series_status")}
+                                    >
+                                        <FormControlLabel value="Devam Ediyor" control={<Radio />} label="Devam Ediyor" />
+                                        <FormControlLabel value="Tamamlandı" control={<Radio />} label="Tamamlandı" />
+                                        <FormControlLabel value="Daha yayınlanmadı" control={<Radio />} label="Daha yayınlanmadı" />
+                                        <FormControlLabel value="Ertelendi" control={<Radio />} label="Ertelendi" />
+                                        <FormControlLabel value="İptal Edildi" control={<Radio />} label="İptal Edildi" />
+                                    </RadioGroup>
+                                </FormControl>
+                            </Grid>
+                            <Grid item xs={12} md={4}>
+                                <FormControl component="fieldset" style={{ width: "100%", textAlign: "center" }}>
+                                    <FormLabel component="legend">Çeviri Durumu</FormLabel>
+                                    <RadioGroup
+                                        style={{ display: "flex", flexDirection: "row", justifyContent: "center" }}
+                                        aria-label="trans_status"
+                                        name="trans_status"
+                                        value={currentAnimeData.trans_status}
+                                        onChange={handleInputChange("trans_status")}
+                                    >
+                                        <FormControlLabel value="Devam Ediyor" control={<Radio />} label="Devam Ediyor" />
+                                        <FormControlLabel value="Tamamlandı" control={<Radio />} label="Tamamlandı" />
+                                        <FormControlLabel value="Ertelendi" control={<Radio />} label="Ertelendi" />
+                                        <FormControlLabel value="İptal Edildi" control={<Radio />} label="İptal Edildi" />
                                     </RadioGroup>
                                 </FormControl>
                             </Grid>
