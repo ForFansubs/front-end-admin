@@ -12,7 +12,8 @@ module.exports = [
         "perms": {
             "Anime Ekle": "add-anime",
             "Anime Düzenle": "update-anime",
-            "Anime Sil": "delete-anime"
+            "Anime Sil": "delete-anime",
+            "Öne Çıkarılan Animeleri Düzenle": "featured-anime"
         },
         "subperms": [
             {
