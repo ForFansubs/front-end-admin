@@ -72,7 +72,7 @@ export default function AnimeCreate() {
             studios: studyolar.join(','),
             genres: turler.join(','),
             premiered: anime.data.premiered,
-            episode_count: anime.data.airing ? 0 : anime.data.episodes,
+            episode_count: anime.data.episodes ? anime.data.episodes : 0,
             pv: anime.data.trailer_url
         }
         const header = await axios.get(`/header-getir/${generalSlugify(anime.data.title)}`).catch(_ => _)
@@ -249,7 +249,7 @@ export default function AnimeCreate() {
                                     required
                                 />
                             </Grid>
-                            <Grid item xs={12}>
+                            <Grid item xs={12} md={6}>
                                 <TextField
                                     fullWidth
                                     id="pv"
@@ -260,6 +260,18 @@ export default function AnimeCreate() {
                                     variant="filled"
                                     helperText="Sadece Youtube linki"
                                     error={animeData.pv ? checkYoutubeLink(animeData.pv) : false}
+                                />
+                            </Grid>
+                            <Grid item xs={12} md={6}>
+                                <TextField
+                                    fullWidth
+                                    id="episode_count"
+                                    label="Bölüm sayısı (Yoksa 0 yazın)"
+                                    value={animeData.episode_count}
+                                    onChange={handleInputChange("episode_count")}
+                                    margin="normal"
+                                    variant="filled"
+                                    required
                                 />
                             </Grid>
                             <Grid item xs={12} md={4}>

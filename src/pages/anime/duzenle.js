@@ -234,6 +234,17 @@ export default function AnimeUpdate() {
                                     error={currentAnimeData.pv ? checkYoutubeLink(currentAnimeData.pv) : false}
                                 />
                             </Grid>
+                            <Grid item xs={12}>
+                                <TextField
+                                    fullWidth
+                                    id="episode_count"
+                                    label="Bölüm sayısı (Yoksa 0 yazın)"
+                                    value={currentAnimeData.episode_count}
+                                    onChange={handleInputChange("episode_count")}
+                                    margin="normal"
+                                    variant="filled"
+                                />
+                            </Grid>
                             <Grid item xs={12} md={4}>
                                 <FormControl component="fieldset" style={{ width: "100%", textAlign: "center" }}>
                                     <FormLabel component="legend">Versiyon</FormLabel>
