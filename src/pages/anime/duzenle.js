@@ -58,10 +58,10 @@ export default function AnimeUpdate() {
         axios.post(updateAnime, newData, { headers })
             .then(_ => {
                 clearData()
-                ToastNotification(payload("process-success", "success", "Anime başarıyla güncellendi."))
+                ToastNotification(payload("success", "Anime başarıyla güncellendi."))
             })
             .catch(_ => {
-                ToastNotification(payload("process-error", "error", "Animeyi güncellerken bir sorunla karşılaştık."))
+                ToastNotification(payload("error", "Animeyi güncellerken bir sorunla karşılaştık."))
             })
     }
 
@@ -120,8 +120,26 @@ export default function AnimeUpdate() {
                                     variant="filled"
                                     required
                                 />
+                                {currentAnimeData.cover_art ?
+                                    <img src={currentAnimeData.cover_art} alt={"cover_art"} />
+                                    : ""}
                             </Grid>
                             <Grid item xs={12} md={6}>
+                                <TextField
+                                    fullWidth
+                                    id="logo"
+                                    label="Anime logo resmi"
+                                    value={currentAnimeData.logo || undefined}
+                                    onChange={handleInputChange("logo")}
+                                    margin="normal"
+                                    variant="filled"
+                                    helperText="- koyarak diskteki resmi silebilirsiniz."
+                                />
+                                {currentAnimeData.logo ?
+                                    <img src={currentAnimeData.logo} alt={"logo"} />
+                                    : ""}
+                            </Grid>
+                            <Grid item xs={12}>
                                 <TextField
                                     fullWidth
                                     id="header"
@@ -130,7 +148,11 @@ export default function AnimeUpdate() {
                                     onChange={handleInputChange("header")}
                                     margin="normal"
                                     variant="filled"
+                                    helperText="- koyarak diskteki resmi silebilirsiniz."
                                 />
+                                {currentAnimeData.header ?
+                                    <img src={currentAnimeData.header} alt={"header"} />
+                                    : ""}
                             </Grid>
                             <Grid item xs={12} md={6}>
                                 <TextField

@@ -71,9 +71,9 @@ export default function MangaDelete(props) {
                 handleClose()
                 setCurrentMangaData({ ...defaultMangaData })
                 setData(newData)
-                ToastNotification(payload("process-success", "success", "Manga başarıyla silindi."))
+                ToastNotification(payload("success", "Manga başarıyla silindi."))
             })
-            .catch(_ => ToastNotification(payload("process-error", "error", "Mangayı silerken bir sorunla karşılaştık.")))
+            .catch(_ => ToastNotification(payload("error", "Mangayı silerken bir sorunla karşılaştık.")))
     }
 
     function handleClose() {

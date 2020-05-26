@@ -76,9 +76,9 @@ export default function AnimeDelete(props) {
                 handleClose()
                 setCurrentAnimeData({ ...defaultAnimeData })
                 setData(newData)
-                ToastNotification(payload("process-success", "success", "Anime başarıyla silindi."))
+                ToastNotification(payload("success", "Anime başarıyla silindi."))
             })
-            .catch(_ => ToastNotification(payload("process-error", "error", "Animeyi silerken bir sorunla karşılaştık.")))
+            .catch(_ => ToastNotification(payload("error", "Animeyi silerken bir sorunla karşılaştık.")))
     }
 
     function handleClose() {

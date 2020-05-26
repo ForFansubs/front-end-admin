@@ -78,9 +78,9 @@ export default function UserDelete(props) {
                 handleClose()
                 setCurrentUserData({ ...defaultUserData })
                 setData(newData)
-                ToastNotification(payload("process-success", "success", "Kullanıcı başarıyla silindi."))
+                ToastNotification(payload("success", "Kullanıcı başarıyla silindi."))
             })
-            .catch(_ => ToastNotification(payload("process-error", "error", "Kullanıcıyı silerken bir sorunla karşılaştık.")))
+            .catch(_ => ToastNotification(payload("error", "Kullanıcıyı silerken bir sorunla karşılaştık.")))
     }
 
     function handleClose() {

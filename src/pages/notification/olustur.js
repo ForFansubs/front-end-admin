@@ -27,11 +27,11 @@ export default function () {
 
         axios.post(addPermission, data, { headers })
             .then(_ => {
-                ToastNotification(payload("process-success", "success", "Yetki başarıyla eklendi."))
+                ToastNotification(payload("success", "Yetki başarıyla eklendi."))
                 clearData()
             })
             .catch(err => {
-                ToastNotification(payload("process-error", "error", err.response.data.err || "Yetkiyi eklerken bir sorunla karşılaştık."))
+                ToastNotification(payload("error", err.response.data.err || "Yetkiyi eklerken bir sorunla karşılaştık."))
             })
     }
 

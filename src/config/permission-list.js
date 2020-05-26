@@ -53,6 +53,15 @@ module.exports = [
         }
     },
     {
+        "title": "Manga Bölüm",
+        "main": "see-manga-episode",
+        "perms": {
+            "Manga Bölümü Ekle": "add-manga-episode",
+            "Manga Bölümü Güncelle": "update-manga-episode",
+            "Manga Bölümü Sil": "delete-manga-episode"
+        }
+    },
+    {
         "title": "Bildirim",
         "main": "see-notification",
         "perms": {

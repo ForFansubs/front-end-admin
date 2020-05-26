@@ -11,6 +11,7 @@ const IndexSayfa = lazy(() => import('./pages/index/index'))
 const AnimeSayfa = lazy(() => import('./pages/anime/index'))
 const BolumSayfa = lazy(() => import('./pages/bolum/index'))
 const MangaSayfa = lazy(() => import('./pages/manga/index'))
+const MangaBolumSayfa = lazy(() => import('./pages/manga_bolum/index'))
 const BildirimSayfa = lazy(() => import('./pages/notification/index'))
 const KullaniciSayfa = lazy(() => import('./pages/user/index'))
 const YetkiSayfa = lazy(() => import('./pages/perms/index'))
@@ -47,6 +48,7 @@ function App() {
                     <Route path="/anime" exact component={AnimeSayfa} />
                     <Route path="/bolum" exact component={BolumSayfa} />
                     <Route path="/manga" exact component={MangaSayfa} />
+                    <Route path="/manga-bolum" exact component={MangaBolumSayfa} />
                     <Route path="/bildirim" exact component={BildirimSayfa} />
                     <Route path="/kullanici" exact component={KullaniciSayfa} />
                     <Route path="/yetki" exact component={YetkiSayfa} />

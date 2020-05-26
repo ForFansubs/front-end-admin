@@ -58,11 +58,11 @@ export default function () {
 
         axios.post(addPermission, data, { headers })
             .then(_ => {
-                ToastNotification(payload("process-success", "success", "Rol başarıyla eklendi."))
+                ToastNotification(payload("success", "Rol başarıyla eklendi."))
                 clearData()
             })
             .catch(err => {
-                ToastNotification(payload("process-error", "error", err.response.data.err || "Rolü eklerken bir sorunla karşılaştık."))
+                ToastNotification(payload("error", err.response.data.err || "Rolü eklerken bir sorunla karşılaştık."))
             })
     }
 

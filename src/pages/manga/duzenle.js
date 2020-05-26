@@ -57,10 +57,10 @@ export default function MangaUpdate() {
         axios.post(updateManga, newData, { headers })
             .then(_ => {
                 clearData()
-                ToastNotification(payload("process-success", "success", "Manga başarıyla güncellendi."))
+                ToastNotification(payload("success", "Manga başarıyla güncellendi."))
             })
             .catch(_ => {
-                ToastNotification(payload("process-error", "error", "Mangayı güncellerken bir sorunla karşılaştık."))
+                ToastNotification(payload("error", "Mangayı güncellerken bir sorunla karşılaştık."))
             })
     }
 

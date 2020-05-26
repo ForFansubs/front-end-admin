@@ -67,10 +67,10 @@ export default function EpisodeCreate() {
 
         axios.post(addEpisode, data, { headers })
             .then(res => {
-                ToastNotification(payload("process-success", "success", "Bölüm başarıyla eklendi."))
+                ToastNotification(payload("success", "Bölüm başarıyla eklendi."))
             })
             .catch(err => {
-                ToastNotification(payload("process-error", "error", err.response.data.err || "Bölümü eklerken bir sorunla karşılaştık."))
+                ToastNotification(payload("error", err.response.data.err || "Bölümü eklerken bir sorunla karşılaştık."))
             })
     }
 

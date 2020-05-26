@@ -78,9 +78,9 @@ export default function PermissionDelete(props) {
                 handleClose()
                 setCurrentPermissionData({ ...defaultPermissionData })
                 setPermissionData(newData)
-                ToastNotification(payload("process-success", "success", "Rol başarıyla silindi."))
+                ToastNotification(payload("success", "Rol başarıyla silindi."))
             })
-            .catch(_ => ToastNotification(payload("process-error", "error", "Rolü silerken bir sorunla karşılaştık.")))
+            .catch(_ => ToastNotification(payload("error", "Rolü silerken bir sorunla karşılaştık.")))
     }
 
     function handleClose() {

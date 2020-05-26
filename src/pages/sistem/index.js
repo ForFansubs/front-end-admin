@@ -32,43 +32,43 @@ export default function VerticalTabs() {
 
     const handleForceHeaderOptimize = () => {
         axios.get(forceHeaderOptimize, {headers: {"Authorization": token}})
-            .then(_ => ToastNotification(payload("process-success", "success", "İşlem başarıyla alındı.")))
-            .catch(_ => ToastNotification(payload("process-error", "error", "İşlem alınırken bir sorunla karşılaştık.")))
+            .then(_ => ToastNotification(payload("success", "İşlem başarıyla alındı.")))
+            .catch(_ => ToastNotification(payload("error", "İşlem alınırken bir sorunla karşılaştık.")))
     }
     const handleHeaderUpdate = () => {
         axios.get(forceHeaderUpdate, {headers: {"Authorization": token}})
-            .then(_ => ToastNotification(payload("process-success", "success", "İşlem başarıyla alındı.")))
-            .catch(_ => ToastNotification(payload("process-error", "error", "İşlem alınırken bir sorunla karşılaştık.")))
+            .then(_ => ToastNotification(payload("success", "İşlem başarıyla alındı.")))
+            .catch(_ => ToastNotification(payload("error", "İşlem alınırken bir sorunla karşılaştık.")))
     }
     const handleAnimeHeaderUpdate = () => {
         axios.get(forceAnimeHeaderUpdate, {headers: {"Authorization": token}})
-            .then(_ => ToastNotification(payload("process-success", "success", "İşlem başarıyla alındı.")))
-            .catch(_ => ToastNotification(payload("process-error", "error", "İşlem alınırken bir sorunla karşılaştık.")))
+            .then(_ => ToastNotification(payload("success", "İşlem başarıyla alındı.")))
+            .catch(_ => ToastNotification(payload("error", "İşlem alınırken bir sorunla karşılaştık.")))
     }
     const handleMangaHeaderUpdate = () => {
         axios.get(forceMangaHeaderUpdate, {headers: {"Authorization": token}})
-            .then(_ => ToastNotification(payload("process-success", "success", "İşlem başarıyla alındı.")))
-            .catch(_ => ToastNotification(payload("process-error", "error", "İşlem alınırken bir sorunla karşılaştık.")))
+            .then(_ => ToastNotification(payload("success", "İşlem başarıyla alındı.")))
+            .catch(_ => ToastNotification(payload("error", "İşlem alınırken bir sorunla karşılaştık.")))
     }
     const handleCoverArtUpdate = () => {
         axios.get(forceCoverArtUpdate, {headers: {"Authorization": token}})
-            .then(_ => ToastNotification(payload("process-success", "success", "İşlem başarıyla alındı.")))
-            .catch(_ => ToastNotification(payload("process-error", "error", "İşlem alınırken bir sorunla karşılaştık.")))
+            .then(_ => ToastNotification(payload("success", "İşlem başarıyla alındı.")))
+            .catch(_ => ToastNotification(payload("error", "İşlem alınırken bir sorunla karşılaştık.")))
     }
     const handleAnimeCoverArtUpdate = () => {
         axios.get(forceAnimeCoverArtUpdate, {headers: {"Authorization": token}})
-            .then(_ => ToastNotification(payload("process-success", "success", "İşlem başarıyla alındı.")))
-            .catch(_ => ToastNotification(payload("process-error", "error", "İşlem alınırken bir sorunla karşılaştık.")))
+            .then(_ => ToastNotification(payload("success", "İşlem başarıyla alındı.")))
+            .catch(_ => ToastNotification(payload("error", "İşlem alınırken bir sorunla karşılaştık.")))
     }
     const handleMangaCoverArtUpdate = () => {
         axios.get(forceMangaCoverArtUpdate, {headers: {"Authorization": token}})
-            .then(_ => ToastNotification(payload("process-success", "success", "İşlem başarıyla alındı.")))
-            .catch(_ => ToastNotification(payload("process-error", "error", "İşlem alınırken bir sorunla karşılaştık.")))
+            .then(_ => ToastNotification(payload("success", "İşlem başarıyla alındı.")))
+            .catch(_ => ToastNotification(payload("error", "İşlem alınırken bir sorunla karşılaştık.")))
     }
     const handleForceCFCachePurge = () => {
         axios.get(forceCFCachePurge, {headers: {"Authorization": token}})
-            .then(_ => ToastNotification(payload("process-success", "success", "İşlem başarıyla alındı.")))
-            .catch(_ => ToastNotification(payload("process-error", "error", "İşlem alınırken bir sorunla karşılaştık.")))
+            .then(_ => ToastNotification(payload("success", "İşlem başarıyla alındı.")))
+            .catch(_ => ToastNotification(payload("error", "İşlem alınırken bir sorunla karşılaştık.")))
     }
 
     */

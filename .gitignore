@@ -12,7 +12,7 @@
 /public/*.html
 /public/*.json
 /public/*.ico
-/src/pages/bolum/turkanime.js
+ecosystem.config.js
 
 # testing
 /coverage

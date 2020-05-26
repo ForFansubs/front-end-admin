@@ -110,11 +110,11 @@ export default function PermissionUpdate(props) {
             setPermissionData([...newPermissionDataSet])
             setCurrentPermissionData({ ...defaultPermissionUpdateData })
             handleClose()
-            ToastNotification(payload("process-success", "success", res.data.message || "Yetki bilgileri başarıyla değiştirildi."))
+            ToastNotification(payload("success", res.data.message || "Yetki bilgileri başarıyla değiştirildi."))
         }
 
         else {
-            ToastNotification(payload("process-error", "error", res.response.data.err || "Yetki bilgileri değiştirilirken bir sorunla karşılaştık."))
+            ToastNotification(payload("error", res.response.data.err || "Yetki bilgileri değiştirilirken bir sorunla karşılaştık."))
         }
     }
 

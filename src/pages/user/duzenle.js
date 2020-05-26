@@ -93,11 +93,11 @@ export default function UserUpdate(props) {
             setUserData([...newUserDataSet])
             setCurrentUserData({ ...defaultUserUpdateData })
             handleClose()
-            ToastNotification(payload("process-success", "success", res.data.message || "Kullanıcı bilgileri başarıyla değiştirildi."))
+            ToastNotification(payload("success", res.data.message || "Kullanıcı bilgileri başarıyla değiştirildi."))
         }
 
         else {
-            ToastNotification(payload("process-error", "error", res.response.data.err || "Kullanıcı bilgileri değiştirilirken bir sorunla karşılaştık."))
+            ToastNotification(payload("error", res.response.data.err || "Kullanıcı bilgileri değiştirilirken bir sorunla karşılaştık."))
         }
     }
 

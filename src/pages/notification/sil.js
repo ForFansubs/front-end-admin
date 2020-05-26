@@ -78,9 +78,9 @@ export default function (props) {
                 handleClose()
                 setCurrentPermissionData({ ...defaultPermissionData })
                 setPermissionData(newData)
-                ToastNotification(payload("process-success", "success", "Yetki başarıyla silindi."))
+                ToastNotification(payload("success", "Yetki başarıyla silindi."))
             })
-            .catch(_ => ToastNotification(payload("process-error", "error", "Yetkiyi silerken bir sorunla karşılaştık.")))
+            .catch(_ => ToastNotification(payload("error", "Yetkiyi silerken bir sorunla karşılaştık.")))
     }
 
     function handleClose() {

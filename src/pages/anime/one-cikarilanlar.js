@@ -51,9 +51,9 @@ export default function AnimeFeatured() {
         axios.post(featuredAnime, { data: animeData }, { headers })
             .then(_ => {
 
-                ToastNotification(payload("process-success", "success", "Animeler başarıyla öne çıkarıldı."))
+                ToastNotification(payload("success", "Animeler başarıyla öne çıkarıldı."))
             })
-            .catch(_ => ToastNotification(payload("process-error", "error", "Animeleri öne çıkarırken bir sorunla karşılaştık.")))
+            .catch(_ => ToastNotification(payload("error", "Animeleri öne çıkarırken bir sorunla karşılaştık.")))
     }
 
     if (loading) {

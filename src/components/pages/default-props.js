@@ -35,6 +35,7 @@ const defaultAnimeData = {
     studios: "",
     header: "",
     cover_art: "",
+    logo: "",
     mal_link: "",
     genres: "",
     ta_link: "",
@@ -51,6 +52,14 @@ const defaultEpisodeData = {
     episode_number: "",
     credits: "",
     special_type: ""
+}
+
+const defaultMangaEpisodeData = {
+    id: null,
+    manga_id: null,
+    episode_number: "",
+    episode_name: "",
+    credits: ""
 }
 
 const defaultTaBatchData = {
@@ -110,4 +119,15 @@ const defaultPermissionUpdateData = {
     permission_set: getPermList()
 }
 
-export { defaultAnimeData, defaultEpisodeData, defaultTaBatchData, defaultWatchLinkData, defaultMangaData, defaultUserData, defaultUserUpdateData, defaultPermissionData, defaultPermissionUpdateData }
+export {
+    defaultAnimeData,
+    defaultEpisodeData,
+    defaultMangaEpisodeData,
+    defaultTaBatchData,
+    defaultWatchLinkData,
+    defaultMangaData,
+    defaultUserData,
+    defaultUserUpdateData,
+    defaultPermissionData,
+    defaultPermissionUpdateData
+}

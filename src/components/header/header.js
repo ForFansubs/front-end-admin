@@ -32,7 +32,8 @@ import {
     userPage,
     permissionPage,
     administrativePage,
-    logsPage
+    logsPage,
+    mangaBolumPage
 } from '../../config/front-routes'
 import { fullLogo, fullLogoGif } from '../../config/theme/images'
 
@@ -124,6 +125,12 @@ export default function MiniDrawer() {
             link: mangaPage,
             perm: "see-manga",
             icon: <h2>Ma</h2>
+        },
+        {
+            text: "Manga Bölüm",
+            link: mangaBolumPage,
+            perm: "see-manga-episode",
+            icon: <h2>MB</h2>
         },
         {
             text: "Bildirim",

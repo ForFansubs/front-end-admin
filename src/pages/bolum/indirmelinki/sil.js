@@ -52,7 +52,7 @@ export default function DownloadlinkCreate() {
         }
 
         else {
-            ToastNotification(payload("process-error", "error", "Bölüm bilgilerini getirirken bir sorun oluştu."))
+            ToastNotification(payload("error", "Bölüm bilgilerini getirirken bir sorun oluştu."))
         }
     }
 
@@ -79,7 +79,7 @@ export default function DownloadlinkCreate() {
 
         axios.post(getDownloadlinks, data, { headers })
             .then(res => {
-                if (!res.data.length) return ToastNotification(payload("process-error", "error", "Bölüme kayıtlı indirme linki bulunamadı."))
+                if (!res.data.length) return ToastNotification(payload("error", "Bölüme kayıtlı indirme linki bulunamadı."))
                 setCurrentEpisodeDownloadlinkData(res.data)
             }).catch(err => console.log(err))
 
@@ -102,11 +102,11 @@ export default function DownloadlinkCreate() {
             const newEpisodeDataSet = currentEpisodeDownloadlinkData
             PullAllBy(newEpisodeDataSet, [{ "id": downloadlink_id }], "id")
             setCurrentEpisodeDownloadlinkData(oldData => ([...newEpisodeDataSet]))
-            ToastNotification(payload("process-success", "success", res.data.message || "Link başarıyla silindi."))
+            ToastNotification(payload("success", res.data.message || "Link başarıyla silindi."))
         }
 
         else {
-            ToastNotification(payload("process-error", "error", res.response.data.err || "Linki silerken bir sorunla karşılaştık."))
+            ToastNotification(payload("error", res.response.data.err || "Linki silerken bir sorunla karşılaştık."))
         }
     }
 
