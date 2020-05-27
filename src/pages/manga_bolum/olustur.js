@@ -174,7 +174,7 @@ export default function EpisodeCreate() {
                                     />
                                     <label htmlFor="upload_manga_pages">
                                         <Button variant="outlined" component="span">
-                                            Upload
+                                            Sayfa Yükle
                                     </Button>
                                     </label>
                                     {nameList ?
