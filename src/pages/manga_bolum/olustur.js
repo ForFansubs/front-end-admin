@@ -96,8 +96,8 @@ export default function EpisodeCreate() {
 
         axios.post(addMangaEpisode, formData, config)
             .then(res => {
-                console.log(res)
                 ToastNotification(payload("success", "Bölüm başarıyla eklendi."))
+                setTimeout(() => setProgress(0), 1000)
             })
             .catch(err => {
                 ToastNotification(payload("error", err.response.data.err || "Bölümü eklerken bir sorunla karşılaştık."))
