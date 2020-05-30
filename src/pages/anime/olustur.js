@@ -153,10 +153,6 @@ export default function AnimeCreate() {
                 color="secondary"
                 variant="outlined"
                 onClick={() => setAnimeData({ ...animeData, mal_get: !animeData.mal_get })}>API Kullanmadan Ekle</Button>
-            <Button
-                color="secondary"
-                variant="outlined"
-                onClick={() => ToastNotification(payload("info", "Animeyi eklerken bir sorunla karşılaştık."))}>API Kullanmadan Ekle</Button>
             {animeData.mal_get ?
                 <>
                     <form onSubmit={th => handleDataSubmit(th)} autoComplete="off">

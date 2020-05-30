@@ -80,7 +80,7 @@ export default function EpisodeCreate() {
         formData.append("manga_id", currentMangaData.id)
         formData.append("manga_slug", currentMangaData.slug)
         for (const file of fileList) {
-            formData.append('manga_pages', file,)
+            formData.append('manga_pages', file)
         }
 
         const config = {
