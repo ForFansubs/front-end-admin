@@ -73,7 +73,7 @@ export default function MangaCreate() {
             episode_count: manga.data.airing ? 0 : manga.data.episodes
         }
 
-        const header = await axios.get(`/header-getir/${generalSlugify(manga.data.title)}`).catch(_ => _)
+        const header = await axios.get(`/header-getir/${generalSlugify(manga.data.title)}?type=manga`).catch(_ => _)
 
         if (header.status === 200) {
             newMangaData.header = header.data.header
