@@ -74,7 +74,6 @@ export default function AnimeCreate() {
         const newAnimeData = {
             cover_art: anime.data.image_url ? anime.data.image_url : "",
             name: anime.data.title ? anime.data.title : "",
-            airing: anime.data.airing ? 1 : 0,
             series_status: anime.data.status ? anime.data.status : false,
             release_date: date ? date : Date.now(),
             studios: studyolar ? studyolar.join(',') : [],

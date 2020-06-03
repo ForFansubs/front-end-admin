@@ -6,6 +6,7 @@ const getFullLogs = "/logs" // GET                                              
 const getAnimeData = (slug) => `/anime/${slug}/admin-view` // GET                   (update-anime)
 const getFullAnimeList = "/anime/admin-liste" // GET                                (see-admin-page)
 const getFullFeaturedAnimeList = "/anime/admin-featured-anime" // GET               (featured-anime)
+const getMangaData = (slug) => `/manga/${slug}/admin-view`
 
 //-------------- ANIME
 const addAnime = "/anime/anime-ekle" // POST                                        (add-anime)
@@ -39,9 +40,9 @@ const deleteManga = "/manga/manga-sil" // POST                                  
 //--------------
 
 //-------------- MANGA EPISODE
-const addMangaEpisode = "/manga-bolum/ekle" // POST                                 (add-manga-episode)
-const updateMangaEpisode = "/manga-bolum/guncelle" // POST                          (update-manga-episode)
-const deleteMangaEpisode = "/manga-bolum/sil" // POST                               (delete-manga-episode)
+const addMangaEpisode = "/manga-bolum/bolum-ekle" // POST                           (add-manga-episode)
+const updateMangaEpisode = "/manga-bolum/bolum-guncelle" // POST                    (update-manga-episode)
+const deleteMangaEpisode = "/manga-bolum/bolum-sil" // POST                         (delete-manga-episode)
 //--------------
 
 //-------------- USER
@@ -79,6 +80,7 @@ export {
     getAnimeData,
     getFullAnimeList,
     getFullFeaturedAnimeList,
+    getMangaData,
     addAnime,
     updateAnime,
     deleteAnime,

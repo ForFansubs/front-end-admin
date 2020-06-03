@@ -72,6 +72,7 @@ const defaultWatchLinkData = {
 }
 
 const defaultMangaData = {
+    id: '',
     name: "",
     slug: "",
     synopsis: "",

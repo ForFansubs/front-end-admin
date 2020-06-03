@@ -93,14 +93,14 @@ export default function EpisodeUpdate(props) {
         const data = {
             request: "update-visibility",
             id: clickedEpisodeData.id,
-            value: Number(!clickedEpisodeData.seen_download_page)
+            value: Number(!clickedEpisodeData.can_user_download)
         }
 
         const res = await axios.post(updateEpisode, data, { headers }).catch(res => res)
 
         if (res.status === 200) {
             const newEpisodeDataSet = episodeData
-            newEpisodeDataSet[clickedEpisodeDataIndex].seen_download_page = data.value
+            newEpisodeDataSet[clickedEpisodeDataIndex].can_user_download = data.value
             setEpisodeData(oldData => ([...newEpisodeDataSet]))
             ToastNotification(payload("success", res.data.message || "Görünürlük başarıyla değiştirildi."))
         }
@@ -216,7 +216,7 @@ export default function EpisodeUpdate(props) {
 
                                         <Button size="small" onClick={() => handleVisibilityButtonClick(e.id)}>
                                             {
-                                                e.seen_download_page === 1
+                                                e.can_user_download === 1
                                                     ?
                                                     <VisibilityIcon />
                                                     :
