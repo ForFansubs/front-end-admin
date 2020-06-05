@@ -4,12 +4,24 @@ import { useGlobal } from 'reactn'
 import axios from '../../config/axios/axios'
 import ToastNotification from '../../components/toastify/toast'
 
-import { Button, Grid, TextField } from '@material-ui/core'
+import { Button, Grid, TextField, Divider, makeStyles } from '@material-ui/core'
 import { checkMyAnimeListMangaLink, generalSlugify } from '../../components/pages/functions';
 import { defaultMangaData } from '../../components/pages/default-props';
 import { jikanIndex, addManga } from '../../config/api-routes';
 
+const useStyles = makeStyles(theme => ({
+    ImageContainer: {
+        textAlign: "center",
+
+        '& img': {
+            width: "30%"
+        }
+    }
+}))
+
 export default function MangaCreate() {
+    const classes = useStyles()
+
     const token = useGlobal("user")[0].token
     const [jikanStatus] = useGlobal('jikanStatus')
     const [mangaData, setMangaData] = useState({ ...defaultMangaData, mal_get: jikanStatus.status ? false : true })
@@ -132,6 +144,7 @@ export default function MangaCreate() {
                 error={mangaData.mal_link ? checkMyAnimeListMangaLink(mangaData.mal_link) : false}
             />
             <Button
+                style={{ marginRight: "5px" }}
                 color="primary"
                 variant="outlined"
                 onClick={handleMALSubmit}
@@ -140,6 +153,7 @@ export default function MangaCreate() {
                 Bilgileri getir
             </Button>
             <Button
+                style={{ marginRight: "5px" }}
                 color="secondary"
                 variant="outlined"
                 onClick={clearData}>Bilgileri temizle</Button>
@@ -151,7 +165,7 @@ export default function MangaCreate() {
                 <>
                     <form onSubmit={th => handleDataSubmit(th)} autoComplete="off">
                         <Grid container spacing={2}>
-                            <Grid item xs={12} md={6}>
+                            <Grid item xs={12} md={6} className={classes.ImageContainer}>
                                 <TextField
                                     fullWidth
                                     id="cover_art"
@@ -162,8 +176,25 @@ export default function MangaCreate() {
                                     variant="filled"
                                     required
                                 />
+                                {mangaData.cover_art ?
+                                    <img src={mangaData.cover_art} alt={"cover_art"} />
+                                    : ""}
                             </Grid>
-                            <Grid item xs={12} md={6}>
+                            <Grid item xs={12} md={6} className={classes.ImageContainer}>
+                                <TextField
+                                    fullWidth
+                                    id="logo"
+                                    label="Manga logo resmi"
+                                    value={mangaData.logo}
+                                    onChange={handleInputChange("logo")}
+                                    margin="normal"
+                                    variant="filled"
+                                />
+                                {mangaData.logo ?
+                                    <img src={mangaData.logo} alt={"logo"} />
+                                    : ""}
+                            </Grid>
+                            <Grid item xs={12} className={classes.ImageContainer}>
                                 <TextField
                                     fullWidth
                                     id="header"
@@ -173,7 +204,11 @@ export default function MangaCreate() {
                                     margin="normal"
                                     variant="filled"
                                 />
+                                {mangaData.header ?
+                                    <img src={mangaData.header} alt={"header"} />
+                                    : ""}
                             </Grid>
+                            <Divider />
                             <Grid item xs={12} md={6}>
                                 <TextField
                                     fullWidth

@@ -74,6 +74,8 @@ const defaultWatchLinkData = {
 const defaultMangaData = {
     id: '',
     name: "",
+    series_status: "Tamamlandı",
+    trans_status: "Devam Ediyor",
     slug: "",
     synopsis: "",
     translators: "",
@@ -82,6 +84,7 @@ const defaultMangaData = {
     authors: "",
     header: "",
     cover_art: "",
+    logo: "",
     mal_link: "",
     genres: "",
     mos_link: "",

@@ -5,13 +5,26 @@ import FindIndex from 'lodash-es/findIndex'
 import axios from '../../config/axios/axios'
 import ToastNotification, { payload } from '../../components/toastify/toast'
 
-import { Button, Grid, TextField, CircularProgress, FormControl, InputLabel, Select, MenuItem, FormLabel, Radio, RadioGroup, FormControlLabel } from '@material-ui/core'
+import { Button, Grid, TextField, CircularProgress, FormControl, InputLabel, Select, MenuItem, FormLabel, Radio, RadioGroup, FormControlLabel, makeStyles, Divider } from '@material-ui/core'
 import { checkMyAnimeListAnimeLink, handleSelectData, checkYoutubeLink } from '../../components/pages/functions';
 import { defaultAnimeData } from '../../components/pages/default-props';
 import { getFullAnimeList, updateAnime } from '../../config/api-routes';
 
+const useStyles = makeStyles(theme => ({
+    ImageContainer: {
+        textAlign: "center",
+
+        '& img': {
+            width: "30%"
+        }
+    }
+}))
+
 export default function AnimeUpdate() {
+    const classes = useStyles()
+
     const token = useGlobal("user")[0].token
+    const [mobile] = useGlobal("mobile")
     const [data, setData] = useState([])
     const [currentAnimeData, setCurrentAnimeData] = useState({ ...defaultAnimeData })
     const [loading, setLoading] = useState(true)
@@ -81,6 +94,7 @@ export default function AnimeUpdate() {
                     <InputLabel htmlFor="anime-selector">Düzenleyeceğiniz animeyi seçin</InputLabel>
                     <Select
                         fullWidth
+                        native={mobile ? true : false}
                         value={`${currentAnimeData.name} [${currentAnimeData.version}]`}
                         onChange={handleChange}
                         inputProps={{
@@ -88,7 +102,10 @@ export default function AnimeUpdate() {
                             id: "anime-selector"
                         }}
                     >
-                        {data.map(d => <MenuItem key={d.id} value={`${d.name} [${d.version}]`}>{d.name} [{d.version}]</MenuItem>)}
+                        {mobile ?
+                            data.map(d => <option key={d.id} value={`${d.name} [${d.version}]`}>{d.name} [{d.version}]</option>)
+                            : data.map(d => <MenuItem key={d.id} value={`${d.name} [${d.version}]`}>{d.name} [{d.version}]</MenuItem>)
+                        }
                     </Select>
                 </FormControl>
                 : ""}
@@ -109,7 +126,7 @@ export default function AnimeUpdate() {
                             error={currentAnimeData.mal_link ? checkMyAnimeListAnimeLink(currentAnimeData.mal_link) : false}
                         />
                         <Grid container spacing={2}>
-                            <Grid item xs={12} md={6}>
+                            <Grid item xs={12} md={6} className={classes.ImageContainer}>
                                 <TextField
                                     fullWidth
                                     id="cover_art"
@@ -124,7 +141,7 @@ export default function AnimeUpdate() {
                                     <img src={currentAnimeData.cover_art} alt={"cover_art"} />
                                     : ""}
                             </Grid>
-                            <Grid item xs={12} md={6}>
+                            <Grid item xs={12} md={6} className={classes.ImageContainer}>
                                 <TextField
                                     fullWidth
                                     id="logo"
@@ -139,7 +156,7 @@ export default function AnimeUpdate() {
                                     <img src={currentAnimeData.logo} alt={"logo"} />
                                     : ""}
                             </Grid>
-                            <Grid item xs={12}>
+                            <Grid item xs={12} className={classes.ImageContainer}>
                                 <TextField
                                     fullWidth
                                     id="header"
@@ -154,6 +171,7 @@ export default function AnimeUpdate() {
                                     <img src={currentAnimeData.header} alt={"header"} />
                                     : ""}
                             </Grid>
+                            <Divider />
                             <Grid item xs={12} md={6}>
                                 <TextField
                                     fullWidth
