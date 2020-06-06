@@ -62,12 +62,12 @@ module.exports = [
         }
     },
     {
-        "title": "Bildirim",
-        "main": "see-notification",
+        "title": "MOTD",
+        "main": "see-motd",
         "perms": {
-            "Bildirim Ekle": "add-notification",
-            "Bildirim Güncelle": "update-notification",
-            "Bildirim Sil": "delete-notification"
+            "MOTD Ekle": "add-motd",
+            "MOTD Güncelle": "update-motd",
+            "MOTD Sil": "delete-motd"
         }
     },
     {

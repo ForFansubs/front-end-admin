@@ -143,7 +143,7 @@ export default function PermissionUpdate(props) {
             {currentPermissionData.id ?
                 <Box>
                     <form onSubmit={th => handleDataSubmit(th)} autoComplete="off">
-                        <Grid container spacing={2}>
+                        <Grid container spacing={2} justify="center">
                             <Grid item xs={12} md={6}>
                                 <TextField
                                     fullWidth
@@ -180,7 +180,7 @@ export default function PermissionUpdate(props) {
                                     variant="filled"
                                 />
                             </Grid>
-                            <Grid item xs={12} md={12}>
+                            <Grid item xs={8}>
                                 {PermissionList.map(p => {
                                     const title = p.title || null
                                     const main = p.main || null
@@ -189,7 +189,14 @@ export default function PermissionUpdate(props) {
                                     return (
                                         <Box key={title} mb={4}>
                                             <Box display="flex" justifyContent="space-between" alignItems="center">
-                                                <Typography className={classes.HeaderText} variant="subtitle1" component="h2">{title}</Typography>
+                                                <div>
+                                                    <Typography className={classes.HeaderText} variant="h5" component="h2">{title}</Typography>
+                                                    {PermissionListHelperText[main] ?
+                                                        <Typography variant="subtitle2" className={classes.HelperText}>
+                                                            {PermissionListHelperText[main]}
+                                                        </Typography> :
+                                                        ""}
+                                                </div>
                                                 {main ? <FormControlLabel
                                                     control={
                                                         <Switch
@@ -248,7 +255,14 @@ export default function PermissionUpdate(props) {
                                                     return (
                                                         <Box key={title} mb={4}>
                                                             <Box display="flex" justifyContent="space-between" alignItems="center">
-                                                                <Typography className={classes.HeaderText} variant="subtitle1" component="h2">{title}</Typography>
+                                                                <div>
+                                                                    <Typography className={classes.HeaderText} variant="h5" component="h2">{title}</Typography>
+                                                                    {PermissionListHelperText[main] ?
+                                                                        <Typography variant="subtitle2" className={classes.HelperText}>
+                                                                            {PermissionListHelperText[main]}
+                                                                        </Typography> :
+                                                                        ""}
+                                                                </div>
                                                                 {main ? <FormControlLabel
                                                                     control={
                                                                         <Switch

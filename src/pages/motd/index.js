@@ -22,7 +22,7 @@ export default function () {
     const [error, setError] = useState(false)
 
     useEffect(() => {
-        if (!adminPermList["add-permission"] && !adminPermList["update-permission"] && !adminPermList["delete-permission"]) {
+        if (!adminPermList["add-motd"] && !adminPermList["update-motd"] && !adminPermList["delete-motd"]) {
             setError(true)
         }
     }, [adminPermList, token])
@@ -43,22 +43,22 @@ export default function () {
                     variant="fullWidth"
                     aria-label="Yatay menüler"
                 >
-                    {adminPermList["add-permission"] ? <Tab label="Oluştur" {...a11yProps(0)} /> : ""}
-                    {adminPermList["update-permission"] ? <Tab label="Düzenle" {...a11yProps(1)} /> : ""}
-                    {adminPermList["delete-permission"] ? <Tab label="Sil" {...a11yProps(2)} /> : ""}
+                    {adminPermList["add-motd"] ? <Tab label="Oluştur" {...a11yProps(0)} /> : ""}
+                    {adminPermList["update-motd"] ? <Tab label="Düzenle" {...a11yProps(1)} /> : ""}
+                    {adminPermList["delete-motd"] ? <Tab label="Sil" {...a11yProps(2)} /> : ""}
                 </Tabs>
             </AppBar>
-            {adminPermList["add-permission"] ?
+            {adminPermList["add-motd"] ?
                 <TabPanel value={value} index={0} dir={theme.direction}>
                     {value === 0 ? <PermissionCreate /> : ""}
                 </TabPanel>
                 : ""}
-            {adminPermList["update-permission"] ?
+            {adminPermList["update-motd"] ?
                 <TabPanel value={value} index={1} dir={theme.direction}>
                     {value === 1 ? <PermissionUpdate theme={theme} /> : 0}
                 </TabPanel>
                 : ""}
-            {adminPermList["delete-permission"] ?
+            {adminPermList["delete-motd"] ?
                 <TabPanel value={value} index={2} dir={theme.direction}>
                     {value === 2 ? <PermissionDelete theme={theme} /> : 0}
                 </TabPanel>

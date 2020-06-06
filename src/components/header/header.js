@@ -28,7 +28,7 @@ import {
     homePage,
     episodePage,
     mangaPage,
-    bildirimPage,
+    motdPage,
     userPage,
     permissionPage,
     administrativePage,
@@ -133,10 +133,10 @@ export default function MiniDrawer() {
             icon: <h2>MB</h2>
         },
         {
-            text: "Bildirim",
-            link: bildirimPage,
-            perm: "see-notification",
-            icon: <h2>Bi</h2>
+            text: "MOTD",
+            link: motdPage,
+            perm: "see-motd",
+            icon: <h2>Mo</h2>
         },
         {
             text: "Kullanıcı",

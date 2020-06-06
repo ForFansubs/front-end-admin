@@ -110,6 +110,15 @@ const defaultUserUpdateData = {
     email: ""
 }
 
+const defaultMotdData = {
+    is_active: 1,
+    title: "",
+    subtitle: "",
+    content_type: "",
+    content_id: "",
+    can_user_dismiss: 1
+}
+
 const defaultPermissionData = {
     name: "",
     color: "",
@@ -132,6 +141,7 @@ export {
     defaultMangaData,
     defaultUserData,
     defaultUserUpdateData,
+    defaultMotdData,
     defaultPermissionData,
     defaultPermissionUpdateData
 }

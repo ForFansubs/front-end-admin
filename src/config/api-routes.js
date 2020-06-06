@@ -45,6 +45,12 @@ const updateMangaEpisode = "/manga-bolum/bolum-guncelle" // POST                
 const deleteMangaEpisode = "/manga-bolum/bolum-sil" // POST                         (delete-manga-episode)
 //--------------
 
+//-------------- MANGA EPISODE
+const addMotd = "/motd/motd-ekle" // POST                                           (add-motd)
+const updateMotd = "/motd/motd-guncelle" // POST                                    (update-motd)
+const deleteMotd = "/motd/motd-sil" // POST                                         (delete-motd)
+//--------------
+
 //-------------- USER
 const getFullUserList = "/kullanici/uye-liste" // GET
 const addUser = "/kullanici/kayit/admin" // POST                                    (add-user)
@@ -103,6 +109,8 @@ export {
     addMangaEpisode,
     updateMangaEpisode,
     deleteMangaEpisode,
+    addMotd,
+    deleteMotd,
     getFullUserList,
     addUser,
     updateUser,
