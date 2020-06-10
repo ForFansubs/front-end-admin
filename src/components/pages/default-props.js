@@ -41,7 +41,6 @@ const defaultAnimeData = {
     ta_link: "",
     premiered: "",
     episode_count: 0,
-    getEpisodes: false,
     version: "tv",
     error: false,
     confirm: false,

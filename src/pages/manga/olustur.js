@@ -5,7 +5,7 @@ import axios from '../../config/axios/axios'
 import ToastNotification from '../../components/toastify/toast'
 
 import { Button, Grid, TextField, Divider, makeStyles } from '@material-ui/core'
-import { checkMyAnimeListMangaLink, generalSlugify } from '../../components/pages/functions';
+import { checkMyAnimeListMangaLink } from '../../components/pages/functions';
 import { defaultMangaData } from '../../components/pages/default-props';
 import { jikanIndex, addManga } from '../../config/api-routes';
 
@@ -85,7 +85,7 @@ export default function MangaCreate() {
             episode_count: manga.data.airing ? 0 : manga.data.episodes
         }
 
-        const header = await axios.get(`/header-getir/${generalSlugify(manga.data.title)}?type=manga`).catch(_ => _)
+        const header = await axios.get(`/header-getir?type=manga`, { name: manga.data.title }).catch(_ => _)
 
         if (header.status === 200) {
             newMangaData.header = header.data.header

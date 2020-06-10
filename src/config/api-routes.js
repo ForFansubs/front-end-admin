@@ -45,7 +45,8 @@ const updateMangaEpisode = "/manga-bolum/bolum-guncelle" // POST                
 const deleteMangaEpisode = "/manga-bolum/bolum-sil" // POST                         (delete-manga-episode)
 //--------------
 
-//-------------- MANGA EPISODE
+//-------------- MOTD
+const getFullMotdList = "/motd/admin-liste" // GET                                  (see-motd)
 const addMotd = "/motd/motd-ekle" // POST                                           (add-motd)
 const updateMotd = "/motd/motd-guncelle" // POST                                    (update-motd)
 const deleteMotd = "/motd/motd-sil" // POST                                         (delete-motd)
@@ -63,17 +64,6 @@ const getFullPermissionList = "/yetki/yetki-liste" // GET
 const addPermission = "/yetki/yetki-ekle" // POST                                   (add-permission)
 const updatePermission = "/yetki/yetki-guncelle" // POST                            (update-permission)
 const deletePermission = "/yetki/yetki-sil" // POST                                 (delete-permission)
-//--------------
-
-//-------------- ADMINISTRATIVE
-const forceHeaderOptimize = "/sistem/force-header-optimize/"  // GET                (see-administrative-stuff)
-const forceHeaderUpdate = "/sistem/force-header-update/" // GET                     (see-administrative-stuff)
-const forceAnimeHeaderUpdate = "/sistem/force-anime-header-update/" // GET          (see-administrative-stuff)
-const forceMangaHeaderUpdate = "/sistem/force-manga-header-update/" // GET          (see-administrative-stuff)
-const forceCoverArtUpdate = "/sistem/force-cover_art-update/" // GET                (see-administrative-stuff)
-const forceAnimeCoverArtUpdate = "/sistem/force-anime-cover_art-update/" // GET     (see-administrative-stuff)
-const forceMangaCoverArtUpdate = "/sistem/force-manga-cover_art-update/" // GET     (see-administrative-stuff)
-const forceCFCachePurge = "/sistem/force-cf-cache-purge/" // GET                    (see-administrative-stuff)
 //--------------
 
 const loginRoute = "/kullanici/giris"
@@ -109,7 +99,9 @@ export {
     addMangaEpisode,
     updateMangaEpisode,
     deleteMangaEpisode,
+    getFullMotdList,
     addMotd,
+    updateMotd,
     deleteMotd,
     getFullUserList,
     addUser,
@@ -119,14 +111,6 @@ export {
     addPermission,
     updatePermission,
     deletePermission,
-    forceHeaderOptimize,
-    forceHeaderUpdate,
-    forceAnimeHeaderUpdate,
-    forceMangaHeaderUpdate,
-    forceCoverArtUpdate,
-    forceAnimeCoverArtUpdate,
-    forceMangaCoverArtUpdate,
-    forceCFCachePurge,
     loginRoute,
     jikanIndex
 }

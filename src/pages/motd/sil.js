@@ -1,38 +1,19 @@
 import React, { useState, useEffect } from 'react'
 import { useGlobal } from 'reactn'
 
-import Find from 'lodash-es/find'
 import FindIndex from 'lodash-es/findIndex'
-import PullAt from 'lodash-es/pullAt'
 
 import axios from '../../config/axios/axios'
 import ToastNotification, { payload } from '../../components/toastify/toast'
 
-import { Button, Box, Modal, CircularProgress, FormControl, InputLabel, Select, MenuItem, Typography } from '@material-ui/core'
-import styled from 'styled-components'
-import { defaultPermissionData } from '../../components/pages/default-props';
-import { getFullPermissionList, deletePermission } from '../../config/api-routes';
+import { Button, Grid, Box, Typography } from '@material-ui/core'
+import { getFullMotdList, deleteMotd } from '../../config/api-routes';
+import Markdown from '../../components/markdown/markdown'
 
-const ModalContainer = styled(Box)`
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: ${props => props.theme.breakpoints.values.sm}px;
-
-    @media(max-width:${props => props.theme.breakpoints.values.sm}px) {
-        width: 100%;
-    }
-`
-
-export default function (props) {
-    const { theme } = props
+export default function EpisodeDelete() {
     const token = useGlobal("user")[0].token
-    const [permissionData, setPermissionData] = useState([])
 
-    const [open, setOpen] = useState(false)
-
-    const [currentPermissionData, setCurrentPermissionData] = useState({ ...defaultPermissionData })
+    const [data, setData] = useState([])
     const [loading, setLoading] = useState(true)
 
     useEffect(() => {
@@ -41,102 +22,71 @@ export default function (props) {
                 "Authorization": token
             }
 
-            const res = await axios.get(getFullPermissionList, { headers }).catch(res => res)
+            const res = await axios.get(getFullMotdList, { headers }).catch(res => res)
             if (res.status === 200) {
-                setPermissionData(res.data)
-                setLoading(false)
+                setData(res.data)
+                return setLoading(false)
             }
-            else {
-                setLoading(false)
-            }
+
+            setLoading(false)
         }
 
         fetchData()
     }, [token])
 
-    function handleChange(event) {
-        const newData = Find(permissionData, { name: event.target.value })
+    async function handleDeleteButton(motd_id) {
+        const clickedDataIdx = FindIndex(data, { id: motd_id })
 
-        setCurrentPermissionData({ ...newData })
-        setOpen(true)
-    }
-
-    function handleDeleteButton() {
         const headers = {
             "Authorization": token
         }
 
-        const permissionPostData = {
-            permission_id: currentPermissionData.id
+        const request_body = {
+            motd_id: motd_id,
         }
 
+        const res = await axios.post(deleteMotd, request_body, { headers }).catch(res => res)
 
-        axios.post(deletePermission, permissionPostData, { headers })
-            .then(_ => {
-                const newData = permissionData
-                PullAt(newData, FindIndex(newData, { id: currentPermissionData.id }))
-                handleClose()
-                setCurrentPermissionData({ ...defaultPermissionData })
-                setPermissionData(newData)
-                ToastNotification(payload("success", "Yetki başarıyla silindi."))
-            })
-            .catch(_ => ToastNotification(payload("error", "Yetkiyi silerken bir sorunla karşılaştık.")))
+        if (res.status === 200) {
+            const newData = data
+            newData.splice(clickedDataIdx, 1)
+
+            setData([...newData])
+            ToastNotification(payload("success", res.data.message || "MOTD başarıyla silindi."))
+        }
+
+        else {
+            ToastNotification(payload("error", res.response.data.err || "MOTD silinirken bir sorunla karşılaştık."))
+        }
     }
 
-    function handleClose() {
-        setCurrentPermissionData({ ...defaultPermissionData })
-        setOpen(false)
-    }
-
-    if (loading) {
-        return (
-            <CircularProgress />
-        )
-    }
     return (
         <>
-            {!loading && permissionData.length ?
-                <FormControl fullWidth>
-                    <InputLabel htmlFor="anime-selector">Sileceğiniz kullanıcıyı seçin</InputLabel>
-                    <Select
-                        fullWidth
-                        value={`${currentPermissionData.name}`}
-                        onChange={handleChange}
-                        inputProps={{
-                            name: "anime",
-                            id: "anime-selector"
-                        }}
-                    >
-                        {permissionData.map(d => <MenuItem key={d.id} value={`${d.name}`}>{d.name}</MenuItem>)}
-                    </Select>
-                </FormControl>
+            {!loading && data.length ?
+                <>
+                    <Grid container spacing={2}>
+                        {data.map(e =>
+                            <Grid item xs={12} key={e.id}>
+                                <Box p={1} boxShadow={2} bgcolor="background.level1" display="flex" alignItems="center" justifyContent="space-between">
+                                    <div>
+                                        <Typography variant="h4" gutterBottom>
+                                            {e.title ? e.title : ""}
+                                        </Typography>
+                                        <Markdown>
+                                            {e.subtitle ? e.subtitle : "**Bir sorun var? (Bu bir sistem mesajıdır.)**"}
+                                        </Markdown>
+                                    </div>
+                                    <div>
+                                        <Button variant="contained" color="secondary" size="small" onClick={() => handleDeleteButton(e.id)}>
+                                            Sil
+                                        </Button>
+                                    </div>
+                                </Box>
+                            </Grid>
+                        )}
+                    </Grid>
+                </>
                 : ""}
-            <Modal
-                aria-labelledby="simple-modal-title"
-                aria-describedby="simple-modal-description"
-                open={open}
-                onClose={handleClose}
-            >
-                <ModalContainer theme={theme}>
-                    <Box p={2} bgcolor="background.level2">
-                        <Typography variant="h4"><em>{currentPermissionData.name}</em> kullanıcısını silmek üzeresiniz.</Typography>
-                        <Typography variant="body1">Bu yıkıcı bir komuttur. Yetkinın açtığı tüm konularda "Silinmiş Üye" yazacaktır.</Typography>
-                        <Button
-                            style={{ marginRight: "5px" }}
-                            variant="contained"
-                            color="secondary"
-                            onClick={() => handleDeleteButton(currentPermissionData.slug)}>
-                            Sil
-                        </Button>
-                        <Button
-                            variant="contained"
-                            color="primary"
-                            onClick={handleClose}>
-                            Kapat
-                        </Button>
-                    </Box>
-                </ModalContainer>
-            </Modal>
         </>
     )
 }

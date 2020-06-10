@@ -5,7 +5,7 @@ import axios from '../../config/axios/axios'
 import ToastNotification, { payload } from '../../components/toastify/toast'
 
 import { Button, Grid, TextField, Box, FormControl, FormLabel, RadioGroup, FormControlLabel, Radio, Typography, Divider, makeStyles } from '@material-ui/core'
-import { checkMyAnimeListAnimeLink, generalSlugify, checkYoutubeLink } from '../../components/pages/functions';
+import { checkMyAnimeListAnimeLink, checkYoutubeLink } from '../../components/pages/functions';
 import { defaultAnimeData } from '../../components/pages/default-props';
 import { jikanIndex, addAnime } from '../../config/api-routes';
 
@@ -83,7 +83,7 @@ export default function AnimeCreate() {
             episode_count: anime.data.episodes ? anime.data.episodes : 0,
             pv: anime.data.trailer_url ? anime.data.trailer_url : ""
         }
-        const header = await axios.get(`/header-getir/${generalSlugify(anime.data.title)}`).catch(_ => _)
+        const header = await axios.post(`/header-getir`, { name: anime.data.title }).catch(_ => _)
 
         if (header.status === 200) {
             newAnimeData.header = header.data.header
@@ -366,27 +366,6 @@ export default function AnimeCreate() {
                                 </FormControl>
                             </Grid>
                         </Grid>
-                        <Box textAlign="center">
-                            <Button
-                                variant="contained"
-                                onClick={() => setAnimeData({ ...animeData, getEpisodes: !animeData.getEpisodes })}
-                                color={
-                                    animeData.getEpisodes
-                                        ?
-                                        "primary"
-                                        :
-                                        "secondary"
-                                }
-                            >
-                                {
-                                    animeData.getEpisodes
-                                        ?
-                                        "Bölümleri aç"
-                                        :
-                                        "Bölümleri açma"
-                                }
-                            </Button>
-                        </Box>
                         <Button
                             variant="outlined"
                             color="primary"

@@ -9,7 +9,6 @@ import ToastNotification, { payload } from '../../components/toastify/toast'
 import { Button, Grid, TextField, Box, FormControl, InputLabel, Select, MenuItem, Typography, makeStyles, FormControlLabel, Switch, Divider, FormGroup } from '@material-ui/core'
 import { defaultPermissionUpdateData } from '../../components/pages/default-props';
 import { getFullPermissionList, updatePermission } from '../../config/api-routes';
-import { handleGeneralSlugify } from '../../components/pages/functions'
 
 import PermissionList from '../../config/permission-list'
 import PermissionListHelperText from '../../config/permission-list-helper-text'
@@ -151,19 +150,6 @@ export default function PermissionUpdate(props) {
                                     label="Yetki ismi"
                                     value={currentPermissionData.name}
                                     onChange={handleInputChange("name")}
-                                    margin="normal"
-                                    variant="filled"
-                                    required
-                                />
-                            </Grid>
-                            <Grid item xs={12} md={6}>
-                                <TextField
-                                    fullWidth
-                                    disabled
-                                    id="slug"
-                                    label="Yetki slug"
-                                    value={handleGeneralSlugify(currentPermissionData.name)}
-                                    onChange={handleInputChange("slug")}
                                     margin="normal"
                                     variant="filled"
                                     required

@@ -7,10 +7,10 @@ import Find from 'lodash-es/find'
 import axios from '../../config/axios/axios'
 import ToastNotification, { payload } from '../../components/toastify/toast'
 
-import { Button, Grid, TextField, Box, FormControl, FormLabel, FormControlLabel, InputLabel, Select, MenuItem, FormGroup, Checkbox, Typography, Modal } from '@material-ui/core'
+import { Button, Grid, TextField, Box, FormControl, InputLabel, Select, MenuItem, Typography, Modal } from '@material-ui/core'
 import { defaultEpisodeData, defaultMangaData } from '../../components/pages/default-props';
 import { getFullMangaList, getMangaData, updateMangaEpisode } from '../../config/api-routes';
-import { handleSelectData, handleEpisodeTitleFormat } from '../../components/pages/functions';
+import { handleEpisodeTitleFormat } from '../../components/pages/functions';
 
 const ModalContainer = styled(Box)`
     position: absolute;

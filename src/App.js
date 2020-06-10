@@ -15,7 +15,6 @@ const MangaBolumSayfa = lazy(() => import('./pages/manga_bolum/index'))
 const MotdSayfa = lazy(() => import('./pages/motd/index'))
 const KullaniciSayfa = lazy(() => import('./pages/user/index'))
 const YetkiSayfa = lazy(() => import('./pages/perms/index'))
-const SistemSayfa = lazy(() => import('./pages/sistem/index'))
 const KayitlarSayfa = lazy(() => import('./pages/kayitlar/index'))
 
 function App() {
@@ -52,7 +51,6 @@ function App() {
                     <Route path="/motd" exact component={MotdSayfa} />
                     <Route path="/kullanici" exact component={KullaniciSayfa} />
                     <Route path="/yetki" exact component={YetkiSayfa} />
-                    <Route path="/sistem" exact component={SistemSayfa} />
                     <Route path="/kayitlar" exact component={KayitlarSayfa} />
                   </Suspense>
                 </Switch>

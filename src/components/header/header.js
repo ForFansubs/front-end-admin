@@ -31,7 +31,6 @@ import {
     motdPage,
     userPage,
     permissionPage,
-    administrativePage,
     logsPage,
     mangaBolumPage
 } from '../../config/front-routes'
@@ -149,12 +148,6 @@ export default function MiniDrawer() {
             link: permissionPage,
             perm: "see-permission",
             icon: <h2>Ye</h2>
-        },
-        {
-            text: "Sistem",
-            link: administrativePage,
-            perm: "see-administrative-stuff",
-            icon: <h2>Si</h2>
         },
         {
             text: "Kayıtlar",

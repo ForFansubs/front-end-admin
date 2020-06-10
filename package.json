@@ -16,6 +16,7 @@
     "axios": "^0.19.2",
     "lodash": "^4.17.15",
     "lodash-es": "^4.17.15",
+    "markdown-to-jsx": "^6.11.4",
     "node-sass": "^4.14.1",
     "react": "^16.13.1",
     "react-countup": "^4.3.3",
@@ -28,7 +29,6 @@
     "reactn": "^2.2.7",
     "reactn-devtools": "^1.1.0",
     "redux": "^4.0.5",
-    "remarkable": "^2.0.1",
     "styled-components": "^5.1.1"
   },
   "resolutions": {

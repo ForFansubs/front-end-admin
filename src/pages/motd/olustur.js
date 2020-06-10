@@ -4,14 +4,24 @@ import { useGlobal } from 'reactn'
 import axios from '../../config/axios/axios'
 import Find from 'lodash-es/find'
 import ToastNotification, { payload } from '../../components/toastify/toast'
-import { FixedSizeList } from 'react-window';
 
-import { Button, Grid, TextField, FormControl, FormLabel, RadioGroup, FormControlLabel, Radio, Select, MenuItem, InputLabel, Menu } from '@material-ui/core'
+import { Button, Grid, TextField, FormControl, FormLabel, RadioGroup, FormControlLabel, Radio, Select, MenuItem, InputLabel, makeStyles } from '@material-ui/core'
 import { defaultMotdData } from '../../components/pages/default-props';
 import { addMotd, getFullAnimeList, getFullMangaList, getAnimeData, getMangaData } from '../../config/api-routes';
 import { handleEpisodeTitleFormat } from '../../components/pages/functions'
 
+const useStyles = makeStyles(theme => ({
+    Container: {
+        padding: `0 ${theme.spacing(24)}px`,
+        [theme.breakpoints.down('lg')]: {
+            padding: 0
+        }
+    }
+}))
+
 export default function () {
+    const classes = useStyles()
+
     const token = useGlobal("user")[0].token
     const [motdData, setMotdData] = useState({ ...defaultMotdData })
     const [contentType, setContentType] = useState("")
@@ -154,6 +164,10 @@ export default function () {
 
     function handleParentChange(event) {
         const newData = Find(parentData, { slug: event.target.value })
+
+        if (contentType === "anime" || contentType === "manga")
+            setMotdContentId(newData.id)
+
         setCurrentParentData({ ...newData });
     }
 
@@ -166,6 +180,7 @@ export default function () {
         setMotdContentId("")
         setCurrentParentData({})
         setParentData([])
+        setContentType("")
         setMotdData({ ...defaultMotdData })
     }
 
@@ -173,8 +188,8 @@ export default function () {
         <>
             <>
                 <form onSubmit={th => handleDataSubmit(th)} autoComplete="off">
-                    <Grid container spacing={2}>
-                        <Grid item xs={12} md={6}>
+                    <Grid container spacing={2} className={classes.Container}>
+                        <Grid item xs={12}>
                             <TextField
                                 fullWidth
                                 id="title"
@@ -185,12 +200,14 @@ export default function () {
                                 variant="filled"
                             />
                         </Grid>
-                        {
-                            // TODO: Bu inputu markdown olarak al. Ön tarafta ona göre ayar yap.  
-                        }
-                        <Grid item xs={12} md={6}>
+                        <Grid item xs={12}>
+                            {
+                                // TODO: Markdown editor
+                            }
                             <TextField
                                 fullWidth
+                                rows={5}
+                                rowsMax={10}
                                 id="subtitle"
                                 label="MOTD İçerik"
                                 multiline
@@ -200,6 +217,7 @@ export default function () {
                                 margin="normal"
                                 variant="filled"
                                 required
+                                helperText="Markdown ve basit HTML destekler. https://probablyup.com/markdown-to-jsx/"
                             />
                         </Grid>
                         <Grid item xs={12} md={6}>
@@ -215,11 +233,11 @@ export default function () {
                                         id: "content-type"
                                     }}
                                 >
-                                    <MenuItem value="">Hiçbiri</MenuItem>
+                                    <MenuItem value="">Hiçbiri (Ana sayfa)</MenuItem>
                                     <MenuItem value="anime">Anime</MenuItem>
                                     <MenuItem value="manga">Manga</MenuItem>
-                                    <MenuItem value="bolum">Anime Bölüm</MenuItem>
-                                    <MenuItem value="manga-bolum">Manga Bölüm</MenuItem>
+                                    <MenuItem value="episode">Anime Bölüm</MenuItem>
+                                    <MenuItem value="manga-episode">Manga Bölüm</MenuItem>
                                 </Select>
                             </FormControl>
                         </Grid>
