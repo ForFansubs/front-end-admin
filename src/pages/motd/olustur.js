@@ -62,7 +62,7 @@ export default function () {
                     }
                     break
                 }
-                case "bolum": {
+                case "episode": {
                     const res = await axios.get(getFullAnimeList, { headers }).catch(res => res)
                     if (res.status === 200) {
                         setParentData(res.data)
@@ -72,7 +72,7 @@ export default function () {
                     }
                     break
                 }
-                case "manga-bolum": {
+                case "manga-episode": {
                     const res = await axios.get(getFullMangaList, { headers }).catch(res => res)
                     if (res.status === 200) {
                         setParentData(res.data)
@@ -100,7 +100,7 @@ export default function () {
             }
 
             switch (contentType) {
-                case "bolum": {
+                case "episode": {
                     const res = await axios.get(getAnimeData(currentParentData.slug), { headers }).catch(res => res)
                     if (res.status === 200 && res.data.episodes.length !== 0) {
                         setChildData(res.data.episodes)
@@ -110,7 +110,7 @@ export default function () {
                     }
                     break
                 }
-                case "manga-bolum": {
+                case "manga-episode": {
                     const res = await axios.get(getMangaData(currentParentData.slug), { headers }).catch(res => res)
                     if (res.status === 200 && res.data.episodes.length !== 0) {
                         setChildData(res.data.episodes)
