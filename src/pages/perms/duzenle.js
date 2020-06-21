@@ -43,7 +43,7 @@ export default function PermissionUpdate(props) {
                 res.data.map((r, i) => {
                     let { permission_set } = r
                     let list = {}
-                    JSON.parse(permission_set).map(n => {
+                    permission_set.map(n => {
                         list[n] = true
                     })
                     res.data[i].permission_set = { ...defaultPermissionUpdateData.permission_set, ...list }
@@ -155,7 +155,7 @@ export default function PermissionUpdate(props) {
                                     required
                                 />
                             </Grid>
-                            <Grid item xs={12} md={12}>
+                            <Grid item xs={12} md={6}>
                                 <TextField
                                     fullWidth
                                     id="color"
