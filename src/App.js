@@ -23,6 +23,7 @@ function App() {
   const getOnline = useDispatch('getOnline')
   const checkMobile = useDispatch('checkMobile')
   const checkJikanStatus = useDispatch('checkJikanStatus')
+  const logoutHandler = useDispatch('logoutHandler')
   const [online] = useGlobal('online')
   const [isAdmin] = useGlobal('isAdmin')
   const [isAdminChecked] = useGlobal('isAdminChecked')
@@ -58,8 +59,13 @@ function App() {
             </Router>
           )
         }
-        else {
-          window.location.replace(process.env.REACT_APP_SITEURL);
+        else if (!user.token && !isAdmin) {
+          logoutHandler()
+          window.location.replace(process.env.REACT_APP_SITEURL)
+          return (
+            <>Bu sayfaya girme yetkiniz yok!</>
+          )
+
         }
       }
       else return (
