@@ -87,12 +87,5 @@ module.exports = [
             "Rol Güncelle": "update-permission",
             "Rol Sil": "delete-permission"
         }
-    },
-    {
-        "title": "Sistem",
-        "main": "see-administrative-stuff",
-        "perms": {
-
-        }
     }
 ]
