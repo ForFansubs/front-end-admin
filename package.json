@@ -1,6 +1,6 @@
 {
   "name": "forfansubsadmin",
-  "version": "3.0.0beta1",
+  "version": "3.0.0",
   "private": true,
   "homepage": "/admin",
   "dependencies": {
