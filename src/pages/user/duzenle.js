@@ -10,7 +10,6 @@ import ToastNotification, { payload } from '../../components/toastify/toast'
 import { Button, Grid, TextField, Box, FormControl, InputLabel, Select, MenuItem, Modal } from '@material-ui/core'
 import { defaultUserUpdateData } from '../../components/pages/default-props';
 import { getFullUserList, updateUser } from '../../config/api-routes';
-import { handleGeneralSlugify } from '../../components/pages/functions'
 
 const ModalContainer = styled(Box)`
     position: absolute;
@@ -93,11 +92,11 @@ export default function UserUpdate(props) {
             setUserData([...newUserDataSet])
             setCurrentUserData({ ...defaultUserUpdateData })
             handleClose()
-            ToastNotification(payload("process-success", "success", res.data.message || "Kullanıcı bilgileri başarıyla değiştirildi."))
+            ToastNotification(payload("success", res.data.message || "Kullanıcı bilgileri başarıyla değiştirildi."))
         }
 
         else {
-            ToastNotification(payload("process-error", "error", res.response.data.err || "Kullanıcı bilgileri değiştirilirken bir sorunla karşılaştık."))
+            ToastNotification(payload("error", res.response.data.err || "Kullanıcı bilgileri değiştirilirken bir sorunla karşılaştık."))
         }
     }
 
@@ -141,19 +140,6 @@ export default function UserUpdate(props) {
                                         label="Kullanıcı ismi"
                                         value={currentUserData.name}
                                         onChange={handleInputChange("name")}
-                                        margin="normal"
-                                        variant="filled"
-                                        required
-                                    />
-                                </Grid>
-                                <Grid item xs={12} md={6}>
-                                    <TextField
-                                        fullWidth
-                                        disabled
-                                        id="slug"
-                                        label="Kullanıcı slug"
-                                        value={handleGeneralSlugify(currentUserData.name)}
-                                        onChange={handleInputChange("slug")}
                                         margin="normal"
                                         variant="filled"
                                         required

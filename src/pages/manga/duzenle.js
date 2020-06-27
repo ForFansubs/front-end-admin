@@ -5,12 +5,24 @@ import FindIndex from 'lodash-es/findIndex'
 import axios from '../../config/axios/axios'
 import ToastNotification, { payload } from '../../components/toastify/toast'
 
-import { Button, Grid, TextField, CircularProgress, FormControl, InputLabel, Select, MenuItem } from '@material-ui/core'
+import { Button, Grid, TextField, CircularProgress, FormControl, InputLabel, Select, MenuItem, Divider, makeStyles } from '@material-ui/core'
 import { checkMyAnimeListMangaLink } from '../../components/pages/functions';
 import { defaultMangaData } from '../../components/pages/default-props';
 import { getFullMangaList, updateManga } from '../../config/api-routes';
 
+const useStyles = makeStyles(theme => ({
+    ImageContainer: {
+        textAlign: "center",
+
+        '& img': {
+            width: "30%"
+        }
+    }
+}))
+
 export default function MangaUpdate() {
+    const classes = useStyles()
+
     const token = useGlobal("user")[0].token
     const [data, setData] = useState([])
     const [currentMangaData, setCurrentMangaData] = useState({ ...defaultMangaData })
@@ -57,10 +69,10 @@ export default function MangaUpdate() {
         axios.post(updateManga, newData, { headers })
             .then(_ => {
                 clearData()
-                ToastNotification(payload("process-success", "success", "Manga başarıyla güncellendi."))
+                ToastNotification(payload("success", "Manga başarıyla güncellendi."))
             })
             .catch(_ => {
-                ToastNotification(payload("process-error", "error", "Mangayı güncellerken bir sorunla karşılaştık."))
+                ToastNotification(payload("error", "Mangayı güncellerken bir sorunla karşılaştık."))
             })
     }
 
@@ -109,7 +121,7 @@ export default function MangaUpdate() {
                             error={currentMangaData.mal_link ? checkMyAnimeListMangaLink(currentMangaData.mal_link) : false}
                         />
                         <Grid container spacing={2}>
-                            <Grid item xs={12} md={6}>
+                            <Grid item xs={12} md={6} className={classes.ImageContainer}>
                                 <TextField
                                     fullWidth
                                     id="cover_art"
@@ -120,8 +132,26 @@ export default function MangaUpdate() {
                                     variant="filled"
                                     required
                                 />
+                                {currentMangaData.cover_art ?
+                                    <img src={currentMangaData.cover_art} alt={"cover_art"} />
+                                    : ""}
                             </Grid>
-                            <Grid item xs={12} md={6}>
+                            <Grid item xs={12} md={6} className={classes.ImageContainer}>
+                                <TextField
+                                    fullWidth
+                                    id="logo"
+                                    label="Manga logo resmi"
+                                    value={currentMangaData.logo || undefined}
+                                    onChange={handleInputChange("logo")}
+                                    margin="normal"
+                                    variant="filled"
+                                    helperText="- koyarak diskteki resmi silebilirsiniz."
+                                />
+                                {currentMangaData.logo ?
+                                    <img src={currentMangaData.logo} alt={"logo"} />
+                                    : ""}
+                            </Grid>
+                            <Grid item xs={12} className={classes.ImageContainer}>
                                 <TextField
                                     fullWidth
                                     id="header"
@@ -130,8 +160,13 @@ export default function MangaUpdate() {
                                     onChange={handleInputChange("header")}
                                     margin="normal"
                                     variant="filled"
+                                    helperText="- koyarak diskteki resmi silebilirsiniz."
                                 />
+                                {currentMangaData.header ?
+                                    <img src={currentMangaData.header} alt={"header"} />
+                                    : ""}
                             </Grid>
+                            <Divider />
                             <Grid item xs={12} md={6}>
                                 <TextField
                                     fullWidth

@@ -10,8 +10,6 @@ import Tab from '@material-ui/core/Tab';
 import EpisodeCreate from './olustur'
 import EpisodeUpdate from './duzenle'
 import EpisodeDelete from './sil'
-import EpisodeWatchLinkIndex from './izlemelinkiindex'
-import EpisodeDownloadLinkIndex from './indirmelinkiindex'
 
 import { a11yProps, TabPanel } from "../../components/pages/default-components";
 
@@ -24,7 +22,7 @@ export default function VerticalTabs() {
     const [error, setError] = useState(false)
 
     useEffect(() => {
-        if (!adminPermList["add-episode"] && !adminPermList["update-episode"] && !adminPermList["delete-episode"]) {
+        if (!adminPermList["add-manga-episode"] && !adminPermList["update-manga-episode"] && !adminPermList["delete-manga-episode"]) {
             setError(true)
         }
     }, [adminPermList, token])
@@ -45,36 +43,24 @@ export default function VerticalTabs() {
                     variant="fullWidth"
                     aria-label="Yatay menüler"
                 >
-                    <Tab disabled={!adminPermList["add-episode"]} style={!adminPermList["add-episode"] ? { display: "none" } : null} label="Oluştur" {...a11yProps(0)} />
-                    <Tab disabled={!adminPermList["update-episode"]} style={!adminPermList["update-episode"] ? { display: "none" } : null} label="Düzenle" {...a11yProps(1)} />
-                    <Tab disabled={!adminPermList["delete-episode"]} style={!adminPermList["delete-episode"] ? { display: "none" } : null} label="Sil" {...a11yProps(2)} />
-                    <Tab disabled={!adminPermList["see-watch-link"]} style={!adminPermList["see-watch-link"] ? { display: "none" } : null} label="İzleme" {...a11yProps(3)} />
-                    <Tab disabled={!adminPermList["see-download-link"]} style={!adminPermList["see-download-link"] ? { display: "none" } : null} label="İndirme" {...a11yProps(4)} />
+                    <Tab disabled={!adminPermList["add-manga-episode"]} style={!adminPermList["add-manga-episode"] ? { display: "none" } : null} label="Oluştur" {...a11yProps(0)} />
+                    <Tab disabled={!adminPermList["update-manga-episode"]} style={!adminPermList["update-manga-episode"] ? { display: "none" } : null} label="Düzenle" {...a11yProps(1)} />
+                    <Tab disabled={!adminPermList["delete-manga-episode"]} style={!adminPermList["delete-manga-episode"] ? { display: "none" } : null} label="Sil" {...a11yProps(2)} />
                 </Tabs>
             </AppBar>
-            {adminPermList["add-episode"] && value === 0 ?
+            {adminPermList["add-manga-episode"] && value === 0 ?
                 <TabPanel value={value} index={0} dir={theme.direction}>
                     <EpisodeCreate />
                 </TabPanel>
                 : <></>}
-            {adminPermList["update-episode"] && value === 1 ?
+            {adminPermList["update-manga-episode"] && value === 1 ?
                 <TabPanel value={value} index={1} dir={theme.direction}>
                     <EpisodeUpdate theme={theme} />
                 </TabPanel>
                 : <></>}
-            {adminPermList["delete-episode"] && value === 2 ?
+            {adminPermList["delete-manga-episode"] && value === 2 ?
                 <TabPanel value={value} index={2} dir={theme.direction}>
                     <EpisodeDelete theme={theme} />
-                </TabPanel>
-                : <></>}
-            {adminPermList["add-watch-link"] && value === 3 ?
-                <TabPanel value={value} index={3} dir={theme.direction}>
-                    <EpisodeWatchLinkIndex />
-                </TabPanel>
-                : <></>}
-            {adminPermList["add-download-link"] && value === 4 ?
-                <TabPanel value={value} index={4} dir={theme.direction}>
-                    <EpisodeDownloadLinkIndex />
                 </TabPanel>
                 : <></>}
         </>

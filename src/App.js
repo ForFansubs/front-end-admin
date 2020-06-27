@@ -11,9 +11,10 @@ const IndexSayfa = lazy(() => import('./pages/index/index'))
 const AnimeSayfa = lazy(() => import('./pages/anime/index'))
 const BolumSayfa = lazy(() => import('./pages/bolum/index'))
 const MangaSayfa = lazy(() => import('./pages/manga/index'))
+const MangaBolumSayfa = lazy(() => import('./pages/manga_bolum/index'))
+const MotdSayfa = lazy(() => import('./pages/motd/index'))
 const KullaniciSayfa = lazy(() => import('./pages/user/index'))
 const YetkiSayfa = lazy(() => import('./pages/perms/index'))
-const SistemSayfa = lazy(() => import('./pages/sistem/index'))
 const KayitlarSayfa = lazy(() => import('./pages/kayitlar/index'))
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
   const getOnline = useDispatch('getOnline')
   const checkMobile = useDispatch('checkMobile')
   const checkJikanStatus = useDispatch('checkJikanStatus')
+  const logoutHandler = useDispatch('logoutHandler')
   const [online] = useGlobal('online')
   const [isAdmin] = useGlobal('isAdmin')
   const [isAdminChecked] = useGlobal('isAdminChecked')
@@ -46,18 +48,24 @@ function App() {
                     <Route path="/anime" exact component={AnimeSayfa} />
                     <Route path="/bolum" exact component={BolumSayfa} />
                     <Route path="/manga" exact component={MangaSayfa} />
+                    <Route path="/manga-bolum" exact component={MangaBolumSayfa} />
+                    <Route path="/motd" exact component={MotdSayfa} />
                     <Route path="/kullanici" exact component={KullaniciSayfa} />
                     <Route path="/yetki" exact component={YetkiSayfa} />
-                    <Route path="/sistem" exact component={SistemSayfa} />
-                    <Route path="/kayitlar" exact component={KayitlarSayfa}/>
+                    <Route path="/kayitlar" exact component={KayitlarSayfa} />
                   </Suspense>
                 </Switch>
               </Wrapper>
             </Router>
           )
         }
-        else {
-          window.location.replace(process.env.REACT_APP_SITEURL);
+        else if (!user.token && !isAdmin) {
+          logoutHandler()
+          window.location.replace(process.env.REACT_APP_SITEURL)
+          return (
+            <>Bu sayfaya girme yetkiniz yok!</>
+          )
+
         }
       }
       else return (

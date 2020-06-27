@@ -6,6 +6,7 @@ const getFullLogs = "/logs" // GET                                              
 const getAnimeData = (slug) => `/anime/${slug}/admin-view` // GET                   (update-anime)
 const getFullAnimeList = "/anime/admin-liste" // GET                                (see-admin-page)
 const getFullFeaturedAnimeList = "/anime/admin-featured-anime" // GET               (featured-anime)
+const getMangaData = (slug) => `/manga/${slug}/admin-view`
 
 //-------------- ANIME
 const addAnime = "/anime/anime-ekle" // POST                                        (add-anime)
@@ -38,6 +39,19 @@ const updateManga = "/manga/manga-guncelle" // POST                             
 const deleteManga = "/manga/manga-sil" // POST                                      (delete-manga)
 //--------------
 
+//-------------- MANGA EPISODE
+const addMangaEpisode = "/manga-bolum/bolum-ekle" // POST                           (add-manga-episode)
+const updateMangaEpisode = "/manga-bolum/bolum-guncelle" // POST                    (update-manga-episode)
+const deleteMangaEpisode = "/manga-bolum/bolum-sil" // POST                         (delete-manga-episode)
+//--------------
+
+//-------------- MOTD
+const getFullMotdList = "/motd/admin-liste" // GET                                  (see-motd)
+const addMotd = "/motd/motd-ekle" // POST                                           (add-motd)
+const updateMotd = "/motd/motd-guncelle" // POST                                    (update-motd)
+const deleteMotd = "/motd/motd-sil" // POST                                         (delete-motd)
+//--------------
+
 //-------------- USER
 const getFullUserList = "/kullanici/uye-liste" // GET
 const addUser = "/kullanici/kayit/admin" // POST                                    (add-user)
@@ -52,17 +66,6 @@ const updatePermission = "/yetki/yetki-guncelle" // POST                        
 const deletePermission = "/yetki/yetki-sil" // POST                                 (delete-permission)
 //--------------
 
-//-------------- ADMINISTRATIVE
-const forceHeaderOptimize = "/sistem/force-header-optimize/"  // GET                (see-administrative-stuff)
-const forceHeaderUpdate = "/sistem/force-header-update/" // GET                     (see-administrative-stuff)
-const forceAnimeHeaderUpdate = "/sistem/force-anime-header-update/" // GET          (see-administrative-stuff)
-const forceMangaHeaderUpdate = "/sistem/force-manga-header-update/" // GET          (see-administrative-stuff)
-const forceCoverArtUpdate = "/sistem/force-cover_art-update/" // GET                (see-administrative-stuff)
-const forceAnimeCoverArtUpdate = "/sistem/force-anime-cover_art-update/" // GET     (see-administrative-stuff)
-const forceMangaCoverArtUpdate = "/sistem/force-manga-cover_art-update/" // GET     (see-administrative-stuff)
-const forceCFCachePurge = "/sistem/force-cf-cache-purge/" // GET                    (see-administrative-stuff)
-//--------------
-
 const loginRoute = "/kullanici/giris"
 const jikanIndex = "https://api.jikan.moe/v3"
 
@@ -73,6 +76,7 @@ export {
     getAnimeData,
     getFullAnimeList,
     getFullFeaturedAnimeList,
+    getMangaData,
     addAnime,
     updateAnime,
     deleteAnime,
@@ -92,6 +96,13 @@ export {
     addManga,
     updateManga,
     deleteManga,
+    addMangaEpisode,
+    updateMangaEpisode,
+    deleteMangaEpisode,
+    getFullMotdList,
+    addMotd,
+    updateMotd,
+    deleteMotd,
     getFullUserList,
     addUser,
     updateUser,
@@ -100,14 +111,6 @@ export {
     addPermission,
     updatePermission,
     deletePermission,
-    forceHeaderOptimize,
-    forceHeaderUpdate,
-    forceAnimeHeaderUpdate,
-    forceMangaHeaderUpdate,
-    forceCoverArtUpdate,
-    forceAnimeCoverArtUpdate,
-    forceMangaCoverArtUpdate,
-    forceCFCachePurge,
     loginRoute,
     jikanIndex
 }

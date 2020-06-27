@@ -7,13 +7,10 @@ import Find from 'lodash-es/find'
 import axios from '../../config/axios/axios'
 import ToastNotification, { payload } from '../../components/toastify/toast'
 
-import { Button, Grid, TextField, Box, FormControl, FormLabel, FormControlLabel, InputLabel, Select, MenuItem, FormGroup, Checkbox, Typography, Modal } from '@material-ui/core'
-import { defaultEpisodeData, defaultAnimeData } from '../../components/pages/default-props';
-import { getFullAnimeList, getAnimeData, updateEpisode } from '../../config/api-routes';
-import { handleSelectData, handleEpisodeTitleFormat } from '../../components/pages/functions';
-
-import VisibilityIcon from '@material-ui/icons/Visibility'
-import VisibilityOffIcon from '@material-ui/icons/VisibilityOff'
+import { Button, Grid, TextField, Box, FormControl, InputLabel, Select, MenuItem, Typography, Modal } from '@material-ui/core'
+import { defaultEpisodeData, defaultMangaData } from '../../components/pages/default-props';
+import { getFullMangaList, getMangaData, updateMangaEpisode } from '../../config/api-routes';
+import { handleEpisodeTitleFormat } from '../../components/pages/functions';
 
 const ModalContainer = styled(Box)`
     position: absolute;
@@ -35,7 +32,7 @@ export default function EpisodeUpdate(props) {
     const [open, setOpen] = useState(false)
 
     const [data, setData] = useState([])
-    const [currentAnimeData, setCurrentAnimeData] = useState({ ...defaultAnimeData })
+    const [currentMangaData, setCurrentMangaData] = useState({ ...defaultMangaData })
     const [episodeData, setEpisodeData] = useState([])
     const [currentEpisodeData, setCurrentEpisodeData] = useState({ ...defaultEpisodeData })
     const [loading, setLoading] = useState(true)
@@ -46,7 +43,7 @@ export default function EpisodeUpdate(props) {
                 "Authorization": token
             }
 
-            const res = await axios.get(getFullAnimeList, { headers }).catch(res => res)
+            const res = await axios.get(getFullMangaList, { headers }).catch(res => res)
             if (res.status === 200) {
                 setData(res.data)
                 return setLoading(false)
@@ -63,50 +60,15 @@ export default function EpisodeUpdate(props) {
             "Authorization": token
         }
 
-        const getEpisode = await axios.get(getAnimeData(data.slug), { headers }).catch(res => res)
+        const getEpisode = await axios.get(getMangaData(data.slug), { headers }).catch(res => res)
 
-        if (getEpisode.status === 200 && getEpisode.data.episodes.length) {
+        if (getEpisode.status === 200) {
+            if (!getEpisode.data.episodes.length) return ToastNotification(payload("error", "Bu manganın ekli herhangi bir bölümü yok."))
             setEpisodeData(getEpisode.data.episodes)
         }
 
         else {
             ToastNotification(payload("error", "Bölüm bilgilerini getirirken bir sorun oluştu."))
-        }
-    }
-
-    async function handleVisibilityButtonClick(episode_id) {
-        let clickedEpisodeDataIndex = null
-
-        for (var i = 0; i < episodeData.length; i++) {
-            if (episodeData[i].id === episode_id) {
-                clickedEpisodeDataIndex = i
-                break;
-            }
-        }
-
-        const clickedEpisodeData = episodeData[clickedEpisodeDataIndex]
-
-        const headers = {
-            "Authorization": token
-        }
-
-        const data = {
-            request: "update-visibility",
-            id: clickedEpisodeData.id,
-            value: Number(!clickedEpisodeData.can_user_download)
-        }
-
-        const res = await axios.post(updateEpisode, data, { headers }).catch(res => res)
-
-        if (res.status === 200) {
-            const newEpisodeDataSet = episodeData
-            newEpisodeDataSet[clickedEpisodeDataIndex].can_user_download = data.value
-            setEpisodeData(oldData => ([...newEpisodeDataSet]))
-            ToastNotification(payload("success", res.data.message || "Görünürlük başarıyla değiştirildi."))
-        }
-
-        else {
-            ToastNotification(payload("error", res.response.data.err || "Görünürlük değiştirilirken bir sorunla karşılaştık."))
         }
     }
 
@@ -127,12 +89,11 @@ export default function EpisodeUpdate(props) {
     }
 
     function handleChange(event) {
-        const animeData = handleSelectData(event.target.value)
-        const newData = Find(data, { name: animeData.name, version: animeData.version })
+        const newData = Find(data, { slug: event.target.value })
 
         getEpisodeData(newData)
 
-        setCurrentAnimeData({ ...newData });
+        setCurrentMangaData({ ...newData });
     }
 
     const handleInputChange = name => event => {
@@ -145,7 +106,7 @@ export default function EpisodeUpdate(props) {
 
     async function handleDataSubmit(th) {
         th.preventDefault()
-        if (currentAnimeData.slug === "") return
+        if (currentMangaData.slug === "") return
 
         let clickedEpisodeDataIndex = null
 
@@ -159,14 +120,14 @@ export default function EpisodeUpdate(props) {
         const data = {
             ...currentEpisodeData,
             request: "update-data",
-            anime_id: currentAnimeData.id
+            manga_id: currentMangaData.id
         }
 
         const headers = {
             "Authorization": token
         }
 
-        const res = await axios.post(updateEpisode, data, { headers }).catch(res => res)
+        const res = await axios.post(updateMangaEpisode, data, { headers }).catch(res => res)
 
         if (res.status === 200) {
             const newEpisodeDataSet = episodeData
@@ -190,17 +151,17 @@ export default function EpisodeUpdate(props) {
         <>
             {!loading && data.length ?
                 <FormControl fullWidth>
-                    <InputLabel htmlFor="anime-selector">Bölümünü düzenleyeceğiniz animeyi seçin</InputLabel>
+                    <InputLabel htmlFor="manga-selector">Bölümünü düzenleyeceğiniz mangayı seçin</InputLabel>
                     <Select
                         fullWidth
-                        value={`${currentAnimeData.name} [${currentAnimeData.version}]`}
+                        value={currentMangaData.slug}
                         onChange={handleChange}
                         inputProps={{
-                            name: "anime",
-                            id: "anime-selector"
+                            name: "manga",
+                            id: "manga-selector"
                         }}
                     >
-                        {data.map(d => <MenuItem key={d.id} value={`${d.name} [${d.version}]`}>{d.name} [{d.version}]</MenuItem>)}
+                        {data.map(d => <MenuItem key={d.id} value={`${d.slug}`}>{d.name}</MenuItem>)}
                     </Select>
                 </FormControl>
                 : ""}
@@ -213,16 +174,6 @@ export default function EpisodeUpdate(props) {
                                     <Typography variant="h6">{handleEpisodeTitleFormat(e)}</Typography>
                                     <div>
                                         <Button size="small" onClick={() => handleUpdateButtonClick(e.id)}>Düzenle</Button>
-
-                                        <Button size="small" onClick={() => handleVisibilityButtonClick(e.id)}>
-                                            {
-                                                e.can_user_download === 1
-                                                    ?
-                                                    <VisibilityIcon />
-                                                    :
-                                                    <VisibilityOffIcon />
-                                            }
-                                        </Button>
                                     </div>
                                 </Box>
                             </Grid>
@@ -264,48 +215,26 @@ export default function EpisodeUpdate(props) {
                                         variant="filled"
                                     />
                                 </Grid>
-                                <Grid item xs={12} style={{ textAlign: "center" }}>
-                                    <FormLabel component="legend">Bölüm Özel Türü</FormLabel>
-                                    <FormGroup row style={{ display: "flex", justifyContent: "center" }}>
-                                        <FormControlLabel
-                                            disabled
-                                            control={
-                                                <Checkbox
-                                                    checked={currentEpisodeData.special_type === "ova" ? true : false}
-                                                    value="ova"
-                                                />
-                                            }
-                                            label="OVA"
-                                        />
-                                        <FormControlLabel
-                                            disabled
-                                            control={
-                                                <Checkbox
-                                                    checked={currentEpisodeData.special_type === "film" ? true : false}
-                                                    value="film"
-                                                />
-                                            }
-                                            label="Film"
-                                        />
-                                        <FormControlLabel
-                                            disabled
-                                            control={
-                                                <Checkbox
-                                                    checked={currentEpisodeData.special_type === "toplu" ? true : false}
-                                                    value="toplu"
-                                                />
-                                            }
-                                            label="Toplu Link"
-                                        />
-                                    </FormGroup>
+                                <Grid item xs={12}>
+                                    <TextField
+                                        fullWidth
+                                        id="episode_name"
+                                        label="Bölüm ismi"
+                                        value={currentEpisodeData.episode_name}
+                                        onChange={handleInputChange("episode_name")}
+                                        margin="normal"
+                                        variant="filled"
+                                    />
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <Button
+                                        variant="outlined"
+                                        color="primary"
+                                        type="submit">
+                                        Kaydet
+                                </Button>
                                 </Grid>
                             </Grid>
-                            <Button
-                                variant="outlined"
-                                color="primary"
-                                type="submit">
-                                Kaydet
-                            </Button>
                         </form>
                     </Box>
                 </ModalContainer>

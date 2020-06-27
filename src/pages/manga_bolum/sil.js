@@ -9,9 +9,9 @@ import axios from '../../config/axios/axios'
 import ToastNotification, { payload } from '../../components/toastify/toast'
 
 import { Button, Grid, Box, FormControl, InputLabel, Select, MenuItem, Typography, Modal } from '@material-ui/core'
-import { defaultEpisodeData, defaultAnimeData } from '../../components/pages/default-props';
-import { getFullAnimeList, getAnimeData, deleteEpisode } from '../../config/api-routes';
-import { handleSelectData, handleEpisodeTitleFormat } from '../../components/pages/functions';
+import { defaultEpisodeData, defaultMangaData } from '../../components/pages/default-props';
+import { getFullMangaList, getMangaData, deleteMangaEpisode } from '../../config/api-routes';
+import { handleEpisodeTitleFormat } from '../../components/pages/functions';
 
 const ModalContainer = styled(Box)`
     position: absolute;
@@ -33,7 +33,7 @@ export default function EpisodeDelete(props) {
     const [open, setOpen] = useState(false)
 
     const [data, setData] = useState([])
-    const [currentAnimeData, setCurrentAnimeData] = useState({ ...defaultAnimeData })
+    const [currentMangaData, setCurrentMangaData] = useState({ ...defaultMangaData })
     const [episodeData, setEpisodeData] = useState([])
     const [currentEpisodeData, setCurrentEpisodeData] = useState({ ...defaultEpisodeData })
     const [loading, setLoading] = useState(true)
@@ -44,7 +44,7 @@ export default function EpisodeDelete(props) {
                 "Authorization": token
             }
 
-            const res = await axios.get(getFullAnimeList, { headers }).catch(res => res)
+            const res = await axios.get(getFullMangaList, { headers }).catch(res => res)
             if (res.status === 200) {
                 setData(res.data)
                 return setLoading(false)
@@ -61,9 +61,10 @@ export default function EpisodeDelete(props) {
             "Authorization": token
         }
 
-        const getEpisode = await axios.get(getAnimeData(data.slug), { headers }).catch(res => res)
+        const getEpisode = await axios.get(getMangaData(data.slug), { headers }).catch(res => res)
 
-        if (getEpisode.status === 200 && getEpisode.data.episodes.length) {
+        if (getEpisode.status === 200) {
+            if (!getEpisode.data.episodes.length) return ToastNotification(payload("error", "Bu manganın ekli herhangi bir bölümü yok."))
             setEpisodeData(getEpisode.data.episodes)
         }
 
@@ -73,12 +74,11 @@ export default function EpisodeDelete(props) {
     }
 
     function handleChange(event) {
-        const animeData = handleSelectData(event.target.value)
-        const newData = Find(data, { name: animeData.name, version: animeData.version })
-
+        const newData = Find(data, { id: event.target.value })
+        console.log(event.target.value)
         getEpisodeData(newData)
 
-        setCurrentAnimeData({ ...newData });
+        setCurrentMangaData({ ...newData });
     }
 
     async function handleDeleteButton(episode_id) {
@@ -90,7 +90,7 @@ export default function EpisodeDelete(props) {
             "Authorization": token
         }
 
-        const res = await axios.post(deleteEpisode, data, { headers }).catch(res => res)
+        const res = await axios.post(deleteMangaEpisode, data, { headers }).catch(res => res)
 
         if (res.status === 200) {
             const newEpisodeDataSet = episodeData
@@ -107,7 +107,7 @@ export default function EpisodeDelete(props) {
     }
 
     function handleDeleteModalButton(id) {
-        if (currentAnimeData.slug === "") return
+        if (currentMangaData.slug === "") return
 
         let clickedEpisodeDataIndex = null
 
@@ -135,17 +135,17 @@ export default function EpisodeDelete(props) {
         <>
             {!loading && data.length ?
                 <FormControl fullWidth>
-                    <InputLabel htmlFor="anime-selector">Bölümünü sileceğiniz animeyi seçin</InputLabel>
+                    <InputLabel htmlFor="manga-selector">Bölümünü sileceğiniz mangayi seçin</InputLabel>
                     <Select
                         fullWidth
-                        value={`${currentAnimeData.name} [${currentAnimeData.version}]`}
+                        value={currentMangaData.id}
                         onChange={handleChange}
                         inputProps={{
-                            name: "anime",
-                            id: "anime-selector"
+                            name: "manga",
+                            id: "manga-selector"
                         }}
                     >
-                        {data.map(d => <MenuItem key={d.id} value={`${d.name} [${d.version}]`}>{d.name} [{d.version}]</MenuItem>)}
+                        {data.map(d => <MenuItem key={d.id} value={d.id}>{d.name}</MenuItem>)}
                     </Select>
                 </FormControl>
                 : ""}
@@ -173,7 +173,7 @@ export default function EpisodeDelete(props) {
             >
                 <ModalContainer theme={theme}>
                     <Box p={2} bgcolor="background.level2">
-                        <Typography variant="h4"><em>{currentAnimeData.name}</em> {handleEpisodeTitleFormat(currentEpisodeData)} - bölümünü silmek üzeresiniz.</Typography>
+                        <Typography variant="h4"><em>{currentMangaData.name}</em> {handleEpisodeTitleFormat(currentEpisodeData)} - bölümünü silmek üzeresiniz.</Typography>
                         <Button
                             style={{ marginRight: "5px" }}
                             variant="contained"

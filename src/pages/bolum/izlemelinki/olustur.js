@@ -50,7 +50,7 @@ export default function WatchlinkCreate() {
         }
 
         else {
-            ToastNotification(payload("process-error", "error", "Bölüm bilgilerini getirirken bir sorun oluştu."))
+            ToastNotification(payload("error", "Bölüm bilgilerini getirirken bir sorun oluştu."))
         }
     }
 
@@ -109,11 +109,11 @@ export default function WatchlinkCreate() {
             newEpisodeDataSet[clickedEpisodeDataIndex] = currentEpisodeData
             setEpisodeData(oldData => ([...newEpisodeDataSet]))
 
-            ToastNotification(payload("process-success", "success", res.data.message || "İzleme linki başarıyla eklendi."))
+            ToastNotification(payload("success", res.data.message || "İzleme linki başarıyla eklendi."))
         }
 
         else {
-            ToastNotification(payload("process-error", "error", res.response.data.err || "İzleme linkini eklerken bir sorunla karşılaştık."))
+            ToastNotification(payload("error", res.response.data.err || "İzleme linkini eklerken bir sorunla karşılaştık."))
         }
     }
 

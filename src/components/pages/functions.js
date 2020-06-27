@@ -5,6 +5,13 @@ const checkMyAnimeListAnimeLink = function (link) {
     else return true
 }
 
+const checkYoutubeLink = function (link) {
+    const regex = /^(https?\:\/\/)?((www\.)?youtube\.com|youtu\.?be)\/.+$/
+
+    if (link.match(regex)) return false
+    else return true
+}
+
 const checkMyAnimeListMangaLink = function (link) {
     const regex = /(http|https):\/\/+myanimelist.net\/manga\/\d+([\w\-\.,@?^=%&amp;:/~\+#]*[\w\-\@?^=%&amp;/~\+#])?/ // eslint-disable-line
     if (link === "-") return false
@@ -17,17 +24,6 @@ const checkTurkAnimeLink = function (link) {
     if (link === "-") return false
     if (link.match(regex)) return false
     else return true
-}
-
-const generalSlugify = function (text) {
-    return text.toString().toLowerCase().replace(/\s+/g, '-')
-        // eslint-disable-next-line
-        .replace(/[^\w\-]+/g, '')
-        // eslint-disable-next-line
-        .replace(/\-\-+/g, '-')
-        // eslint-disable-next-line
-        .replace(/^-+/, '')
-        .replace(/-+$/, '')
 }
 
 const handleSelectData = (value) => {
@@ -115,32 +111,13 @@ const handleEpisodeTitleFormat = (data) => {
     else return `${episode_number}. Bölüm`
 }
 
-const handleGeneralSlugify = text => {
-    const a = 'àáäâèéëêìíïîòóöôùúüûñçßÿœæŕśńṕẃǵǹḿǘẍźḧ♭·/_,:;'
-    const b = 'aaaaeeeeiiiioooouuuuncsyoarsnpwgnmuxzhf------'
-    const p = new RegExp(a.split('').join('|'), 'g')
-
-    return text.toString().toLowerCase()
-        .replace(/\s+/g, '-') // Replace spaces with -
-        .replace(p, c =>
-            b.charAt(a.indexOf(c))) // Replace special chars
-        .replace(/&/g, '') // Replace & with 'and'
-        // eslint-disable-next-line
-        .replace(/[^\w\-]+/g, '') // Remove all non-word chars
-        // eslint-disable-next-line
-        .replace(/\-\-+/g, '-') // Replace multiple - with single -
-        .replace(/^-+/, '') // Trim - from start of text
-        .replace(/-+$/, '') // Trim - from end of text
-}
-
 export {
     checkMyAnimeListAnimeLink,
     checkMyAnimeListMangaLink,
+    checkYoutubeLink,
     checkTurkAnimeLink,
-    generalSlugify,
     handleSelectData,
     handleFeaturedSelectData,
     handleEpisodeSelectData,
-    handleEpisodeTitleFormat,
-    handleGeneralSlugify
+    handleEpisodeTitleFormat
 }
