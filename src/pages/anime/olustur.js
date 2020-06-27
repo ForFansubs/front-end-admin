@@ -83,11 +83,7 @@ export default function AnimeCreate() {
             episode_count: anime.data.episodes ? anime.data.episodes : 0,
             pv: anime.data.trailer_url ? anime.data.trailer_url : ""
         }
-<<<<<<< HEAD
-        const header = await axios.get(`/header-getir/${generalSlugify(anime.data.title)}`).catch(_ => _)
-=======
         const header = await axios.post(`/header-getir`, { name: anime.data.title }).catch(_ => _)
->>>>>>> beta
 
         if (header.status === 200) {
             newAnimeData.header = header.data.header
