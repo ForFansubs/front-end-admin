@@ -44,8 +44,7 @@ function getLatestAiredEpisode(release_date) {
 }
 
 function getNextEpisodeDate(release_date) {
-    console.log(add(new Date(release_date), { weeks: getLatestAiredEpisode(release_date) }))
-    return add(new Date(release_date), { weeks: getLatestAiredEpisode(release_date) })
+    return add(new Date(release_date), { weeks: getLatestAiredEpisode(release_date) + 1 })
 }
 
 const cellStyle = {
