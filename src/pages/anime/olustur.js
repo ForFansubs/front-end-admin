@@ -77,7 +77,7 @@ export default function AnimeCreate() {
             series_status: anime.data.status ? anime.data.status : false,
             release_date: date ? date : Date.now(),
             studios: studyolar.length !== 0 ? studyolar.join(',') : [],
-            genres: turler !== 0 ? turler.join(',') : [],
+            genres: turler.length ? turler.join(',') : [],
             airing: anime.data.airing ? anime.data.airing : false,
             premiered: anime.data.premiered ? anime.data.premiered : "",
             episode_count: anime.data.episodes ? anime.data.episodes : 0,
