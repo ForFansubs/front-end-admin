@@ -3,12 +3,11 @@ const indexURL = "/" // GET                                                     
 const isAdmin = "/kullanici/adminpage?withprops=true" // GET                        (see-admin-page)
 const getFullLogs = "/logs" // GET                                                  (see-logs)
 
-const getAnimeData = (slug) => `/anime/${slug}/admin-view` // GET                   (update-anime)
+//-------------- ANIME
 const getFullAnimeList = "/anime/admin-liste" // GET                                (see-admin-page)
 const getFullFeaturedAnimeList = "/anime/admin-featured-anime" // GET               (featured-anime)
-const getMangaData = (slug) => `/manga/${slug}/admin-view`
+const getAnimeData = (slug) => `/anime/${slug}/admin-view` // GET                   (see-anime)
 
-//-------------- ANIME
 const addAnime = "/anime/anime-ekle" // POST                                        (add-anime)
 const updateAnime = "/anime/anime-guncelle" // POST                                 (update-anime)
 const deleteAnime = "/anime/anime-sil" // POST                                      (delete-anime)
@@ -33,6 +32,8 @@ const deleteDownloadlink = "/bolum/indirme-linki-sil" // POST                   
 //--------------
 
 //-------------- MANGA
+const getMangaData = (slug) => `/manga/${slug}/admin-view` // GET                   (see-manga)        
+
 const getFullMangaList = "/manga/admin-liste" // GET                                (see-admin-page)
 const addManga = "/manga/manga-ekle" // POST                                        (add-manga)
 const updateManga = "/manga/manga-guncelle" // POST                                 (update-manga)

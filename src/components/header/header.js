@@ -28,6 +28,7 @@ import {
     homePage,
     episodePage,
     mangaPage,
+    contentListPage,
     motdPage,
     userPage,
     permissionPage,
@@ -129,6 +130,12 @@ export default function MiniDrawer() {
             text: "Manga Bölüm",
             link: mangaBolumPage,
             perm: "see-manga-episode",
+            icon: <h2>MB</h2>
+        },
+        {
+            text: "İçerik Listesi",
+            link: contentListPage,
+            perm: "see-content-list",
             icon: <h2>MB</h2>
         },
         {

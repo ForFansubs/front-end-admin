@@ -88,7 +88,7 @@ export default function MangaUpdate() {
 
     return (
         <>
-            {!loading && data.length ?
+            {!loading && data.length ? // lgtm [js/trivial-conditional]
                 <FormControl fullWidth>
                     <InputLabel htmlFor="manga-selector">Düzenleyeceğiniz mangayı seçin</InputLabel>
                     <Select

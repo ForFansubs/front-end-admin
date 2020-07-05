@@ -4,7 +4,7 @@ import { useGlobal } from 'reactn'
 import axios from '../../config/axios/axios'
 import ToastNotification, { payload } from '../../components/toastify/toast'
 
-import { Button, Grid, TextField, Box, FormControl, FormLabel, RadioGroup, FormControlLabel, Radio, Typography, Divider, makeStyles } from '@material-ui/core'
+import { Button, Grid, TextField, FormControl, FormLabel, RadioGroup, FormControlLabel, Radio, Divider, makeStyles } from '@material-ui/core'
 import { checkMyAnimeListAnimeLink, checkYoutubeLink } from '../../components/pages/functions';
 import { defaultAnimeData } from '../../components/pages/default-props';
 import { jikanIndex, addAnime } from '../../config/api-routes';
@@ -76,8 +76,8 @@ export default function AnimeCreate() {
             name: anime.data.title ? anime.data.title : "",
             series_status: anime.data.status ? anime.data.status : false,
             release_date: date ? date : Date.now(),
-            studios: studyolar ? studyolar.join(',') : [],
-            genres: turler ? turler.join(',') : [],
+            studios: studyolar.length !== 0 ? studyolar.join(',') : [],
+            genres: turler !== 0 ? turler.join(',') : [],
             airing: anime.data.airing ? anime.data.airing : false,
             premiered: anime.data.premiered ? anime.data.premiered : "",
             episode_count: anime.data.episodes ? anime.data.episodes : 0,

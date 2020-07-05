@@ -1,6 +1,6 @@
 {
   "name": "forfansubsadmin",
-  "version": "3.0.0",
+  "version": "3.1.0",
   "private": true,
   "homepage": "/admin",
   "dependencies": {
@@ -14,9 +14,11 @@
     "@material-ui/lab": "^4.0.0-alpha.55",
     "@material-ui/styles": "^4.10.0",
     "axios": "^0.19.2",
+    "date-fns": "^2.14.0",
     "lodash": "^4.17.15",
     "lodash-es": "^4.17.15",
     "markdown-to-jsx": "^6.11.4",
+    "material-table": "^1.63.1",
     "node-sass": "^4.14.1",
     "react": "^16.13.1",
     "react-countup": "^4.3.3",

@@ -12,6 +12,7 @@ const AnimeSayfa = lazy(() => import('./pages/anime/index'))
 const BolumSayfa = lazy(() => import('./pages/bolum/index'))
 const MangaSayfa = lazy(() => import('./pages/manga/index'))
 const MangaBolumSayfa = lazy(() => import('./pages/manga_bolum/index'))
+const IcerikListeSayfa = lazy(() => import('./pages/icerik-liste/index'))
 const MotdSayfa = lazy(() => import('./pages/motd/index'))
 const KullaniciSayfa = lazy(() => import('./pages/user/index'))
 const YetkiSayfa = lazy(() => import('./pages/perms/index'))
@@ -49,6 +50,7 @@ function App() {
                     <Route path="/bolum" exact component={BolumSayfa} />
                     <Route path="/manga" exact component={MangaSayfa} />
                     <Route path="/manga-bolum" exact component={MangaBolumSayfa} />
+                    <Route path="/icerik-listesi" exact component={IcerikListeSayfa} />
                     <Route path="/motd" exact component={MotdSayfa} />
                     <Route path="/kullanici" exact component={KullaniciSayfa} />
                     <Route path="/yetki" exact component={YetkiSayfa} />
@@ -59,7 +61,7 @@ function App() {
             </Router>
           )
         }
-        else if (!user.token && !isAdmin) {
+        else if (!user.token && isAdmin === false) {
           logoutHandler()
           window.location.replace(process.env.REACT_APP_SITEURL)
           return (

@@ -28,10 +28,8 @@ const checkTurkAnimeLink = function (link) {
 
 const handleSelectData = (value) => {
     const bdregex = /\[bd\]/
-    let data = {
-        version: "",
-        name: ""
-    }
+    let data = {}
+
     if (value.match(bdregex)) {
         data = {
             version: "bd",
@@ -50,10 +48,8 @@ const handleSelectData = (value) => {
 const handleFeaturedSelectData = (featuredAnimes) => {
     const bdregex = /\[bd\]/
     const animeData = featuredAnimes.map(f => {
-        let data = {
-            version: "",
-            name: ""
-        }
+        let data = {}
+
         if (f.match(bdregex)) {
             data = {
                 version: "bd",

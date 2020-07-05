@@ -89,7 +89,7 @@ export default function AnimeUpdate() {
     }
     return (
         <>
-            {!loading && data.length ?
+            {!loading && data.length ? // lgtm [js/trivial-conditional]
                 <FormControl fullWidth>
                     <InputLabel htmlFor="anime-selector">Düzenleyeceğiniz animeyi seçin</InputLabel>
                     <Select

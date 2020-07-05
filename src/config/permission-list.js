@@ -62,6 +62,14 @@ module.exports = [
         }
     },
     {
+        "title": "İçerik Listesi",
+        "main": "see-content-list",
+        "perms": {
+            "Anime Liste Yetkisi": "see-anime-list",
+            "Manga Liste Yetkisi": "see-manga-list",
+        }
+    },
+    {
         "title": "MOTD",
         "main": "see-motd",
         "perms": {
