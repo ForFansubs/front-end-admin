@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useGlobal } from 'reactn'
 
 import Find from 'lodash-es/find'
+import IsEmpty from 'lodash-es/isEmpty'
 
 import axios from '../../../config/axios/axios'
 import ToastNotification, { payload } from '../../../components/toastify/toast'
@@ -19,6 +20,7 @@ export default function DownloadlinkCreate() {
     const [episodeData, setEpisodeData] = useState([])
     const [currentEpisodeData, setCurrentEpisodeData] = useState({ ...defaultEpisodeData })
     const [loading, setLoading] = useState(true)
+    const [linkError, setLinkError] = useState(false)
 
     useEffect(() => {
         const fetchData = async () => {
@@ -71,6 +73,8 @@ export default function DownloadlinkCreate() {
     }
 
     const handleInputChange = name => event => {
+        if (linkError) setLinkError(false)
+
         if (name === "special_type") {
             if (event.target.value === currentEpisodeData.special_type) return setCurrentEpisodeData(oldData => ({ ...oldData, special_type: "" }))
         }
@@ -110,6 +114,16 @@ export default function DownloadlinkCreate() {
             setEpisodeData(oldData => ([...newEpisodeDataSet]))
 
             ToastNotification(payload("success", res.data.message || "İndirme linki başarıyla eklendi."))
+            setCurrentEpisodeData(state => ({ ...state, link: "" }))
+            if (!IsEmpty(res.data.errors)) {
+                let links = ""
+                setLinkError(true)
+                for (const [key, value] of Object.entries(res.data.errors)) {
+                    links = `${links ? `${links}\n` : links}${key} --- ${value}`
+                }
+
+                setCurrentEpisodeData(state => ({ ...state, link: links }))
+            }
         }
 
         else {
@@ -158,10 +172,15 @@ export default function DownloadlinkCreate() {
                             fullWidth
                             id="link"
                             label="Link"
+                            error={linkError}
                             value={currentEpisodeData.link}
                             onChange={handleInputChange("link")}
                             margin="normal"
                             variant="filled"
+                            helperText={linkError ? "Hatalı linkler var!" : "Buraya birden fazla link koyabilirsiniz. Her link kendine ait satırda olmalıdır."}
+                            multiline
+                            rows={4}
+                            rowsMax={20}
                             required
                         />
                         <Button
