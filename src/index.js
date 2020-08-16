@@ -1,9 +1,10 @@
 import React, { setGlobal, addReducer } from 'reactn'
 import ReactDOM from 'react-dom';
-import addReactNDevTools from 'reactn-devtools'
 import { indexURL, isAdmin, jikanIndex } from './config/api-routes'
 import axios from './config/axios/axios'
 import Lang from 'lodash/lang'
+import { settings, user } from './config/localStorage'
+import i18next from './config/i18n'
 
 import { ThemeProvider } from '@material-ui/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -11,29 +12,7 @@ import theme from './config/theme/index'
 
 import './index.scss';
 import App from './App';
-import * as serviceWorker from './serviceWorker';
-
-addReactNDevTools()
-
-//Try reading localStorage before using it
-try {
-    JSON.parse(localStorage.getItem("app-settings"))
-} catch (err) {
-    if (err) localStorage.removeItem("app-settings")
-}
-
-try {
-    const user_data = JSON.parse(localStorage.getItem("user"))
-    if (user_data.exp < Date.now()) {
-        localStorage.removeItem("user")
-    }
-} catch (err) {
-    if (err) localStorage.removeItem("user")
-}
-
-//Get existing localstorage for later use
-const settings = localStorage.getItem("app-settings") ? JSON.parse(localStorage.getItem("app-settings")) : {}
-const user = localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : {}
+import { I18nextProvider } from 'react-i18next';
 
 //Set global variables & reducers via reactn package
 setGlobal({
@@ -49,23 +28,27 @@ setGlobal({
     isAdminChecked: false,
     adminPermList: [],
     statistics: {},
+    settings: {
+        ...settings
+    },
     jikanStatus: {
         status: false,
         version: ""
     },
-    theme: settings.theme ? settings.theme : "dark",
+    theme: "dark",
     mobile: false
 })
 
 addReducer('getOnline', (global, dispatch) => {
     axios.get(indexURL)
-        .then(_ => {
-            dispatch.setOnline(true)
+        .then(res => {
+            console.log(res.data)
+            dispatch.setOnline(res.data)
             if (!Lang.isEmpty(user)) {
                 dispatch.checkAdmin(user.token)
             }
         })
-        .catch(_ => dispatch.setOnline(false))
+        .catch(_ => dispatch.setOnline(null))
 })
 
 addReducer('checkMobile', (global, dispatch, navigator) => {
@@ -74,9 +57,19 @@ addReducer('checkMobile', (global, dispatch, navigator) => {
     return ({ mobile: check })
 })
 
-addReducer('setOnline', (global, dispatch, status) => ({
-    online: status
-}))
+addReducer('setOnline', (global, dispatch, data) => {
+    if (!data) return ({ online: false })
+    else {
+        dispatch.setVersions({
+            version: data.version,
+            "release-name": data["release-name"]
+        }
+        )
+        return ({
+            online: true
+        })
+    }
+})
 
 addReducer('loginHandler', (global, dispatch, userData) => {
     const data = {
@@ -143,6 +136,7 @@ addReducer('setStatistics', (global, dispatch, data) => {
         ANIME_COUNT: data.ANIME_COUNT,
         DOWNLOADLINK_COUNT: data.DOWNLOADLINK_COUNT,
         EPISODE_COUNT: data.EPISODE_COUNT,
+        MANGA_EPISODE_COUNT: data.MANGA_EPISODE_COUNT,
         MANGA_COUNT: data.MANGA_COUNT,
         WATCHLINK_COUNT: data.WATCHLINK_COUNT,
         USER_COUNT: data.USER_COUNT
@@ -160,22 +154,31 @@ addReducer('setJikanStatus', (global, dispatch, status) => {
     return ({ jikanStatus: status })
 })
 
+addReducer('setVersions', (global, dispatch, versions) => {
+    var settings = global.settings
+
+    settings = { ...settings, ...versions }
+
+    localStorage.setItem('app-settings', JSON.stringify(settings))
+    return ({ settings: settings })
+})
+
+localStorage.setItem("app-settings", JSON.stringify(settings))
 
 function Mount() {
     window.site_theme = theme
 
     return (
-        <ThemeProvider theme={theme}>
-            <CssBaseline>
-                <App />
-            </CssBaseline>
-        </ThemeProvider>
+        <React.StrictMode>
+            <ThemeProvider theme={theme}>
+                <CssBaseline>
+                    <I18nextProvider i18n={i18next}>
+                        <App />
+                    </I18nextProvider>
+                </CssBaseline>
+            </ThemeProvider>
+        </React.StrictMode>
     )
 }
 
 ReactDOM.render(<Mount />, document.getElementById('app-mount'))
-
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();

@@ -1,26 +1,19 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link, NavLink } from 'react-router-dom'
-import { useGlobal } from 'reactn'
+import { useGlobal, } from 'reactn'
+import { useTranslation } from "react-i18next";
+import Footer from '../footer/footer'
 
+import { useStyles } from './styles'
 import clsx from 'clsx'
 import useTheme from '@material-ui/styles/useTheme'
-import makeStyles from '@material-ui/styles/makeStyles'
-import AppBar from '@material-ui/core/AppBar'
-import Toolbar from '@material-ui/core/Toolbar'
-import List from '@material-ui/core/List'
-import SwipeableDrawer from '@material-ui/core/SwipeableDrawer'
-import CssBaseline from '@material-ui/core/CssBaseline'
-import Divider from '@material-ui/core/Divider'
-import IconButton from '@material-ui/core/IconButton'
-import MenuIcon from '@material-ui/icons/Menu'
-import ListItem from '@material-ui/core/ListItem'
-import ListItemIcon from '@material-ui/core/ListItemIcon'
-import ListItemText from '@material-ui/core/ListItemText'
-import Typography from '@material-ui/core/Typography'
+import { Drawer, AppBar, Toolbar, List, Divider, ListItem, ListItemIcon, ListItemText, Typography, MenuItem, Menu, Box, IconButton } from '@material-ui/core'
 
-import HomeIcon from '@material-ui/icons/Home'
+import MenuIcon from '@material-ui/icons/Menu'
+import HomeIcon from '@material-ui/icons/Home';
+import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
+import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import PublicIcon from '@material-ui/icons/Public'
-import AccountCircle from '@material-ui/icons/AccountCircle'
 
 import {
     indexPage,
@@ -34,193 +27,164 @@ import {
     logsPage,
     mangaBolumPage
 } from '../../config/front-routes'
-import { fullLogo, fullLogoGif } from '../../config/theme/images'
-
-const useStyles = makeStyles(theme => ({
-    root: {
-        display: 'flex',
-    },
-    appBar: {
-        zIndex: theme.zIndex.drawer + 1,
-        backgroundColor: theme.palette.background.level2,
-        transition: theme.transitions.create(['width', 'margin'], {
-            easing: theme.transitions.easing.sharp,
-            duration: theme.transitions.duration.leavingScreen,
-        }),
-    },
-    appBarShift: {
-        width: `100%`,
-        transition: theme.transitions.create(['width', 'margin'], {
-            easing: theme.transitions.easing.sharp,
-            duration: theme.transitions.duration.enteringScreen,
-        }),
-    },
-    menuButton: {
-        color: theme.palette.text.primary,
-        [theme.breakpoints.down('sm')]: {
-            marginRight: 10,
-        },
-        marginRight: 36,
-    },
-    toolbar: {
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'flex-end',
-        padding: '0 8px',
-        ...theme.mixins.toolbar,
-    },
-    content: {
-        flexGrow: 1,
-        padding: theme.spacing(3),
-    },
-    logoContainer: {
-        display: "flex",
-        flexGrow: 1,
-    },
-    logo: {
-        height: "40px"
-    },
-    ListItemText: {
-        fontSize: ".8rem!important"
-    },
-    list: {
-        width: 250,
-    },
-    fullList: {
-        width: 'auto',
-    }
-}));
+import { fullLogo } from '../../config/theme/images'
+import { AccountCircle } from '@material-ui/icons';
 
 export default function MiniDrawer() {
+    const { t } = useTranslation('components')
     const classes = useStyles();
     const theme = useTheme();
     // eslint-disable-next-line
     const [userInfo] = useGlobal('user')
+    const [settings] = useGlobal('settings')
     const [adminPermList] = useGlobal('adminPermList')
     const iOS = process.browser && /iPad|iPhone|iPod/.test(navigator.userAgent)
 
-    const [open, setOpen] = React.useState(false);
-    const [menuItems] = React.useState([
+    const [open, setOpen] = useState(false);
+    const [menuItems, setMenuItems] = useState([])
+    const [menuItems2] = useState([
         {
-            text: "Ana sayfa",
-            link: indexPage,
-            perm: false,
-            icon: <HomeIcon />
-        },
-        {
-            text: "Anime",
-            link: animePage,
-            perm: "see-anime",
-            icon: <h2>An</h2>
-        },
-        {
-            text: "Bölüm",
-            link: episodePage,
-            perm: "see-episode",
-            icon: <h2>Bö</h2>
-        },
-        {
-            text: "Manga",
-            link: mangaPage,
-            perm: "see-manga",
-            icon: <h2>Ma</h2>
-        },
-        {
-            text: "Manga Bölüm",
-            link: mangaBolumPage,
-            perm: "see-manga-episode",
-            icon: <h2>MB</h2>
-        },
-        {
-            text: "MOTD",
-            link: motdPage,
-            perm: "see-motd",
-            icon: <h2>Mo</h2>
-        },
-        {
-            text: "Kullanıcı",
-            link: userPage,
-            perm: "see-user",
-            icon: <h2>Ku</h2>
-        },
-        {
-            text: "Yetki",
-            link: permissionPage,
-            perm: "see-permission",
-            icon: <h2>Ye</h2>
-        },
-        {
-            text: "Kayıtlar",
-            link: logsPage,
-            perm: "see-logs",
-            icon: <h2>Ka</h2>
-        }
-    ])
-    const [menuItems2] = React.useState([
-        {
-            text: "Siteye dön",
+            text: t('header.go_back_to_site.default'),
+            shortText: t('header.go_back_to_site.short'),
             link: homePage,
             icon: <PublicIcon />
         }
     ])
 
-    function handleDrawerOpen() {
-        setOpen(true);
-    }
+    useEffect(() => {
+        setMenuItems([
+            {
+                text: t('header.homepage.default'),
+                shortText: t('header.homepage.short'),
+                link: indexPage,
+                perm: false,
+                icon: <HomeIcon />
+            },
+            {
+                text: t('header.anime.default'),
+                shortText: t('header.anime.short'),
+                link: animePage,
+                perm: "see-anime",
+                icon: <h2>{t('header.anime.logo')}</h2>
+            },
+            {
+                text: t('header.episode.default'),
+                shortText: t('header.episode.short'),
+                link: episodePage,
+                perm: "see-episode",
+                icon: <h2>{t('header.episode.logo')}</h2>
+            },
+            {
+                text: t('header.manga.default'),
+                shortText: t('header.manga.short'),
+                link: mangaPage,
+                perm: "see-manga",
+                icon: <h2>{t('header.manga.logo')}</h2>
+            },
+            {
+                text: t('header.manga_episode.default'),
+                shortText: t('header.manga_episode.short'),
+                link: mangaBolumPage,
+                perm: "see-manga-episode",
+                icon: <h2>{t('header.manga_episode.logo')}</h2>
+            },
+            {
+                text: t('header.motd.default'),
+                shortText: t('header.motd.short'),
+                link: motdPage,
+                perm: "see-motd",
+                icon: <h2>{t('header.motd.logo')}</h2>
+            },
+            {
+                text: t('header.user.default'),
+                shortText: t('header.user.short'),
+                link: userPage,
+                perm: "see-user",
+                icon: <h2>{t('header.user.logo')}</h2>
+            },
+            {
+                text: t('header.role.default'),
+                shortText: t('header.role.short'),
+                link: permissionPage,
+                perm: "see-permission",
+                icon: <h2>{t('header.role.logo')}</h2>
+            },
+            {
+                text: t('header.logs.default'),
+                shortText: t('header.logs.short'),
+                link: logsPage,
+                perm: "see-logs",
+                icon: <h2>{t('header.logs.logo')}</h2>
+            }
+        ])
+    }, [settings.language])
+
+    const handleDrawerState = () => {
+        setOpen(state => !state);
+    };
 
     function handleDrawerClose() {
         setOpen(false);
     }
 
-    const toggleDrawer = (open) => event => {
-        if (event && event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
-            return;
-        }
-
-        setOpen(open);
-    };
-
     function SidePanel() {
         return (
-            <div
-                className={classes.list}
-                role="presentation"
-                onClick={toggleDrawer(false)}
-                onKeyDown={toggleDrawer(false)}
-            >
+            <>
+                <div className={classes.toolbar}>
+                    <IconButton onClick={handleDrawerClose}>
+                        {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+                    </IconButton>
+                </div>
+                <Divider />
                 <List>
-                    {menuItems.map((item, index) => adminPermList[item.perm] || item.perm === false ?
+                    {menuItems.map(item =>
                         (
-                            <NavLink to={item.link} exact onClick={handleDrawerClose} activeStyle={{ backgroundColor: theme.palette.background.level2 }} key={item.text}>
-                                <ListItem button style={{ backgroundColor: "inherit" }}>
-                                    <ListItemIcon style={{ color: theme.palette.text.primary }}>{item.icon}</ListItemIcon>
+                            <NavLink exact to={item.link} onClick={handleDrawerClose} activeClassName={classes.Active} key={item.text}>
+                                <ListItem className={classes.ListItem} button>
+                                    <Box className={classes.iconContainer}>
+                                        <ListItemIcon className={classes.ListItemIcon}>{item.icon}</ListItemIcon>
+                                        <Typography variant="subtitle2" className={classes.shortText}>{item.shortText || item.text}</Typography>
+                                    </Box>
                                     <ListItemText className={classes.ListItemText}><Typography variant="body2">{item.text}</Typography></ListItemText>
                                 </ListItem>
                             </NavLink>
-                        )
-                        :
-                        "")}
+                        ))}
                 </List>
                 <Divider />
-                <List>
-                    {menuItems2.map((item, index) => (
-                        <a href={item.link} key={item.text}>
-                            <ListItem button>
-                                <ListItemIcon style={{ color: theme.palette.text.primary }}>{item.icon}</ListItemIcon>
-                                <ListItemText className={classes.ListItemText}><Typography variant="body2">{item.text}</Typography></ListItemText>
-                            </ListItem>
-                        </a>
-                    ))}
-                </List>
-            </div>
+                {
+                    menuItems2.length ?
+                        <>
+                            <List>
+                                {menuItems2.map(item => (
+                                    <a href={item.link} target="_blank" rel="noopener noreferrer" className={classes.secondary} key={item.title}>
+                                        <ListItem className={classes.ListItem} button style={{ backgroundColor: "inherit" }}>
+                                            <Box className={classes.iconContainer}>
+                                                <ListItemIcon className={classes.ListItemIcon}>{item.icon}</ListItemIcon>
+                                                <Typography variant="subtitle2" className={classes.shortText}>{item.shortText}</Typography>
+                                            </Box>
+                                            <ListItemText className={classes.ListItemText}><Typography variant="body2">{item.text}</Typography></ListItemText>
+                                        </ListItem>
+                                    </a>
+                                ))}
+                            </List>
+                            <Divider />
+                        </>
+                        :
+                        ""
+                }
+                <div className={clsx(classes.hide, {
+                    [classes.footerDisplay]: open,
+                })}>
+                    <Footer />
+                </div>
+            </>
         )
     }
 
     return (
         <div className={classes.root}>
-            <CssBaseline />
             <AppBar
-                color="primary"
+                color="default"
                 position="fixed"
                 className={clsx(classes.appBar, {
                     [classes.appBarShift]: open,
@@ -230,20 +194,17 @@ export default function MiniDrawer() {
                     <IconButton
                         color="inherit"
                         aria-label="Open drawer"
-                        onClick={handleDrawerOpen}
+                        onClick={handleDrawerState}
                         edge="start"
                         className={classes.menuButton}
                     >
                         <MenuIcon />
                     </IconButton>
-                    <Link to={indexPage} className={classes.logoContainer}>
-                        {
-                            process.env.REACT_APP_HEADER_LOGO_TYPE === "gif" && fullLogoGif !== null ?
-                                <img title="Site logo" loading="lazy" className={classes.logo} src={fullLogoGif} alt="Site Logo" />
-                                :
-                                <img title="Site logo" loading="lazy" className={classes.logo} src={fullLogo} alt="Site Logo" />
-                        }
-                    </Link>
+                    <div className={classes.logoContainer}>
+                        <Link to={indexPage} style={{ display: "flex" }}>
+                            <img title="Site logo" loading="lazy" className={classes.logo} src={fullLogo} alt="Site Logo" />
+                        </Link>
+                    </div>
                     <div style={{ padding: "12px", display: "flex", alignItems: "center" }}>
                         {userInfo.success ?
                             userInfo.avatar ?
@@ -256,15 +217,21 @@ export default function MiniDrawer() {
                     </div>
                 </Toolbar>
             </AppBar>
-            <SwipeableDrawer
-                open={open}
-                onClose={toggleDrawer(false)}
-                onOpen={toggleDrawer(true)}
-                hysteresis={0.01}
-                disableBackdropTransition={!iOS}
-                disableDiscovery={iOS}
-            ><SidePanel /></SwipeableDrawer>
-
+            <Drawer
+                variant="permanent"
+                className={clsx(classes.drawer, {
+                    [classes.drawerOpen]: open,
+                    [classes.drawerClose]: !open,
+                })}
+                classes={{
+                    paper: clsx(classes.SidePanel, {
+                        [classes.drawerOpen]: open,
+                        [classes.drawerClose]: !open,
+                    }),
+                }}
+            >
+                <SidePanel />
+            </Drawer>
         </div >
-    )
+    );
 }
