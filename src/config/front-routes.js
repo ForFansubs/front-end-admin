@@ -8,7 +8,7 @@ const userPage = "/kullanici"
 const permissionPage = "/yetki"
 const administrativePage = "/sistem"
 const logsPage = "/kayitlar"
-const homePage = process.env.NODE_ENV === "development" ? `http://192.168.1.100:3000` : `/`
+const homePage = process.env.NODE_ENV === "development" ? process.env.REACT_APP_SITEURL : `/`
 
 export {
     indexPage,

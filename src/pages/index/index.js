@@ -132,6 +132,29 @@ export default function IndexPage() {
                         </Card>
                     </Box>
                 </Grid>
+                <Grid item xs={12} sm={6} md={4} xl={2}>
+                    <Box mb={2}>
+                        <Card>
+                            <CardContent>
+                                <Typography color="textSecondary" gutterBottom>
+                                    Bölüm Sayısı
+                                </Typography>
+                                <Typography variant="h2">
+                                    {
+                                        statistics.MANGA_EPISODE_COUNT
+                                            ?
+                                            <CountUp
+                                                duration={3}
+                                                start={statistics.MANGA_EPISODE_COUNT > 100 ? statistics.MANGA_EPISODE_COUNT - 100 : 0}
+                                                end={statistics.MANGA_EPISODE_COUNT} />
+                                            :
+                                            "---"
+                                    }
+                                </Typography>
+                            </CardContent>
+                        </Card>
+                    </Box>
+                </Grid>
             </Grid>
             <Typography variant="h3" gutterBottom>
                 Site İstatistikleri
