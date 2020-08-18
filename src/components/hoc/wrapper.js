@@ -16,6 +16,7 @@ const useStyles = makeStyles(theme => ({
     JikanStatusContainer: {
         backgroundColor: props => props.jikanStatus ? green["A700"] : red["A200"],
         color: props => props.jikanStatus ? "black" : "white",
+        boxShadow: theme.shadows[2],
         textAlign: "center",
         marginBottom: theme.spacing(2)
     },
@@ -76,7 +77,7 @@ export default function Wrapper(props) {
                 <Header />
                 <div className={classes.ScrollNode} id="scroll-node">
                     <div className={classes.PaddingDiv}>
-                        <div className={classes.JikanStatusContainer} mb={1} boxShadow={2}>
+                        <div className={classes.JikanStatusContainer}>
                             JIKAN API: {jikanStatus.status ? `AKTİF [${jikanStatus.version}]` : "KAPALI"}
                         </div>
                         <section className={classes.MainContainer}>

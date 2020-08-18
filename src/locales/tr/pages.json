@@ -1,1 +1,20 @@
-{}
+{
+    "index": {
+        "anime": {
+            "title": "Anime İstatistikleri",
+            "anime_count": "Anime Sayısı",
+            "episode_count": "Bölüm Sayısı",
+            "download_link_count": "İndirme Linki Sayısı",
+            "watch_link_count": "İzleme Linki Sayısı"
+        },
+        "manga": {
+            "title": "Manga İstatistikleri",
+            "manga_count": "Manga Sayısı",
+            "episode_count": "Bölüm Sayısı"
+        },
+        "site_statistics": {
+            "title": "Site İstatistikleri",
+            "user_count": "Kullanıcı Sayısı"
+        }
+    }
+}

@@ -1,4 +1,5 @@
-import React, { setGlobal, addReducer } from 'reactn'
+import React from 'react'
+import { setGlobal, addReducer } from 'reactn'
 import ReactDOM from 'react-dom';
 import { indexURL, isAdmin, jikanIndex } from './config/api-routes'
 import axios from './config/axios/axios'
@@ -42,7 +43,6 @@ setGlobal({
 addReducer('getOnline', (global, dispatch) => {
     axios.get(indexURL)
         .then(res => {
-            console.log(res.data)
             dispatch.setOnline(res.data)
             if (!Lang.isEmpty(user)) {
                 dispatch.checkAdmin(user.token)

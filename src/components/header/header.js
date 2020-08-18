@@ -139,7 +139,7 @@ export default function MiniDrawer() {
                 <List>
                     {menuItems.map(item =>
                         (
-                            <NavLink exact to={item.link} onClick={handleDrawerClose} activeClassName={classes.Active} key={item.text}>
+                            <NavLink exact to={item.link} onClick={handleDrawerClose} activeClassName={classes.Active} key={item.link}>
                                 <ListItem className={classes.ListItem} button>
                                     <Box className={classes.iconContainer}>
                                         <ListItemIcon className={classes.ListItemIcon}>{item.icon}</ListItemIcon>
@@ -156,7 +156,7 @@ export default function MiniDrawer() {
                         <>
                             <List>
                                 {menuItems2.map(item => (
-                                    <a href={item.link} target="_blank" rel="noopener noreferrer" className={classes.secondary} key={item.title}>
+                                    <a href={item.link} target="_blank" rel="noopener noreferrer" className={classes.secondary} key={item.link}>
                                         <ListItem className={classes.ListItem} button style={{ backgroundColor: "inherit" }}>
                                             <Box className={classes.iconContainer}>
                                                 <ListItemIcon className={classes.ListItemIcon}>{item.icon}</ListItemIcon>
