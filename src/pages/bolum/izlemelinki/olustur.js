@@ -57,8 +57,8 @@ export default function WatchlinkCreate() {
     }
 
     function handleAnimeChange(event) {
-        const animeData = handleSelectData(event.target.value)
-        const newData = Find(data, { name: animeData.name, version: animeData.version })
+        setCurrentEpisodeData({ ...defaultEpisodeData })
+        const newData = Find(data, { id: event.target.value })
 
         getEpisodeData(newData)
 
@@ -66,8 +66,7 @@ export default function WatchlinkCreate() {
     }
 
     function handleEpisodeChange(event) {
-        const selectedEpisodeData = handleEpisodeSelectData(event.target.value)
-        const newData = Find(episodeData, { episode_number: selectedEpisodeData.episode_number, special_type: selectedEpisodeData.special_type })
+        const newData = Find(episodeData, { id: event.target.value })
 
         setCurrentEpisodeData({ ...newData })
     }
@@ -138,14 +137,14 @@ export default function WatchlinkCreate() {
                     <InputLabel htmlFor="anime-selector">İzleme linki ekleyeceğiniz animeyi seçin</InputLabel>
                     <Select
                         fullWidth
-                        value={`${currentAnimeData.name} [${currentAnimeData.version}]`}
+                        value={currentAnimeData.id || ""}
                         onChange={handleAnimeChange}
                         inputProps={{
                             name: "anime",
                             id: "anime-selector"
                         }}
                     >
-                        {data.map(d => <MenuItem key={d.id} value={`${d.name} [${d.version}]`}>{d.name} [{d.version}]</MenuItem>)}
+                        {data.map(d => <MenuItem key={d.id} value={d.id}>{d.name} [{d.version}]</MenuItem>)}
                     </Select>
                 </FormControl>
                 : "Yükleniyor..."}
@@ -155,14 +154,14 @@ export default function WatchlinkCreate() {
                         <InputLabel htmlFor="anime-selector">İzleme linki ekleyeceğiniz bölümü seçin</InputLabel>
                         <Select
                             fullWidth
-                            value={`${handleEpisodeTitleFormat(currentEpisodeData)}`}
+                            value={currentEpisodeData.id || ""}
                             onChange={handleEpisodeChange}
                             inputProps={{
                                 name: "episode",
                                 id: "episode-selector"
                             }}
                         >
-                            {episodeData.map(e => <MenuItem key={e.id} value={handleEpisodeTitleFormat(e)}>{handleEpisodeTitleFormat(e)}</MenuItem>)}
+                            {episodeData.map(e => <MenuItem key={e.id} value={e.id}>{handleEpisodeTitleFormat(e)}</MenuItem>)}
                         </Select>
                     </FormControl>
                     : ""}
