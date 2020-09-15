@@ -25,8 +25,8 @@ const getPermList = () => {
 const defaultAnimeData = {
     name: "",
     slug: "",
-    series_status: "Tamamlandı",
-    trans_status: "Devam Ediyor",
+    series_status: "currently_airing",
+    trans_status: "currently_airing",
     airing: 1,
     synopsis: "",
     translators: "",
@@ -50,7 +50,8 @@ const defaultEpisodeData = {
     id: null,
     episode_number: "",
     credits: "",
-    special_type: ""
+    special_type: "",
+    can_user_download: 1
 }
 
 const defaultMangaEpisodeData = {

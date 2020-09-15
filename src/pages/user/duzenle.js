@@ -53,9 +53,8 @@ export default function UserUpdate(props) {
     }, [token])
 
     function handleChange(event) {
-        const newData = Find(userData, { name: event.target.value })
-
-        setCurrentUserData({ ...newData });
+        const newData = Find(userData, { id: event.target.value })
+        setCurrentUserData({ ...newData })
         setOpen(true)
     }
 
@@ -112,14 +111,14 @@ export default function UserUpdate(props) {
                     <InputLabel htmlFor="anime-selector">Düzenleyeceğiniz kullanıcıyı seçin</InputLabel>
                     <Select
                         fullWidth
-                        value={`${currentUserData.name}`}
+                        value={currentUserData.id || ""}
                         onChange={handleChange}
                         inputProps={{
                             name: "user",
                             id: "user-selector"
                         }}
                     >
-                        {userData.map(d => <MenuItem key={d.id} value={`${d.name}`}>{d.name}</MenuItem>)}
+                        {userData.map(d => <MenuItem key={d.id} value={d.id}>{d.name}</MenuItem>)}
                     </Select>
                 </FormControl>
                 : ""}

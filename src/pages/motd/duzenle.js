@@ -73,6 +73,10 @@ export default function MotdUpdate() {
                             <Grid item xs={12} key={e.id}>
                                 <Box p={1} boxShadow={2} bgcolor="background.level1" display="flex" alignItems="center" justifyContent="space-between">
                                     <div>
+                                        <Typography variant="subtitle1" gutterBottom>
+                                            {!e.content_id ? "Ana sayfa" : ""}
+                                            {e.content_id ? `İçerik IDsi: ${e.content_id}` : ""}{e.content_type ? ` - İçerik tipi: ${e.content_type}` : ""}
+                                        </Typography>
                                         <Typography variant="h4" gutterBottom>
                                             {e.title ? e.title : ""}
                                         </Typography>

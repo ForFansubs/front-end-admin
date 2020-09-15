@@ -48,7 +48,7 @@ export default function MangaUpdate() {
     }, [token])
 
     function handleChange(event) {
-        const newData = Find(data, { name: event.target.value })
+        const newData = Find(data, { id: event.target.value })
         setCurrentMangaData({ ...newData });
     }
 
@@ -93,14 +93,14 @@ export default function MangaUpdate() {
                     <InputLabel htmlFor="manga-selector">Düzenleyeceğiniz mangayı seçin</InputLabel>
                     <Select
                         fullWidth
-                        value={currentMangaData.name}
+                        value={currentMangaData.id || ""}
                         onChange={handleChange}
                         inputProps={{
                             name: "manga",
                             id: "manga-selector"
                         }}
                     >
-                        {data.map(d => <MenuItem key={d.id} value={d.name}>{d.name}</MenuItem>)}
+                        {data.map(d => <MenuItem key={d.id} value={d.id}>{d.name}</MenuItem>)}
                     </Select>
                 </FormControl>
                 : ""}

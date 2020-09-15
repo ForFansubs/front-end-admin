@@ -57,24 +57,20 @@ export default function DownloadlinkCreate() {
     }
 
     function handleAnimeChange(event) {
-        const animeData = handleSelectData(event.target.value)
-        const newData = Find(data, { name: animeData.name, version: animeData.version })
-
+        const newData = Find(data, { id: event.target.value })
         getEpisodeData(newData)
-
         setCurrentAnimeData({ ...newData });
     }
 
     function handleEpisodeChange(event) {
-        const selectedEpisodeData = handleEpisodeSelectData(event.target.value)
-        const newData = Find(episodeData, { episode_number: selectedEpisodeData.episode_number, special_type: selectedEpisodeData.special_type })
+        const newData = Find(episodeData, { id: event.target.value })
 
         const headers = {
             "Authorization": token
         }
 
         const data = {
-            episode_id: newData.id,
+            episode_id: newData.id
         }
 
         axios.post(getDownloadlinks, data, { headers })
@@ -117,14 +113,14 @@ export default function DownloadlinkCreate() {
                     <InputLabel htmlFor="anime-selector">İndirme linkini sileceğiniz animeyi seçin</InputLabel>
                     <Select
                         fullWidth
-                        value={`${currentAnimeData.name} [${currentAnimeData.version}]`}
+                        value={currentAnimeData.id || ""}
                         onChange={handleAnimeChange}
                         inputProps={{
                             name: "anime",
                             id: "anime-selector"
                         }}
                     >
-                        {data.map(d => <MenuItem key={d.id} value={`${d.name} [${d.version}]`}>{d.name} [{d.version}]</MenuItem>)}
+                        {data.map(d => <MenuItem key={d.id} value={d.id}>{d.name} [{d.version}]</MenuItem>)}
                     </Select>
                 </FormControl>
                 : "Yükleniyor..."}
@@ -134,14 +130,14 @@ export default function DownloadlinkCreate() {
                         <InputLabel htmlFor="anime-selector">İndirme linkini sileceğiniz bölümü seçin</InputLabel>
                         <Select
                             fullWidth
-                            value={`${handleEpisodeTitleFormat(currentEpisodeData)}`}
+                            value={currentEpisodeData.id || ""}
                             onChange={handleEpisodeChange}
                             inputProps={{
                                 name: "episode",
                                 id: "episode-selector"
                             }}
                         >
-                            {episodeData.map(e => <MenuItem key={e.id} value={handleEpisodeTitleFormat(e)}>{handleEpisodeTitleFormat(e)}</MenuItem>)}
+                            {episodeData.map(e => <MenuItem key={e.id} value={e.id}>{handleEpisodeTitleFormat(e)}</MenuItem>)}
                         </Select>
                     </FormControl>
                     : ""}

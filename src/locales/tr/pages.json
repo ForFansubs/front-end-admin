@@ -1,4 +1,12 @@
 {
+    "common": {
+        "buttons": {
+            "send_discord_embed": "Discord'a bildirim yollanacak",
+            "dont_send_discord_embed": "Discord'a bildirim yollanmayacak",
+            "can_user_download": "İndirme sayfasında gösterilecek",
+            "cant_user_download": "İndirme sayfasında gösterilmeyecek"
+        }
+    },
     "index": {
         "anime": {
             "title": "Anime İstatistikleri",
@@ -15,6 +23,127 @@
         "site_statistics": {
             "title": "Site İstatistikleri",
             "user_count": "Kullanıcı Sayısı"
+        }
+    },
+    "anime": {
+        "index": {
+            "create": "Oluştur",
+            "update": "Düzenle",
+            "delete": "Sil",
+            "feature": "Öne Çıkar"
+        },
+        "common": {
+            "inputs": {
+                "mal_link": {
+                    "label": "MyAnimeList Linki",
+                    "helperText": "https://myanimelist.net/anime/32526/Love_Live_Sunshine ya da https://myanimelist.net/anime/32526"
+                },
+                "cover_art": {
+                    "label": "Poster linki",
+                    "helperText": ""
+                },
+                "logo": {
+                    "label": "Logo linki",
+                    "helperText": ""
+                },
+                "header": {
+                    "label": "Başlık linki",
+                    "helperText": ""
+                },
+                "name": {
+                    "label": "İsmi",
+                    "helperText": ""
+                },
+                "synopsis": {
+                    "label": "Konusu",
+                    "helperText": ""
+                },
+                "translators": {
+                    "label": "Çevirmenler",
+                    "helperText": "Çevirmenleri arasında virgülle, boşluksuz yazın. çevirmen1,çevirmen2 gibi"
+                },
+                "encoders": {
+                    "label": "Encoderlar",
+                    "helperText": "Encoderları arasında virgülle, boşluksuz yazın. encoder1,encoder2 gibi"
+                },
+                "studios": {
+                    "label": "Stüdyolar",
+                    "helperText": "Stüdyoları arasında virgülle, boşluksuz yazın. stüdyo1,stüdyo2 gibi"
+                },
+                "genres": {
+                    "label": "Türler",
+                    "helperText": "Türleri arasında virgülle, boşluksuz yazın. tür1,tür2 gibi"
+                },
+                "premiered": {
+                    "label": "Yayınlandığı Sezon",
+                    "helperText": "İlkbahar/Yaz/Sonbahar/Kış XXXX"
+                },
+                "pv": {
+                    "label": "Tanıtıcı Video",
+                    "helperText": "Sadece Youtube linki"
+                },
+                "episode_count": {
+                    "label": "Bölüm sayısı (Toplam)",
+                    "helperText": ""
+                },
+                "version": {
+                    "label": "Versiyon",
+                    "helperText": ""
+                },
+                "series_status": {
+                    "label": "Seri Durumu",
+                    "helperText": ""
+                },
+                "trans_status": {
+                    "label": "Çeviri Durumu",
+                    "helperText": ""
+                }
+            },
+            "radios": {
+                "currently_airing": "Devam ediyor",
+                "finished_airing": "Tamamlandı",
+                "not_aired_yet": "Daha yayınlanmadı",
+                "postponed": "Ertelendi",
+                "canceled": "İptal edildi"
+            },
+            "buttons": {
+                "save": "Kaydet"
+            }
+        },
+        "create": {
+            "errors": {
+                "wrong_mal_link": "Girdiğiniz link MyAnimeList Anime linki değil.",
+                "cant_find_link": "Girdiğiniz linkin bilgisi bulunamadı.",
+                "cant_add_anime": "Animeyi eklerken bir sorunla karşılaştık."
+            },
+            "warnings": {
+                "success": "Anime başarıyla eklendi."
+            },
+            "buttons": {
+                "get_information": "Bilgileri getir",
+                "clean_information": "Bilgileri temizle",
+                "add_without_api": "API kullanmadan ekle"
+            }
+        },
+        "update": {
+            "errors": {
+                "cant_add_anime": "Animeyi düzenlenirken bir sorunla karşılaştık."
+            },
+            "warnings": {
+                "success": "Anime başarıyla düzenlendi."
+            },
+            "inputs": {
+                "logo": {
+                    "helperText": "- koyarak diskteki resmi silebilirsiniz."
+                },
+                "header": {
+                    "helperText": "- koyarak diskteki resmi silebilirsiniz."
+                }
+            },
+            "selector": "Düzenleyeceğiniz animeyi seçin"
+        },
+        "delete": {
+            "selector": "Sileceğiniz animeyi seçin"
         }
     }
 }

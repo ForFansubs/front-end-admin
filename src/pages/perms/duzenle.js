@@ -30,8 +30,6 @@ export default function PermissionUpdate(props) {
     const [currentPermissionData, setCurrentPermissionData] = useState({ ...defaultPermissionUpdateData })
     const [loading, setLoading] = useState(true)
 
-    console.log(currentPermissionData)
-
     useEffect(() => {
         const fetchData = async () => {
             const headers = {
@@ -60,7 +58,7 @@ export default function PermissionUpdate(props) {
     }, [])
 
     function handleChange(event) {
-        let newData = Find(permData, { name: event.target.value })
+        let newData = Find(permData, { id: event.target.value })
         setCurrentPermissionData({ ...newData });
     }
 
@@ -128,14 +126,14 @@ export default function PermissionUpdate(props) {
                     <InputLabel htmlFor="anime-selector">Düzenleyeceğiniz rolü seçin</InputLabel>
                     <Select
                         fullWidth
-                        value={`${currentPermissionData.name}`}
+                        value={currentPermissionData.id || ""}
                         onChange={handleChange}
                         inputProps={{
                             name: "user",
                             id: "user-selector"
                         }}
                     >
-                        {permData.map(d => <MenuItem key={d.id} value={`${d.name}`}>{d.name}</MenuItem>)}
+                        {permData.map(d => <MenuItem key={d.id} value={d.id}>{d.name}</MenuItem>)}
                     </Select>
                 </FormControl>
                 : ""}

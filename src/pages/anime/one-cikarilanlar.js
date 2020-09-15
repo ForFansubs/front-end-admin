@@ -66,7 +66,7 @@ export default function AnimeFeatured() {
         <>
             {!loading && data.length ?
                 <>
-                    <FormControl fullWidth>
+                    <FormControl fullWidth margin="normal">
                         <InputLabel htmlFor="anime-selector">Öne çıkaracağınız animeleri seçin</InputLabel>
                         <Select
                             fullWidth
@@ -82,7 +82,7 @@ export default function AnimeFeatured() {
                             {data.map(d => <MenuItem key={d.id} value={`${d.name} [${d.version}]`}>{d.name} [{d.version}]</MenuItem>)}
                         </Select>
                     </FormControl>
-                    <Button variant="contained" color="secondary" onClick={handleFeaturedAnimesUpdateButton}>Güncelle</Button>
+                    <Button variant="outlined" color="primary" onClick={handleFeaturedAnimesUpdateButton}>Güncelle</Button>
                 </>
                 : ""}
         </>

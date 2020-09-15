@@ -94,6 +94,13 @@ const theme = {
             },
             focused: {}
         },
+        MuiToolbar: {
+            gutters: {
+                ['@media (min-width:600px)']: {
+                    paddingLeft: 29
+                }
+            }
+        },
         defaultMargin: "80px 40px 24px",
         defaultMarginMobile: "80px 24px 24px",
         defaultMarginOverride: "-80px -40px 0",

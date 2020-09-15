@@ -6,26 +6,29 @@ import PullAt from 'lodash-es/pullAt'
 import axios from '../../config/axios/axios'
 import ToastNotification, { payload } from '../../components/toastify/toast'
 
-import { Button, Box, Modal, CircularProgress, FormControl, InputLabel, Select, MenuItem, Typography } from '@material-ui/core'
-import styled from 'styled-components'
+import { Button, Box, Modal, CircularProgress, FormControl, InputLabel, Select, MenuItem, Typography, makeStyles } from '@material-ui/core'
 import { defaultAnimeData } from '../../components/pages/default-props';
 import { getFullAnimeList, deleteAnime } from '../../config/api-routes';
 import { handleSelectData } from '../../components/pages/functions';
+import { useTranslation } from 'react-i18next'
 
-const ModalContainer = styled(Box)`
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: ${props => props.theme.breakpoints.values.sm}px;
+const useStyles = makeStyles(theme => ({
+    ModalContainer: {
+        position: "absolute",
+        top: "50%",
+        left: "50%",
+        transform: "translate(-50%, -50%)",
+        width: theme.breakpoints.values.sm,
 
-    @media(max-width:${props => props.theme.breakpoints.values.sm}px) {
-        width: 100%;
+        [theme.breakpoints.down("sm")]: {
+            width: "100%"
+        }
     }
-`
+}))
 
 export default function AnimeDelete(props) {
-    const { theme } = props
+    const { t } = useTranslation("pages")
+    const classes = useStyles()
     const token = useGlobal("user")[0].token
     const [data, setData] = useState([])
 
@@ -54,8 +57,7 @@ export default function AnimeDelete(props) {
     }, [token])
 
     function handleChange(event) {
-        const animeData = handleSelectData(event.target.value)
-        const newData = Find(data, { name: animeData.name, version: animeData.version })
+        const newData = Find(data, { id: event.target.value })
         setCurrentAnimeData({ ...newData })
         setOpen(true)
     }
@@ -97,14 +99,14 @@ export default function AnimeDelete(props) {
                     <InputLabel htmlFor="anime-selector">Sileceğiniz animeyi seçin</InputLabel>
                     <Select
                         fullWidth
-                        value={currentAnimeData.name}
+                        value={currentAnimeData.id || ""}
                         onChange={handleChange}
                         inputProps={{
                             name: "anime",
                             id: "anime-selector"
                         }}
                     >
-                        {data.map(d => <MenuItem key={d.id} value={`${d.name} [${d.version}]`}>{d.name} [{d.version}]</MenuItem>)}
+                        {data.map(d => <MenuItem key={d.id} value={d.id}>{d.name} [{d.version}]</MenuItem>)}
                     </Select>
                 </FormControl>
                 : ""}
@@ -114,25 +116,25 @@ export default function AnimeDelete(props) {
                 open={open}
                 onClose={handleClose}
             >
-                <ModalContainer theme={theme}>
+                <div className={classes.ModalContainer}>
                     <Box p={2} bgcolor="background.level2">
                         <Typography variant="h4"><em>{currentAnimeData.name}</em> animesini silmek üzeresiniz.</Typography>
-                        <Typography variant="body1">Bu yıkıcı bir komuttur. Bu animeyle ilişkili bütün <b>bölümler</b>, <b>indirme</b> ve <b>izleme</b> linkleri silinecektir.</Typography>
+                        <Typography variant="body1" gutterBottom>Bu yıkıcı bir komuttur. Bu animeyle ilişkili bütün <b>bölümler</b>, <b>indirme</b> ve <b>izleme</b> linkleri silinecektir.</Typography>
                         <Button
                             style={{ marginRight: "5px" }}
-                            variant="contained"
+                            variant="outlined"
                             color="secondary"
                             onClick={() => handleDeleteButton(currentAnimeData.slug)}>
                             Sil
                             </Button>
                         <Button
-                            variant="contained"
+                            variant="outlined"
                             color="primary"
                             onClick={handleClose}>
                             Kapat
                         </Button>
                     </Box>
-                </ModalContainer>
+                </div>
             </Modal>
         </>
     )

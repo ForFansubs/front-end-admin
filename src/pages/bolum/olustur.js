@@ -8,14 +8,16 @@ import ToastNotification, { payload } from '../../components/toastify/toast'
 import { Button, Grid, TextField, FormControl, FormLabel, FormControlLabel, InputLabel, Select, MenuItem, FormGroup, Checkbox } from '@material-ui/core'
 import { defaultEpisodeData, defaultAnimeData } from '../../components/pages/default-props';
 import { getFullAnimeList, addEpisode } from '../../config/api-routes';
-import { handleSelectData } from '../../components/pages/functions';
+import { useTranslation } from 'react-i18next'
 
 export default function EpisodeCreate() {
+    const { t } = useTranslation("pages")
     const token = useGlobal("user")[0].token
 
     const [data, setData] = useState([])
     const [currentAnimeData, setCurrentAnimeData] = useState({ ...defaultAnimeData })
     const [episodeData, setEpisodeData] = useState({ ...defaultEpisodeData })
+    const [sendDiscordEmbed, setSendDiscordEmbed] = useState(true)
     const [loading, setLoading] = useState(true)
 
     useEffect(() => {
@@ -37,8 +39,7 @@ export default function EpisodeCreate() {
     }, [token])
 
     function handleChange(event) {
-        const animeData = handleSelectData(event.target.value)
-        const newData = Find(data, { name: animeData.name, version: animeData.version })
+        const newData = Find(data, { id: event.target.value })
         setCurrentAnimeData({ ...newData });
     }
 
@@ -48,9 +49,15 @@ export default function EpisodeCreate() {
             if (event.target.value === episodeData.special_type) return setEpisodeData(oldData => ({ ...oldData, special_type: "" }))
         }
 
-        console.log(event)
-
         setEpisodeData(oldData => ({ ...oldData, [name]: event.target.value }))
+    }
+
+    function handleDiscordEmbedButton() {
+        setSendDiscordEmbed(state => !state)
+    }
+
+    function handleCanUserDownloadButton() {
+        setEpisodeData(state => ({ ...state, can_user_download: !state.can_user_download }))
     }
 
     function handleDataSubmit(th) {
@@ -59,14 +66,16 @@ export default function EpisodeCreate() {
 
         const data = {
             ...episodeData,
-            anime_id: currentAnimeData.id
+            anime_id: currentAnimeData.id,
+            sendDiscordEmbed: sendDiscordEmbed
         }
+
         const headers = {
             "Authorization": token
         }
 
         axios.post(addEpisode, data, { headers })
-            .then(res => {
+            .then(_ => {
                 ToastNotification(payload("success", "Bölüm başarıyla eklendi."))
             })
             .catch(err => {
@@ -81,21 +90,21 @@ export default function EpisodeCreate() {
                     <InputLabel htmlFor="anime-selector">Bölüm ekleyeceğiniz animeyi seçin</InputLabel>
                     <Select
                         fullWidth
-                        value={`${currentAnimeData.name} [${currentAnimeData.version}]`}
+                        value={currentAnimeData.id || ""}
                         onChange={handleChange}
                         inputProps={{
                             name: "anime",
                             id: "anime-selector"
                         }}
                     >
-                        {data.map(d => <MenuItem key={d.id} value={`${d.name} [${d.version}]`}>{d.name} [{d.version}]</MenuItem>)}
+                        {data.map(d => <MenuItem key={d.id} value={d.id}>{d.name} [{d.version}]</MenuItem>)}
                     </Select>
                 </FormControl>
                 : ""}
             {currentAnimeData.slug !== "" ?
                 <>
                     <form onSubmit={th => handleDataSubmit(th)} autoComplete="off">
-                        <Grid container spacing={2}>
+                        <Grid container spacing={2} justify="center">
                             <Grid item xs={12} md={6}>
                                 <TextField
                                     fullWidth
@@ -118,6 +127,16 @@ export default function EpisodeCreate() {
                                     margin="normal"
                                     variant="filled"
                                 />
+                            </Grid>
+                            <Grid item style={{ textAlign: "center" }}>
+                                <Button onClick={handleCanUserDownloadButton} variant="contained" color={episodeData.can_user_download ? "primary" : "secondary"}>
+                                    {sendDiscordEmbed ? t('common.buttons.send_discord_embed') : t('common.buttons.dont_send_discord_embed')}
+                                </Button>
+                            </Grid>
+                            <Grid item style={{ textAlign: "center" }}>
+                                <Button onClick={handleDiscordEmbedButton} variant="contained" color={sendDiscordEmbed ? "primary" : "secondary"}>
+                                    {sendDiscordEmbed ? t('common.buttons.can_user_download') : t('common.buttons.cant_user_download')}
+                                </Button>
                             </Grid>
                             <Grid item xs={12} style={{ textAlign: "center" }}>
                                 <FormLabel component="legend">Bölüm Özel Türü</FormLabel>

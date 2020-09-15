@@ -75,9 +75,7 @@ export default function EpisodeDelete(props) {
 
     function handleChange(event) {
         const newData = Find(data, { id: event.target.value })
-        console.log(event.target.value)
         getEpisodeData(newData)
-
         setCurrentMangaData({ ...newData });
     }
 
@@ -138,7 +136,7 @@ export default function EpisodeDelete(props) {
                     <InputLabel htmlFor="manga-selector">Bölümünü sileceğiniz mangayi seçin</InputLabel>
                     <Select
                         fullWidth
-                        value={currentMangaData.id}
+                        value={currentMangaData.id || ""}
                         onChange={handleChange}
                         inputProps={{
                             name: "manga",

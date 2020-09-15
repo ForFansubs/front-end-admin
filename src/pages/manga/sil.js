@@ -50,7 +50,7 @@ export default function MangaDelete(props) {
     }, [token])
 
     function handleChange(event) {
-        const newData = Find(data, { name: event.target.value })
+        const newData = Find(data, { id: event.target.value })
         setCurrentMangaData({ ...newData })
         setOpen(true)
     }
@@ -92,14 +92,14 @@ export default function MangaDelete(props) {
                     <InputLabel htmlFor="manga-selector">Sileceğiniz mangayı seçin</InputLabel>
                     <Select
                         fullWidth
-                        value={currentMangaData.name}
+                        value={currentMangaData || ""}
                         onChange={handleChange}
                         inputProps={{
                             name: "manga",
                             id: "manga-selector"
                         }}
                     >
-                        {data.map(d => <MenuItem key={d.id} value={d.name}>{d.name}</MenuItem>)}
+                        {data.map(d => <MenuItem key={d.id} value={d.id}>{d.name}</MenuItem>)}
                     </Select>
                 </FormControl>
                 : ""}

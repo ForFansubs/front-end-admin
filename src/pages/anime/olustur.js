@@ -4,10 +4,12 @@ import { useGlobal } from 'reactn'
 import axios from '../../config/axios/axios'
 import ToastNotification, { payload } from '../../components/toastify/toast'
 
-import { Button, Grid, TextField, Box, FormControl, FormLabel, RadioGroup, FormControlLabel, Radio, Typography, Divider, makeStyles } from '@material-ui/core'
+import { Button, Grid, TextField, FormControl, FormLabel, RadioGroup, FormControlLabel, Radio, Divider, makeStyles } from '@material-ui/core'
 import { checkMyAnimeListAnimeLink, checkYoutubeLink } from '../../components/pages/functions';
 import { defaultAnimeData } from '../../components/pages/default-props';
 import { jikanIndex, addAnime } from '../../config/api-routes';
+import { useTranslation } from 'react-i18next'
+import { DatePicker, TimePicker } from '../../components/datetime-picker'
 
 const useStyles = makeStyles(theme => ({
     ImageContainer: {
@@ -20,6 +22,7 @@ const useStyles = makeStyles(theme => ({
 }))
 
 export default function AnimeCreate() {
+    const { t } = useTranslation("pages")
     const token = useGlobal("user")[0].token
     const [jikanStatus] = useGlobal('jikanStatus')
     const [animeData, setAnimeData] = useState({ ...defaultAnimeData, mal_get: jikanStatus.status ? false : true })
@@ -36,7 +39,7 @@ export default function AnimeCreate() {
         if (!animeData.mal_link || checkMyAnimeListAnimeLink(animeData.mal_link)) {
             const payload = {
                 type: "error",
-                message: "Girdiğiniz link MyAnimeList Anime linki değil."
+                message: t("anime.create.errors.wrong_mal_link")
             }
             return ToastNotification(payload)
         }
@@ -45,7 +48,7 @@ export default function AnimeCreate() {
         const anime = await axios.get(`${jikanIndex}/anime/${id}`).catch(_ => {
             const payload = {
                 type: "error",
-                message: "Girdiğiniz linkin bilgisi bulunamadı."
+                message: t("anime.create.errors.cant_find_link")
             }
 
             ToastNotification(payload)
@@ -59,7 +62,7 @@ export default function AnimeCreate() {
             if (animeNotice) {
                 const payload = {
                     type: "error",
-                    message: "Girdiğiniz linkin bilgisi bulunamadı."
+                    message: t("anime.create.errors.cant_find_link")
                 }
 
                 ToastNotification(payload)
@@ -74,8 +77,7 @@ export default function AnimeCreate() {
         const newAnimeData = {
             cover_art: anime.data.image_url ? anime.data.image_url : "",
             name: anime.data.title ? anime.data.title : "",
-            series_status: anime.data.status ? anime.data.status : false,
-            release_date: date ? date : Date.now(),
+            release_date: date ? new Date(date) : new Date(),
             studios: studyolar ? studyolar.join(',') : [],
             genres: turler ? turler.join(',') : [],
             airing: anime.data.airing ? anime.data.airing : false,
@@ -83,6 +85,7 @@ export default function AnimeCreate() {
             episode_count: anime.data.episodes ? anime.data.episodes : 0,
             pv: anime.data.trailer_url ? anime.data.trailer_url : ""
         }
+
         const header = await axios.post(`/header-getir`, { name: anime.data.title }).catch(_ => _)
 
         if (header.status === 200) {
@@ -104,15 +107,15 @@ export default function AnimeCreate() {
         }
 
         axios.post(addAnime, data, { headers })
-            .then(res => {
+            .then(_ => {
                 const payload = {
-                    message: "Anime başarıyla eklendi.",
+                    message: t("anime.create.warnings.success"),
                     type: "success"
                 }
                 ToastNotification(payload)
             })
             .catch(err => {
-                ToastNotification(payload("error", err.response.data.err || "Animeyi eklerken bir sorunla karşılaştık."))
+                ToastNotification(payload("error", err.response.data.err || t("anime.create.errors.cant_add_anime")))
             })
     }
 
@@ -126,12 +129,12 @@ export default function AnimeCreate() {
                 autoComplete="off"
                 fullWidth
                 id="mal_link"
-                label="MyAnimeList Linki"
+                label={t("anime.common.inputs.mal_link.label")}
+                helperText={t("anime.common.inputs.mal_link.helperText")}
                 value={animeData.mal_link}
                 onChange={handleInputChange("mal_link")}
                 margin="normal"
                 variant="filled"
-                helperText="https://myanimelist.net/anime/32526/Love_Live_Sunshine ya da https://myanimelist.net/anime/32526"
                 required
                 error={animeData.mal_link ? checkMyAnimeListAnimeLink(animeData.mal_link) : false}
             />
@@ -142,17 +145,17 @@ export default function AnimeCreate() {
                 onClick={handleMALSubmit}
                 disabled={animeData.mal_get ? true : false}
             >
-                Bilgileri getir
+                {t("anime.create.buttons.get_information")}
             </Button>
             <Button
                 style={{ marginRight: "5px" }}
                 color="secondary"
                 variant="outlined"
-                onClick={clearData}>Bilgileri temizle</Button>
+                onClick={clearData}>{t("anime.create.buttons.clean_information")}</Button>
             <Button
                 color="secondary"
                 variant="outlined"
-                onClick={() => setAnimeData({ ...animeData, mal_get: !animeData.mal_get })}>API Kullanmadan Ekle</Button>
+                onClick={() => setAnimeData({ ...animeData, mal_get: !animeData.mal_get })}>{t("anime.create.buttons.add_without_api")}</Button>
             {animeData.mal_get ?
                 <>
                     <form onSubmit={th => handleDataSubmit(th)} autoComplete="off">
@@ -161,7 +164,8 @@ export default function AnimeCreate() {
                                 <TextField
                                     fullWidth
                                     id="cover_art"
-                                    label="Anime poster resmi"
+                                    label={t("anime.common.inputs.cover_art.label")}
+                                    helperText={t("anime.common.inputs.cover_art.helperText")}
                                     value={animeData.cover_art}
                                     onChange={handleInputChange("cover_art")}
                                     margin="normal"
@@ -176,7 +180,8 @@ export default function AnimeCreate() {
                                 <TextField
                                     fullWidth
                                     id="logo"
-                                    label="Anime logo resmi"
+                                    label={t("anime.common.inputs.logo.label")}
+                                    helperText={t("anime.common.inputs.logo.helperText")}
                                     value={animeData.logo}
                                     onChange={handleInputChange("logo")}
                                     margin="normal"
@@ -190,7 +195,8 @@ export default function AnimeCreate() {
                                 <TextField
                                     fullWidth
                                     id="header"
-                                    label="Anime header resmi"
+                                    label={t("anime.common.inputs.header.label")}
+                                    helperText={t("anime.common.inputs.header.helperText")}
                                     value={animeData.header}
                                     onChange={handleInputChange("header")}
                                     margin="normal"
@@ -205,7 +211,8 @@ export default function AnimeCreate() {
                                 <TextField
                                     fullWidth
                                     id="name"
-                                    label="Anime ismi"
+                                    label={t("anime.common.inputs.name.label")}
+                                    helperText={t("anime.common.inputs.name.helperText")}
                                     value={animeData.name}
                                     onChange={handleInputChange("name")}
                                     margin="normal"
@@ -218,7 +225,10 @@ export default function AnimeCreate() {
                                     fullWidth
                                     id="synopsis"
                                     multiline
-                                    label="Anime konusu"
+                                    rows={3}
+                                    rowsMax={3}
+                                    label={t("anime.common.inputs.synopsis.label")}
+                                    helperText={t("anime.common.inputs.synopsis.helperText")}
                                     value={animeData.synopsis}
                                     onChange={handleInputChange("synopsis")}
                                     margin="normal"
@@ -230,12 +240,12 @@ export default function AnimeCreate() {
                                 <TextField
                                     fullWidth
                                     id="translators"
-                                    label="Çevirmenler"
+                                    label={t("anime.common.inputs.translators.label")}
+                                    helperText={t("anime.common.inputs.translators.helperText")}
                                     value={animeData.translators}
                                     onChange={handleInputChange("translators")}
                                     margin="normal"
                                     variant="filled"
-                                    helperText="Çevirmenleri arasında virgülle, boşluksuz yazın. çevirmen1,çevirmen2 gibi"
                                     required
                                 />
                             </Grid>
@@ -243,12 +253,12 @@ export default function AnimeCreate() {
                                 <TextField
                                     fullWidth
                                     id="encoders"
-                                    label="Encoderlar"
+                                    label={t("anime.common.inputs.encoders.label")}
+                                    helperText={t("anime.common.inputs.encoders.helperText")}
                                     value={animeData.encoders}
                                     onChange={handleInputChange("encoders")}
                                     margin="normal"
                                     variant="filled"
-                                    helperText="Encoderları arasında virgülle, boşluksuz yazın. encoder1,encoder2 gibi"
                                     required
                                 />
                             </Grid>
@@ -256,12 +266,12 @@ export default function AnimeCreate() {
                                 <TextField
                                     fullWidth
                                     id="studios"
-                                    label="Stüdyolar"
+                                    label={t("anime.common.inputs.studios.label")}
+                                    helperText={t("anime.common.inputs.studios.helperText")}
                                     value={animeData.studios}
                                     onChange={handleInputChange("studios")}
                                     margin="normal"
                                     variant="filled"
-                                    helperText="Stüdyoları arasında virgülle, boşluksuz yazın. stüdyo1,stüdyo2 gibi"
                                     required
                                 />
                             </Grid>
@@ -269,12 +279,12 @@ export default function AnimeCreate() {
                                 <TextField
                                     fullWidth
                                     id="genres"
-                                    label="Türler"
+                                    label={t("anime.common.inputs.genres.label")}
+                                    helperText={t("anime.common.inputs.genres.helperText")}
                                     value={animeData.genres}
                                     onChange={handleInputChange("genres")}
                                     margin="normal"
                                     variant="filled"
-                                    helperText="Türleri arasında virgülle, boşluksuz yazın. tür1,tür2 gibi"
                                     required
                                 />
                             </Grid>
@@ -282,32 +292,39 @@ export default function AnimeCreate() {
                                 <TextField
                                     fullWidth
                                     id="premiered"
-                                    label="Sezon"
+                                    label={t("anime.common.inputs.premiered.label")}
+                                    helperText={t("anime.common.inputs.premiered.helperText")}
                                     value={animeData.premiered}
                                     onChange={handleInputChange("premiered")}
                                     margin="normal"
                                     variant="filled"
-                                    helperText="Kış/İlkbahar/Yaz/Sonbahar XXXX"
                                 />
                             </Grid>
                             <Grid item xs={12} md={6}>
                                 <TextField
                                     fullWidth
                                     id="pv"
-                                    label="Anime Trailerı"
+                                    label={t("anime.common.inputs.pv.label")}
+                                    helperText={t("anime.common.inputs.pv.helperText")}
                                     value={animeData.pv}
                                     onChange={handleInputChange("pv")}
                                     margin="normal"
                                     variant="filled"
-                                    helperText="Sadece Youtube linki"
                                     error={animeData.pv ? checkYoutubeLink(animeData.pv) : false}
                                 />
+                            </Grid>
+                            <Grid item xs={6}>
+                                <DatePicker setAnimeData={setAnimeData} release_date={animeData.release_date} />
+                            </Grid>
+                            <Grid item xs={6}>
+                                <TimePicker setAnimeData={setAnimeData} release_date={animeData.release_date} />
                             </Grid>
                             <Grid item xs={12}>
                                 <TextField
                                     fullWidth
                                     id="episode_count"
-                                    label="Bölüm sayısı (Yoksa 0 yazın)"
+                                    label={t("anime.common.inputs.episode_count.label")}
+                                    helperText={t("anime.common.inputs.episode_count.helperText")}
                                     value={animeData.episode_count}
                                     onChange={handleInputChange("episode_count")}
                                     margin="normal"
@@ -317,7 +334,7 @@ export default function AnimeCreate() {
                             </Grid>
                             <Grid item xs={12} md={4}>
                                 <FormControl component="fieldset" style={{ width: "100%", textAlign: "center" }}>
-                                    <FormLabel component="legend">Versiyon</FormLabel>
+                                    <FormLabel component="legend">{t("anime.common.inputs.version.label")}</FormLabel>
                                     <RadioGroup
                                         style={{ display: "flex", flexDirection: "row", justifyContent: "center" }}
                                         aria-label="version selector"
@@ -332,7 +349,7 @@ export default function AnimeCreate() {
                             </Grid>
                             <Grid item xs={12} md={4}>
                                 <FormControl component="fieldset" style={{ width: "100%", textAlign: "center" }}>
-                                    <FormLabel component="legend">Seri Durumu [{animeData.airing ? "Seri şu anda yayınlanıyor" : "Seri şu anda yayınlanmıyor"}]</FormLabel>
+                                    <FormLabel component="legend">{t("anime.common.inputs.series_status.label")}</FormLabel>
                                     <RadioGroup
                                         style={{ display: "flex", flexDirection: "row", justifyContent: "center" }}
                                         aria-label="series_status"
@@ -340,17 +357,17 @@ export default function AnimeCreate() {
                                         value={animeData.series_status}
                                         onChange={handleInputChange("series_status")}
                                     >
-                                        <FormControlLabel value="Currently Airing" control={<Radio />} label="Devam Ediyor" />
-                                        <FormControlLabel value="Finished Airing" control={<Radio />} label="Tamamlandı" />
-                                        <FormControlLabel value="Not yet aired" control={<Radio />} label="Daha yayınlanmadı" />
-                                        <FormControlLabel value="Ertelendi" control={<Radio />} label="Ertelendi" />
-                                        <FormControlLabel value="İptal Edildi" control={<Radio />} label="İptal Edildi" />
+                                        <FormControlLabel value="currently_airing" control={<Radio />} label={t("anime.common.radios.currently_airing")} />
+                                        <FormControlLabel value="finished_airing" control={<Radio />} label={t("anime.common.radios.finished_airing")} />
+                                        <FormControlLabel value="not_aired_yet" control={<Radio />} label={t("anime.common.radios.not_aired_yet")} />
+                                        <FormControlLabel value="postponed" control={<Radio />} label={t("anime.common.radios.postponed")} />
+                                        <FormControlLabel value="canceled" control={<Radio />} label={t("anime.common.radios.canceled")} />
                                     </RadioGroup>
                                 </FormControl>
                             </Grid>
                             <Grid item xs={12} md={4}>
                                 <FormControl component="fieldset" style={{ width: "100%", textAlign: "center" }}>
-                                    <FormLabel component="legend">Çeviri Durumu</FormLabel>
+                                    <FormLabel component="legend">{t("anime.common.inputs.trans_status.label")}</FormLabel>
                                     <RadioGroup
                                         style={{ display: "flex", flexDirection: "row", justifyContent: "center" }}
                                         aria-label="trans_status"
@@ -358,10 +375,11 @@ export default function AnimeCreate() {
                                         value={animeData.trans_status}
                                         onChange={handleInputChange("trans_status")}
                                     >
-                                        <FormControlLabel value="Devam Ediyor" control={<Radio />} label="Devam Ediyor" />
-                                        <FormControlLabel value="Tamamlandı" control={<Radio />} label="Tamamlandı" />
-                                        <FormControlLabel value="Ertelendi" control={<Radio />} label="Ertelendi" />
-                                        <FormControlLabel value="İptal Edildi" control={<Radio />} label="İptal Edildi" />
+                                        <FormControlLabel value="currently_airing" control={<Radio />} label={t("anime.common.radios.currently_airing")} />
+                                        <FormControlLabel value="finished_airing" control={<Radio />} label={t("anime.common.radios.finished_airing")} />
+                                        <FormControlLabel value="not_aired_yet" control={<Radio />} label={t("anime.common.radios.not_aired_yet")} />
+                                        <FormControlLabel value="postponed" control={<Radio />} label={t("anime.common.radios.postponed")} />
+                                        <FormControlLabel value="canceled" control={<Radio />} label={t("anime.common.radios.canceled")} />
                                     </RadioGroup>
                                 </FormControl>
                             </Grid>
@@ -370,8 +388,8 @@ export default function AnimeCreate() {
                             variant="outlined"
                             color="primary"
                             type="submit">
-                            Kaydet
-                    </Button>
+                            {t("anime.common.buttons.save")}
+                        </Button>
                     </form>
                 </>
                 : ""}

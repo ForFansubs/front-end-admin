@@ -55,7 +55,7 @@ export default function UserDelete(props) {
     }, [token])
 
     function handleChange(event) {
-        const newData = Find(data, { name: event.target.value })
+        const newData = Find(data, { id: event.target.value })
 
         setCurrentUserData({ ...newData })
         setOpen(true)
@@ -100,14 +100,14 @@ export default function UserDelete(props) {
                     <InputLabel htmlFor="anime-selector">Sileceğiniz kullanıcıyı seçin</InputLabel>
                     <Select
                         fullWidth
-                        value={`${currentUserData.name}`}
+                        value={currentUserData.id || ""}
                         onChange={handleChange}
                         inputProps={{
                             name: "anime",
                             id: "anime-selector"
                         }}
                     >
-                        {data.map(d => <MenuItem key={d.id} value={`${d.name}`}>{d.name}</MenuItem>)}
+                        {data.map(d => <MenuItem key={d.id} value={d.id}>{d.name}</MenuItem>)}
                     </Select>
                 </FormControl>
                 : ""}

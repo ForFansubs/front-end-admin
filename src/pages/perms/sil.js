@@ -55,7 +55,7 @@ export default function PermissionDelete(props) {
     }, [token])
 
     function handleChange(event) {
-        const newData = Find(permissionData, { name: event.target.value })
+        const newData = Find(permissionData, { id: event.target.value })
 
         setCurrentPermissionData({ ...newData })
         setOpen(true)
@@ -100,14 +100,14 @@ export default function PermissionDelete(props) {
                     <InputLabel htmlFor="anime-selector">Sileceğiniz rolü seçin</InputLabel>
                     <Select
                         fullWidth
-                        value={`${currentPermissionData.name}`}
+                        value={currentPermissionData.id || ""}
                         onChange={handleChange}
                         inputProps={{
                             name: "anime",
                             id: "anime-selector"
                         }}
                     >
-                        {permissionData.map(d => <MenuItem key={d.id} value={`${d.name}`}>{d.name}</MenuItem>)}
+                        {permissionData.map(d => <MenuItem key={d.id} value={d.id}>{d.name}</MenuItem>)}
                     </Select>
                 </FormControl>
                 : ""}

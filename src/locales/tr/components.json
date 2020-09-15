@@ -50,5 +50,8 @@
             "short": "Siteye dön",
             "logo": ""
         }
+    },
+    "footer": {
+        "release_name": "Yayın ismi"
     }
 }

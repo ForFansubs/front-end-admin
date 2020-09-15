@@ -127,11 +127,8 @@ export default function EpisodeUpdate(props) {
     }
 
     function handleChange(event) {
-        const animeData = handleSelectData(event.target.value)
-        const newData = Find(data, { name: animeData.name, version: animeData.version })
-
+        const newData = Find(data, { id: event.target.value })
         getEpisodeData(newData)
-
         setCurrentAnimeData({ ...newData });
     }
 
@@ -193,14 +190,14 @@ export default function EpisodeUpdate(props) {
                     <InputLabel htmlFor="anime-selector">Bölümünü düzenleyeceğiniz animeyi seçin</InputLabel>
                     <Select
                         fullWidth
-                        value={`${currentAnimeData.name} [${currentAnimeData.version}]`}
+                        value={currentAnimeData.id || ""}
                         onChange={handleChange}
                         inputProps={{
                             name: "anime",
                             id: "anime-selector"
                         }}
                     >
-                        {data.map(d => <MenuItem key={d.id} value={`${d.name} [${d.version}]`}>{d.name} [{d.version}]</MenuItem>)}
+                        {data.map(d => <MenuItem key={d.id} value={d.id}>{d.name} [{d.version}]</MenuItem>)}
                     </Select>
                 </FormControl>
                 : ""}

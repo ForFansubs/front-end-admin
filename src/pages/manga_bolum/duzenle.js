@@ -89,10 +89,8 @@ export default function EpisodeUpdate(props) {
     }
 
     function handleChange(event) {
-        const newData = Find(data, { slug: event.target.value })
-
+        const newData = Find(data, { id: event.target.value })
         getEpisodeData(newData)
-
         setCurrentMangaData({ ...newData });
     }
 
@@ -154,14 +152,14 @@ export default function EpisodeUpdate(props) {
                     <InputLabel htmlFor="manga-selector">Bölümünü düzenleyeceğiniz mangayı seçin</InputLabel>
                     <Select
                         fullWidth
-                        value={currentMangaData.slug}
+                        value={currentMangaData.id || ""}
                         onChange={handleChange}
                         inputProps={{
                             name: "manga",
                             id: "manga-selector"
                         }}
                     >
-                        {data.map(d => <MenuItem key={d.id} value={`${d.slug}`}>{d.name}</MenuItem>)}
+                        {data.map(d => <MenuItem key={d.id} value={d.id}>{d.name}</MenuItem>)}
                     </Select>
                 </FormControl>
                 : ""}
