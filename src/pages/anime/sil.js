@@ -78,9 +78,9 @@ export default function AnimeDelete(props) {
                 handleClose()
                 setCurrentAnimeData({ ...defaultAnimeData })
                 setData(newData)
-                ToastNotification(payload("success", "Anime başarıyla silindi."))
+                ToastNotification(payload("success", t('anime.delete.warnings.success')))
             })
-            .catch(_ => ToastNotification(payload("error", "Animeyi silerken bir sorunla karşılaştık.")))
+            .catch(_ => ToastNotification(payload("error", t('anime.delete.errors.cant_delete_anime'))))
     }
 
     function handleClose() {
@@ -96,7 +96,7 @@ export default function AnimeDelete(props) {
         <>
             {!loading && data.length ?
                 <FormControl fullWidth>
-                    <InputLabel htmlFor="anime-selector">Sileceğiniz animeyi seçin</InputLabel>
+                    <InputLabel htmlFor="anime-selector">{t('anime.delete.selector')}</InputLabel>
                     <Select
                         fullWidth
                         value={currentAnimeData.id || ""}
@@ -118,20 +118,20 @@ export default function AnimeDelete(props) {
             >
                 <div className={classes.ModalContainer}>
                     <Box p={2} bgcolor="background.level2">
-                        <Typography variant="h4"><em>{currentAnimeData.name}</em> animesini silmek üzeresiniz.</Typography>
-                        <Typography variant="body1" gutterBottom>Bu yıkıcı bir komuttur. Bu animeyle ilişkili bütün <b>bölümler</b>, <b>indirme</b> ve <b>izleme</b> linkleri silinecektir.</Typography>
+                        <Typography variant="h4">{t('anime.delete.warnings.title', { title: currentAnimeData.name })}</Typography>
+                        <Typography variant="body1" gutterBottom>{t('anime.delete.warnings.subtitle')}</Typography>
                         <Button
                             style={{ marginRight: "5px" }}
                             variant="outlined"
                             color="secondary"
                             onClick={() => handleDeleteButton(currentAnimeData.slug)}>
-                            Sil
-                            </Button>
+                            {t('anime.index.delete')}
+                        </Button>
                         <Button
                             variant="outlined"
                             color="primary"
                             onClick={handleClose}>
-                            Kapat
+                            {t('common.buttons.close')}
                         </Button>
                     </Box>
                 </div>

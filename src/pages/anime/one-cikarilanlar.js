@@ -6,8 +6,10 @@ import ToastNotification, { payload } from '../../components/toastify/toast'
 import { Button, CircularProgress, FormControl, InputLabel, Select, MenuItem } from '@material-ui/core'
 import { getFullAnimeList, featuredAnime, getFullFeaturedAnimeList } from '../../config/api-routes';
 import { handleFeaturedSelectData } from '../../components/pages/functions';
+import { useTranslation } from 'react-i18next'
 
 export default function AnimeFeatured() {
+    const { t } = useTranslation('pages')
     const token = useGlobal("user")[0].token
     const [data, setData] = useState([])
     const [featuredAnimes, setFeaturedAnimes] = useState([])
@@ -51,9 +53,9 @@ export default function AnimeFeatured() {
         axios.post(featuredAnime, { data: animeData }, { headers })
             .then(_ => {
 
-                ToastNotification(payload("success", "Animeler başarıyla öne çıkarıldı."))
+                ToastNotification(payload("success", t('anime.featured.warnings.success')))
             })
-            .catch(_ => ToastNotification(payload("error", "Animeleri öne çıkarırken bir sorunla karşılaştık.")))
+            .catch(_ => ToastNotification(payload("error", t('anime.featured.errors.cant_update_featured'))))
     }
 
     if (loading) {
@@ -67,7 +69,7 @@ export default function AnimeFeatured() {
             {!loading && data.length ?
                 <>
                     <FormControl fullWidth margin="normal">
-                        <InputLabel htmlFor="anime-selector">Öne çıkaracağınız animeleri seçin</InputLabel>
+                        <InputLabel htmlFor="anime-selector">{t('anime.featured.selector')}</InputLabel>
                         <Select
                             fullWidth
                             multiple
@@ -82,7 +84,7 @@ export default function AnimeFeatured() {
                             {data.map(d => <MenuItem key={d.id} value={`${d.name} [${d.version}]`}>{d.name} [{d.version}]</MenuItem>)}
                         </Select>
                     </FormControl>
-                    <Button variant="outlined" color="primary" onClick={handleFeaturedAnimesUpdateButton}>Güncelle</Button>
+                    <Button variant="outlined" color="primary" onClick={handleFeaturedAnimesUpdateButton}>{t('common.buttons.update')}</Button>
                 </>
                 : ""}
         </>

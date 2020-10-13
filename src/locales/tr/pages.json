@@ -4,7 +4,9 @@
             "send_discord_embed": "Discord'a bildirim yollanacak",
             "dont_send_discord_embed": "Discord'a bildirim yollanmayacak",
             "can_user_download": "İndirme sayfasında gösterilecek",
-            "cant_user_download": "İndirme sayfasında gösterilmeyecek"
+            "cant_user_download": "İndirme sayfasında gösterilmeyecek",
+            "close": "Kapat",
+            "update": "Güncelle"
         }
     },
     "index": {
@@ -143,7 +145,24 @@
             "selector": "Düzenleyeceğiniz animeyi seçin"
         },
         "delete": {
+            "errors": {
+                "cant_delete_anime": "Animeyi silerken bir sorunla karşılaştık."
+            },
+            "warnings": {
+                "title": "{{title}} animesini silmek üzeresiniz.",
+                "subtitle": "Bu yıkıcı bir komuttur. Bu animeyle ilişkili bütün bölümler, indirme ve izleme linkleri silinecektir.",
+                "success": "Anime başarıyla silindi."
+            },
             "selector": "Sileceğiniz animeyi seçin"
+        },
+        "featured": {
+            "errors": {
+                "cant_update_featured": "Animeleri öne çıkarırken bir sorunla karşılaştık."
+            },
+            "warnings": {
+                "success": "Animeler başarıyla öne çıkarıldı."
+            },
+            "selector": "Öne çıkaracağınız animeleri seçin"
         }
     }
 }
