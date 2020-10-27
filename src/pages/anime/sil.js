@@ -80,7 +80,7 @@ export default function AnimeDelete(props) {
                 setData(newData)
                 ToastNotification(payload("success", t('anime.delete.warnings.success')))
             })
-            .catch(_ => ToastNotification(payload("error", t('anime.delete.errors.cant_delete_anime'))))
+            .catch(_ => ToastNotification(payload("error", t('anime.delete.errors.error'))))
     }
 
     function handleClose() {

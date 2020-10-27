@@ -1,11 +1,11 @@
-import React from 'react'
+import React, { StrictMode, Suspense } from 'react'
 import { setGlobal, addReducer } from 'reactn'
 import ReactDOM from 'react-dom';
 import { indexURL, isAdmin, jikanIndex } from './config/api-routes'
 import axios from './config/axios/axios'
 import Lang from 'lodash/lang'
 import { settings, user } from './config/localStorage'
-import i18next from './config/i18n'
+import './config/i18n'
 
 import { ThemeProvider } from '@material-ui/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -13,7 +13,6 @@ import theme from './config/theme/index'
 
 import './index.scss';
 import App from './App';
-import { I18nextProvider } from 'react-i18next';
 
 //Set global variables & reducers via reactn package
 setGlobal({
@@ -166,18 +165,18 @@ addReducer('setVersions', (global, dispatch, versions) => {
 localStorage.setItem("app-settings", JSON.stringify(settings))
 
 function Mount() {
-    window.site_theme = theme
+    window.theme = theme
 
     return (
-        <React.StrictMode>
+        <StrictMode>
             <ThemeProvider theme={theme}>
                 <CssBaseline>
-                    <I18nextProvider i18n={i18next}>
+                    <Suspense fallback={<p></p>}>
                         <App />
-                    </I18nextProvider>
+                    </Suspense>
                 </CssBaseline>
             </ThemeProvider>
-        </React.StrictMode>
+        </StrictMode>
     )
 }
 

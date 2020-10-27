@@ -115,7 +115,7 @@ export default function AnimeCreate() {
                 ToastNotification(payload)
             })
             .catch(err => {
-                ToastNotification(payload("error", err.response.data.err || t("anime.create.errors.cant_add_anime")))
+                ToastNotification(payload("error", t("anime.create.errors.error")))
             })
     }
 
@@ -388,7 +388,7 @@ export default function AnimeCreate() {
                             variant="outlined"
                             color="primary"
                             type="submit">
-                            {t("anime.common.buttons.save")}
+                            {t("common.buttons.save")}
                         </Button>
                     </form>
                 </>

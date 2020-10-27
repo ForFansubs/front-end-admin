@@ -76,7 +76,7 @@ export default function AnimeUpdate() {
                 ToastNotification(payload("success", t("anime.update.warnings.success")))
             })
             .catch(_ => {
-                ToastNotification(payload("error", t("anime.create.errors.cant_update_anime")))
+                ToastNotification(payload("error", t("anime.create.errors.error")))
             })
     }
 
@@ -363,7 +363,7 @@ export default function AnimeUpdate() {
                             variant="outlined"
                             color="primary"
                             type="submit">
-                            {t("anime.common.buttons.save")}
+                            {t("common.buttons.save")}
                         </Button>
                     </form>
                 </>}

@@ -44,9 +44,9 @@ export default function VerticalTabs() {
                     variant="fullWidth"
                     aria-label="Yatay menüler"
                 >
-                    <Tab disabled={!adminPermList["add-anime"]} style={!adminPermList["add-anime"] ? { display: "none" } : null} label={t("anime.index.create")} {...a11yProps(0)} />
-                    <Tab disabled={!adminPermList["update-anime"]} style={!adminPermList["update-anime"] ? { display: "none" } : null} label={t("anime.index.update")} {...a11yProps(1)} />
-                    <Tab disabled={!adminPermList["delete-anime"]} style={!adminPermList["delete-anime"] ? { display: "none" } : null} label={t("anime.index.delete")} {...a11yProps(2)} />
+                    <Tab disabled={!adminPermList["add-anime"]} style={!adminPermList["add-anime"] ? { display: "none" } : null} label={t("common.index.create")} {...a11yProps(0)} />
+                    <Tab disabled={!adminPermList["update-anime"]} style={!adminPermList["update-anime"] ? { display: "none" } : null} label={t("common.index.update")} {...a11yProps(1)} />
+                    <Tab disabled={!adminPermList["delete-anime"]} style={!adminPermList["delete-anime"] ? { display: "none" } : null} label={t("common.index.delete")} {...a11yProps(2)} />
                     <Tab disabled={!adminPermList["featured-anime"]} style={!adminPermList["featured-anime"] ? { display: "none" } : null} label={t("anime.index.feature")} {...a11yProps(3)} />
                 </Tabs>
             </AppBar>

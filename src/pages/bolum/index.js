@@ -14,8 +14,10 @@ import EpisodeWatchLinkIndex from './izlemelinkiindex'
 import EpisodeDownloadLinkIndex from './indirmelinkiindex'
 
 import { a11yProps, TabPanel } from "../../components/pages/default-components";
+import { useTranslation } from 'react-i18next';
 
 export default function VerticalTabs() {
+    const { t } = useTranslation('pages')
     const theme = useTheme()
     const token = useGlobal("user")[0].token
     const [value, setValue] = useState(0)
@@ -45,11 +47,11 @@ export default function VerticalTabs() {
                     variant="fullWidth"
                     aria-label="Yatay menüler"
                 >
-                    <Tab disabled={!adminPermList["add-episode"]} style={!adminPermList["add-episode"] ? { display: "none" } : null} label="Oluştur" {...a11yProps(0)} />
-                    <Tab disabled={!adminPermList["update-episode"]} style={!adminPermList["update-episode"] ? { display: "none" } : null} label="Düzenle" {...a11yProps(1)} />
-                    <Tab disabled={!adminPermList["delete-episode"]} style={!adminPermList["delete-episode"] ? { display: "none" } : null} label="Sil" {...a11yProps(2)} />
-                    <Tab disabled={!adminPermList["see-watch-link"]} style={!adminPermList["see-watch-link"] ? { display: "none" } : null} label="İzleme" {...a11yProps(3)} />
-                    <Tab disabled={!adminPermList["see-download-link"]} style={!adminPermList["see-download-link"] ? { display: "none" } : null} label="İndirme" {...a11yProps(4)} />
+                    <Tab disabled={!adminPermList["add-episode"]} style={!adminPermList["add-episode"] ? { display: "none" } : null} label={t("common.index.create")} {...a11yProps(0)} />
+                    <Tab disabled={!adminPermList["update-episode"]} style={!adminPermList["update-episode"] ? { display: "none" } : null} label={t("common.index.update")} {...a11yProps(1)} />
+                    <Tab disabled={!adminPermList["delete-episode"]} style={!adminPermList["delete-episode"] ? { display: "none" } : null} label={t("common.index.delete")} {...a11yProps(2)} />
+                    <Tab disabled={!adminPermList["see-watch-link"]} style={!adminPermList["see-watch-link"] ? { display: "none" } : null} label={t("episode.index.watch_link")} {...a11yProps(3)} />
+                    <Tab disabled={!adminPermList["see-download-link"]} style={!adminPermList["see-download-link"] ? { display: "none" } : null} label={t("episode.index.download_link")} {...a11yProps(4)} />
                 </Tabs>
             </AppBar>
             {adminPermList["add-episode"] && value === 0 ?

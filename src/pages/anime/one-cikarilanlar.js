@@ -55,7 +55,7 @@ export default function AnimeFeatured() {
 
                 ToastNotification(payload("success", t('anime.featured.warnings.success')))
             })
-            .catch(_ => ToastNotification(payload("error", t('anime.featured.errors.cant_update_featured'))))
+            .catch(_ => ToastNotification(payload("error", t('anime.featured.errors.error'))))
     }
 
     if (loading) {
@@ -84,7 +84,7 @@ export default function AnimeFeatured() {
                             {data.map(d => <MenuItem key={d.id} value={`${d.name} [${d.version}]`}>{d.name} [{d.version}]</MenuItem>)}
                         </Select>
                     </FormControl>
-                    <Button variant="outlined" color="primary" onClick={handleFeaturedAnimesUpdateButton}>{t('common.buttons.update')}</Button>
+                    <Button variant="outlined" color="primary" onClick={handleFeaturedAnimesUpdateButton}>{t('common.buttons.save')}</Button>
                 </>
                 : ""}
         </>
