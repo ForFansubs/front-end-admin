@@ -11,6 +11,9 @@ function getLoadPath([ns]) {
         case "genres": {
             return '/locales/common/{{lng}}/{{ns}}.json'
         }
+        case "common": {
+            return '/locales/common/{{lng}}/{{ns}}.json'
+        }
         default: {
             return '/locales/front-end-admin/{{lng}}/{{ns}}.json'
         }
@@ -31,7 +34,7 @@ i18next
         debug: process.env.NODE_ENV === "development" ? true : false,
         logging: process.env.NODE_ENV === "development" ? true : false,
         interpolation: { escapeValue: false },
-        supportedLngs: ["en", "tr"],
+        supportedLngs: ["tr"],
         fallbackLng: "tr",
     })
 

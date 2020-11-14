@@ -10,9 +10,11 @@ import ToastNotification, { payload } from '../../../components/toastify/toast'
 import { Button, Box, FormControl, InputLabel, Select, MenuItem, Typography, Grid } from '@material-ui/core'
 import { defaultEpisodeData, defaultAnimeData } from '../../../components/pages/default-props';
 import { getFullAnimeList, getAnimeData, getDownloadlinks, deleteDownloadlink } from '../../../config/api-routes';
-import { handleSelectData, handleEpisodeTitleFormat, handleEpisodeSelectData } from '../../../components/pages/functions';
+import { useTranslation } from 'react-i18next'
+import EpisodeTitleParser from '../../../config/episode-title-parser'
 
 export default function DownloadlinkCreate() {
+    const { t } = useTranslation('pages')
     const token = useGlobal("user")[0].token
 
     const [data, setData] = useState([])
@@ -52,7 +54,7 @@ export default function DownloadlinkCreate() {
         }
 
         else {
-            ToastNotification(payload("error", "Bölüm bilgilerini getirirken bir sorun oluştu."))
+            ToastNotification(payload("error", t("common.errors.database_error")))
         }
     }
 
@@ -75,7 +77,7 @@ export default function DownloadlinkCreate() {
 
         axios.post(getDownloadlinks, data, { headers })
             .then(res => {
-                if (!res.data.length) return ToastNotification(payload("error", "Bölüme kayıtlı indirme linki bulunamadı."))
+                if (!res.data.length) return ToastNotification(payload("error", t('episode.download_link.delete.errors.links_not_found')))
                 setCurrentEpisodeDownloadlinkData(res.data)
             }).catch(err => console.log(err))
 
@@ -98,11 +100,11 @@ export default function DownloadlinkCreate() {
             const newEpisodeDataSet = currentEpisodeDownloadlinkData
             PullAllBy(newEpisodeDataSet, [{ "id": downloadlink_id }], "id")
             setCurrentEpisodeDownloadlinkData(oldData => ([...newEpisodeDataSet]))
-            ToastNotification(payload("success", res.data.message || "Link başarıyla silindi."))
+            ToastNotification(payload("success", t('episode.common.link_delete_success')))
         }
 
         else {
-            ToastNotification(payload("error", res.response.data.err || "Linki silerken bir sorunla karşılaştık."))
+            ToastNotification(payload("error", t('episode.download_link.delete.errors.error')))
         }
     }
 
@@ -110,7 +112,7 @@ export default function DownloadlinkCreate() {
         <>
             {!loading && data.length ?
                 <FormControl fullWidth>
-                    <InputLabel htmlFor="anime-selector">İndirme linkini sileceğiniz animeyi seçin</InputLabel>
+                    <InputLabel htmlFor="anime-selector">{t('episode.download_link.delete.anime_selector')}</InputLabel>
                     <Select
                         fullWidth
                         value={currentAnimeData.id || ""}
@@ -127,7 +129,7 @@ export default function DownloadlinkCreate() {
             <Box mt={2}>
                 {episodeData.length ?
                     <FormControl fullWidth>
-                        <InputLabel htmlFor="anime-selector">İndirme linkini sileceğiniz bölümü seçin</InputLabel>
+                        <InputLabel htmlFor="anime-selector">{t('episode.download_link.delete.episode_selector')}</InputLabel>
                         <Select
                             fullWidth
                             value={currentEpisodeData.id || ""}
@@ -137,7 +139,7 @@ export default function DownloadlinkCreate() {
                                 id: "episode-selector"
                             }}
                         >
-                            {episodeData.map(e => <MenuItem key={e.id} value={e.id}>{handleEpisodeTitleFormat(e)}</MenuItem>)}
+                            {episodeData.map(e => <MenuItem key={e.id} value={e.id}>{EpisodeTitleParser({ episodeNumber: e.episode_number, specialType: e.special_type }).title}</MenuItem>)}
                         </Select>
                     </FormControl>
                     : ""}
@@ -149,12 +151,12 @@ export default function DownloadlinkCreate() {
                                     <Box padding={1}>
                                         <Box bgcolor="background.level1" display="flex" justifyContent="center" alignItems="center" padding={1}>
                                             <a href={w.link} target="_blank" rel="noopener noreferrer">
-                                                <Button variant="outlined">İndirme linki</Button>
+                                                <Button variant="outlined">{t('episode.download_link.delete.buttons.download_link')}</Button>
                                             </a>
                                         </Box>
                                         <Box bgcolor="background.level1" display="flex" justifyContent="space-between" alignItems="center" padding={1}>
                                             <Typography variant="h6">{w.type.toUpperCase()}</Typography>
-                                            <Button color="secondary" onClick={() => handleDeleteButton(w.id)}>SİL</Button>
+                                            <Button color="secondary" onClick={() => handleDeleteButton(w.id)}>{t('common.index.delete')}</Button>
                                         </Box>
                                     </Box>
                                 </Grid>

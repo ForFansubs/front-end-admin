@@ -45,6 +45,7 @@ export default function AnimeUpdate() {
             }
             else {
                 setLoading(false)
+                ToastNotification(payload("error", t("common.errors.database_error")))
             }
         }
 

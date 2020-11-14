@@ -14,6 +14,7 @@ import { handleSelectData, handleEpisodeTitleFormat } from '../../components/pag
 
 import VisibilityIcon from '@material-ui/icons/Visibility'
 import VisibilityOffIcon from '@material-ui/icons/VisibilityOff'
+import { useTranslation } from 'react-i18next'
 
 const ModalContainer = styled(Box)`
     position: absolute;
@@ -28,6 +29,7 @@ const ModalContainer = styled(Box)`
 `
 
 export default function EpisodeUpdate(props) {
+    const { t } = useTranslation('pages')
     const { theme } = props
 
     const token = useGlobal("user")[0].token
@@ -70,7 +72,7 @@ export default function EpisodeUpdate(props) {
         }
 
         else {
-            ToastNotification(payload("error", "Bölüm bilgilerini getirirken bir sorun oluştu."))
+            ToastNotification(payload("error", t("common.errors.database_error")))
         }
     }
 

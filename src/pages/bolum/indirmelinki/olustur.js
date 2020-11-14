@@ -10,8 +10,8 @@ import ToastNotification, { payload } from '../../../components/toastify/toast'
 import { Button, TextField, Box, FormControl, InputLabel, Select, MenuItem, CircularProgress } from '@material-ui/core'
 import { defaultEpisodeData, defaultAnimeData } from '../../../components/pages/default-props';
 import { getFullAnimeList, getAnimeData, addDownloadlink } from '../../../config/api-routes';
-import { handleSelectData, handleEpisodeTitleFormat, handleEpisodeSelectData } from '../../../components/pages/functions';
 import { useTranslation } from 'react-i18next'
+import EpisodeTitleParser from '../../../config/episode-title-parser'
 
 export default function DownloadlinkCreate() {
     const { t } = useTranslation('pages')
@@ -54,7 +54,7 @@ export default function DownloadlinkCreate() {
         }
 
         else {
-            ToastNotification(payload("error", "Bölüm bilgilerini getirirken bir sorun oluştu."))
+            ToastNotification(payload("error", t("common.errors.database_error")))
         }
     }
 
@@ -114,7 +114,7 @@ export default function DownloadlinkCreate() {
             newEpisodeDataSet[clickedEpisodeDataIndex] = currentEpisodeData
             setEpisodeData(oldData => ([...newEpisodeDataSet]))
 
-            ToastNotification(payload("success", t('episode.download_link.create.warnings.success')))
+            ToastNotification(payload("success", t('episode.common.links_add_success')))
             setCurrentEpisodeData(state => ({ ...state, link: "" }))
             if (!IsEmpty(res.data.errors)) {
                 let links = ""
@@ -163,7 +163,7 @@ export default function DownloadlinkCreate() {
                                 id: "episode-selector"
                             }}
                         >
-                            {episodeData.map(e => <MenuItem key={e.id} value={e.id}>{handleEpisodeTitleFormat(e)}</MenuItem>)}
+                            {episodeData.map(e => <MenuItem key={e.id} value={e.id}>{EpisodeTitleParser({ episodeNumber: e.episode_number, specialType: e.special_type }).title}</MenuItem>)}
                         </Select>
                     </FormControl>
                     : ""}
@@ -178,7 +178,7 @@ export default function DownloadlinkCreate() {
                             onChange={handleInputChange("link")}
                             margin="normal"
                             variant="filled"
-                            helperText={linkError ? t('episode.download_link.create.link_input.helperTextError') : t('episode.download_link.create.link_input.helperTextSuccess')}
+                            helperText={linkError ? t('episode.common.inputs.helper_text_error') : t('episode.common.inputs.helper_text_success')}
                             multiline
                             rows={4}
                             rowsMax={20}
