@@ -9,20 +9,13 @@ import ToastNotification, { payload } from '../../components/toastify/toast'
 import { Button, Box, Modal, CircularProgress, FormControl, InputLabel, Select, MenuItem, Typography, makeStyles } from '@material-ui/core'
 import { defaultAnimeData } from '../../components/pages/default-props';
 import { getFullAnimeList, deleteAnime } from '../../config/api-routes';
-import { handleSelectData } from '../../components/pages/functions';
 import { useTranslation } from 'react-i18next'
 
 const useStyles = makeStyles(theme => ({
     ModalContainer: {
-        position: "absolute",
-        top: "50%",
-        left: "50%",
-        transform: "translate(-50%, -50%)",
-        width: theme.breakpoints.values.sm,
-
-        [theme.breakpoints.down("sm")]: {
-            width: "100%"
-        }
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center'
     }
 }))
 
@@ -115,26 +108,25 @@ export default function AnimeDelete(props) {
                 aria-describedby="simple-modal-description"
                 open={open}
                 onClose={handleClose}
+                className={classes.ModalContainer}
             >
-                <div className={classes.ModalContainer}>
-                    <Box p={2} bgcolor="background.level2">
-                        <Typography variant="h4">{t('anime.delete.warnings.title', { title: currentAnimeData.name })}</Typography>
-                        <Typography variant="body1" gutterBottom>{t('anime.delete.warnings.subtitle')}</Typography>
-                        <Button
-                            style={{ marginRight: "5px" }}
-                            variant="outlined"
-                            color="secondary"
-                            onClick={() => handleDeleteButton(currentAnimeData.slug)}>
-                            {t('anime.index.delete')}
-                        </Button>
-                        <Button
-                            variant="outlined"
-                            color="primary"
-                            onClick={handleClose}>
-                            {t('common.buttons.close')}
-                        </Button>
-                    </Box>
-                </div>
+                <Box p={2} bgcolor="background.level2">
+                    <Typography variant="h4">{t('anime.delete.warnings.title', { title: currentAnimeData.name })}</Typography>
+                    <Typography variant="body1" gutterBottom>{t('anime.delete.warnings.subtitle')}</Typography>
+                    <Button
+                        style={{ marginRight: 8 }}
+                        variant="outlined"
+                        color="secondary"
+                        onClick={() => handleDeleteButton(currentAnimeData.slug)}>
+                        {t('anime.index.delete')}
+                    </Button>
+                    <Button
+                        variant="outlined"
+                        color="primary"
+                        onClick={handleClose}>
+                        {t('common.buttons.close')}
+                    </Button>
+                </Box>
             </Modal>
         </>
     )

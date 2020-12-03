@@ -6,24 +6,22 @@ import PullAt from 'lodash-es/pullAt'
 import axios from '../../config/axios/axios'
 import ToastNotification, { payload } from '../../components/toastify/toast'
 
-import { Button, Box, Modal, CircularProgress, FormControl, InputLabel, Select, MenuItem, Typography } from '@material-ui/core'
-import styled from 'styled-components'
+import { Button, Box, Modal, CircularProgress, FormControl, InputLabel, Select, MenuItem, Typography, makeStyles } from '@material-ui/core'
 import { defaultMangaData } from '../../components/pages/default-props';
 import { getFullMangaList, deleteManga } from '../../config/api-routes';
+import { useTranslation } from 'react-i18next'
 
-const ModalContainer = styled(Box)`
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: ${props => props.theme.breakpoints.values.sm}px;
-
-    @media(max-width:${props => props.theme.breakpoints.values.sm}px) {
-        width: 100%;
+const useStyles = makeStyles(theme => ({
+    ModalContainer: {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center'
     }
-`
+}))
+
 export default function MangaDelete(props) {
-    const { theme } = props
+    const { t } = useTranslation('pages')
+    const classes = useStyles()
     const token = useGlobal("user")[0].token
     const [data, setData] = useState([])
     const [open, setOpen] = useState(false)
@@ -71,9 +69,9 @@ export default function MangaDelete(props) {
                 handleClose()
                 setCurrentMangaData({ ...defaultMangaData })
                 setData(newData)
-                ToastNotification(payload("success", "Manga başarıyla silindi."))
+                ToastNotification(payload("success", t('manga.delete.warnings.success')))
             })
-            .catch(_ => ToastNotification(payload("error", "Mangayı silerken bir sorunla karşılaştık.")))
+            .catch(_ => ToastNotification(payload("error", t('manga.delete.errors.error'))))
     }
 
     function handleClose() {
@@ -89,7 +87,7 @@ export default function MangaDelete(props) {
         <>
             {!loading && data.length ?
                 <FormControl fullWidth>
-                    <InputLabel htmlFor="manga-selector">Sileceğiniz mangayı seçin</InputLabel>
+                    <InputLabel htmlFor="manga-selector">{t('manga.delete.selector')}</InputLabel>
                     <Select
                         fullWidth
                         value={currentMangaData || ""}
@@ -108,14 +106,18 @@ export default function MangaDelete(props) {
                 aria-describedby="simple-modal-description"
                 open={open}
                 onClose={handleClose}
+                className={classes.ModalContainer}
             >
-                <ModalContainer theme={theme}>
-                    <Box p={2} bgcolor="background.level2">
-                        <Typography variant="h4"><em>{currentMangaData.name}</em> mangasını silmek üzeresiniz.</Typography>
-                        <Button variant="contained" color="secondary" onClick={() => handleDeleteButton(currentMangaData.slug)}>Sil</Button>
-                        <Button variant="contained" color="primary" onClick={handleClose}>Kapat</Button>
-                    </Box>
-                </ModalContainer>
+                <Box p={2} bgcolor="background.level2">
+                    <Typography variant="h4">{t('manga.delete.warnings.title', { title: currentMangaData.name })}</Typography>
+                    <Typography variant="body1" gutterBottom>{t('manga.delete.warnings.subtitle')}</Typography>
+                    <Button variant="contained" color="secondary" onClick={() => handleDeleteButton(currentMangaData.slug)} style={{ marginRight: 8 }}>
+                        {t('common.index.delete')}
+                    </Button>
+                    <Button variant="contained" color="primary" onClick={handleClose}>
+                        {t('common.buttons.close')}
+                    </Button>
+                </Box>
             </Modal>
         </>
     )

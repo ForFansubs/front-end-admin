@@ -63,7 +63,7 @@ export default function VerticalTabs() {
                 : <></>}
             {adminPermList["delete-anime"] && value === 2 ?
                 <TabPanel value={value} index={2} dir={theme.direction}>
-                    <AnimeDelete theme={theme} />
+                    <AnimeDelete />
                 </TabPanel>
                 : <></>}
             {adminPermList["featured-anime"] && value === 3 ?

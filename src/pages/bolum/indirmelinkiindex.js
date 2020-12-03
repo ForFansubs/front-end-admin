@@ -14,8 +14,10 @@ import WarningBox from '../../components/warningerrorbox/warning';
 import { downloadLinkList } from '../../config/api-routes';
 
 import { a11yProps, TabPanel } from "../../components/pages/default-components";
+import { useTranslation } from 'react-i18next';
 
 export default function EpisodeDownloadLinkIndex() {
+    const { t } = useTranslation('pages')
     const theme = useTheme()
     const token = useGlobal("user")[0].token
     const [value, setValue] = useState(0)
@@ -57,8 +59,8 @@ export default function EpisodeDownloadLinkIndex() {
                     variant="fullWidth"
                     aria-label="Yatay menüler"
                 >
-                    <Tab disabled={!adminPermList["add-download-link"]} style={!adminPermList["add-download-link"] ? { display: "none" } : null} label="Ekle" {...a11yProps(0)} />
-                    <Tab disabled={!adminPermList["delete-download-link"]} style={!adminPermList["delete-download-link"] ? { display: "none" } : null} label="Sil" {...a11yProps(1)} />
+                    <Tab disabled={!adminPermList["add-download-link"]} style={!adminPermList["add-download-link"] ? { display: "none" } : null} label={t('common.index.create')} {...a11yProps(0)} />
+                    <Tab disabled={!adminPermList["delete-download-link"]} style={!adminPermList["delete-download-link"] ? { display: "none" } : null} label={t('common.index.delete')} {...a11yProps(1)} />
                 </Tabs>
             </AppBar>
 
@@ -72,11 +74,11 @@ export default function EpisodeDownloadLinkIndex() {
                     <DownloadLinkDelete />
                 </TabPanel>
                 : <></>}
-            {downloadLinkList.length ?
+            {/*downloadLinkList.length ?
                 <WarningBox bgcolor="background.level1" mb={2} variant="h6">
                     {downloadLinks.map((w, i) => i === downloadLinks.length - 1 ? w.toUpperCase() : `${w.toUpperCase()} - `)}
                 </WarningBox>
-                : ""}
+            : ""*/}
         </>
     );
 }

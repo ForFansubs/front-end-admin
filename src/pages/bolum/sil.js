@@ -8,26 +8,26 @@ import PullAllBy from 'lodash-es/pullAllBy'
 import axios from '../../config/axios/axios'
 import ToastNotification, { payload } from '../../components/toastify/toast'
 
-import { Button, Grid, Box, FormControl, InputLabel, Select, MenuItem, Typography, Modal } from '@material-ui/core'
+import { Button, Grid, Box, FormControl, InputLabel, Select, MenuItem, Typography, Modal, makeStyles } from '@material-ui/core'
 import { defaultEpisodeData, defaultAnimeData } from '../../components/pages/default-props';
 import { getFullAnimeList, getAnimeData, deleteEpisode } from '../../config/api-routes';
-import { handleSelectData, handleEpisodeTitleFormat } from '../../components/pages/functions';
+import { handleEpisodeTitleFormat } from '../../components/pages/functions';
+import { useTranslation } from 'react-i18next'
 
-const ModalContainer = styled(Box)`
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: ${props => props.theme.breakpoints.values.sm}px;
-
-    @media(max-width:${props => props.theme.breakpoints.values.sm}px) {
-        width: 100%;
+const useStyles = makeStyles(theme => ({
+    ModalContainer: {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    AnimeSelector: {
+        marginBottom: theme.spacing(2)
     }
-`
+}))
 
 export default function EpisodeDelete(props) {
-    const { theme } = props
-
+    const classes = useStyles()
+    const { t } = useTranslation('pages')
     const token = useGlobal("user")[0].token
 
     const [open, setOpen] = useState(false)
@@ -68,7 +68,7 @@ export default function EpisodeDelete(props) {
         }
 
         else {
-            ToastNotification(payload("error", "Bölüm bilgilerini getirirken bir sorun oluştu."))
+            ToastNotification(payload("error", t("common.errors.database_error")))
         }
     }
 
@@ -95,11 +95,11 @@ export default function EpisodeDelete(props) {
             setEpisodeData(oldData => ([...newEpisodeDataSet]))
             setCurrentEpisodeData({ ...defaultEpisodeData })
             handleClose()
-            ToastNotification(payload("success", res.data.message || "Bölüm başarıyla silindi."))
+            ToastNotification(payload("success", res.data.message || t('episode.delete.warnings.success')))
         }
 
         else {
-            ToastNotification(payload("error", res.response.data.err || "Bölümü silerken bir sorunla karşılaştık."))
+            ToastNotification(payload("error", res.response.data.err || t('episode.delete.errors.error')))
         }
     }
 
@@ -119,8 +119,6 @@ export default function EpisodeDelete(props) {
             setCurrentEpisodeData(episodeData[clickedEpisodeDataIndex])
             setOpen(true)
         }
-
-        else ToastNotification(payload("error", "Bölümü listede bulurken bir sorun yaşadık."))
     }
 
     function handleClose() {
@@ -132,7 +130,7 @@ export default function EpisodeDelete(props) {
         <>
             {!loading && data.length ?
                 <FormControl fullWidth>
-                    <InputLabel htmlFor="anime-selector">Bölümünü sileceğiniz animeyi seçin</InputLabel>
+                    <InputLabel htmlFor="anime-selector">{t('episode.delete.anime_selector')}</InputLabel>
                     <Select
                         fullWidth
                         value={currentAnimeData.id || ""}
@@ -154,7 +152,7 @@ export default function EpisodeDelete(props) {
                                 <Box p={1} boxShadow={2} bgcolor="background.level1" display="flex" alignItems="center" justifyContent="space-between">
                                     <Typography variant="h6">{handleEpisodeTitleFormat(e)}</Typography>
                                     <div>
-                                        <Button size="small" variant="outlined" color="secondary" onClick={() => handleDeleteModalButton(e.id)}>SİL</Button>
+                                        <Button size="small" variant="outlined" color="secondary" onClick={() => handleDeleteModalButton(e.id)}>{t('common.index.delete')}</Button>
                                     </div>
                                 </Box>
                             </Grid>
@@ -167,25 +165,24 @@ export default function EpisodeDelete(props) {
                 aria-describedby="simple-modal-description"
                 open={open}
                 onClose={handleClose}
+                className={classes.ModalContainer}
             >
-                <ModalContainer theme={theme}>
-                    <Box p={2} bgcolor="background.level2">
-                        <Typography variant="h4"><em>{currentAnimeData.name}</em> {handleEpisodeTitleFormat(currentEpisodeData)} - bölümünü silmek üzeresiniz.</Typography>
-                        <Button
-                            style={{ marginRight: "5px" }}
-                            variant="contained"
-                            color="secondary"
-                            onClick={() => handleDeleteButton(currentEpisodeData.id)}>
-                            Sil
-                            </Button>
-                        <Button
-                            variant="contained"
-                            color="primary"
-                            onClick={handleClose}>
-                            Kapat
-                        </Button>
-                    </Box>
-                </ModalContainer>
+                <Box p={2} bgcolor="background.level2">
+                    <Typography variant="h4">{t('episode.delete.anime_title', { anime_title: `${currentAnimeData.name} ${handleEpisodeTitleFormat(currentEpisodeData)}` })}</Typography>
+                    <Button
+                        style={{ marginRight: "5px" }}
+                        variant="contained"
+                        color="secondary"
+                        onClick={() => handleDeleteButton(currentEpisodeData.id)}>
+                        {t('common.index.delete')}
+                    </Button>
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={handleClose}>
+                        {t('common.buttons.close')}
+                    </Button>
+                </Box>
             </Modal>
         </>
     )

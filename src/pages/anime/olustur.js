@@ -73,11 +73,10 @@ export default function AnimeCreate() {
         let turler = [], studyolar = []
         anime.data.genres.forEach(genre => turler.push(genre.name))
         anime.data.studios.forEach(studio => studyolar.push(studio.name))
-        const date = new Date(anime.data.aired.from)
         const newAnimeData = {
             cover_art: anime.data.image_url ? anime.data.image_url : "",
             name: anime.data.title ? anime.data.title : "",
-            release_date: date ? new Date(date) : new Date(),
+            release_date: anime && anime.data && anime.data.aired ? new Date(anime.data.aired.from) : new Date(),
             studios: studyolar ? studyolar.join(',') : [],
             genres: turler ? turler.join(',') : [],
             airing: anime.data.airing ? anime.data.airing : false,
@@ -129,8 +128,8 @@ export default function AnimeCreate() {
                 autoComplete="off"
                 fullWidth
                 id="mal_link"
-                label={t("anime.common.inputs.mal_link.label")}
-                helperText={t("anime.common.inputs.mal_link.helperText")}
+                label={t("common.inputs.mal_link.label")}
+                helperText={t("common.inputs.mal_link.helperText")}
                 value={animeData.mal_link}
                 onChange={handleInputChange("mal_link")}
                 margin="normal"
@@ -145,17 +144,19 @@ export default function AnimeCreate() {
                 onClick={handleMALSubmit}
                 disabled={animeData.mal_get ? true : false}
             >
-                {t("anime.create.buttons.get_information")}
+                {t("common.buttons.get_information")}
             </Button>
             <Button
                 style={{ marginRight: "5px" }}
                 color="secondary"
                 variant="outlined"
-                onClick={clearData}>{t("anime.create.buttons.clean_information")}</Button>
+                onClick={clearData}>{t("common.buttons.clean_information")}</Button>
             <Button
                 color="secondary"
                 variant="outlined"
-                onClick={() => setAnimeData({ ...animeData, mal_get: !animeData.mal_get })}>{t("anime.create.buttons.add_without_api")}</Button>
+                onClick={() => setAnimeData({ ...animeData, mal_get: !animeData.mal_get })}>
+                {t("common.buttons.add_without_api")}
+            </Button>
             {animeData.mal_get ?
                 <>
                     <form onSubmit={th => handleDataSubmit(th)} autoComplete="off">
@@ -164,8 +165,7 @@ export default function AnimeCreate() {
                                 <TextField
                                     fullWidth
                                     id="cover_art"
-                                    label={t("anime.common.inputs.cover_art.label")}
-                                    helperText={t("anime.common.inputs.cover_art.helperText")}
+                                    label={t("common.inputs.cover_art.label")}
                                     value={animeData.cover_art}
                                     onChange={handleInputChange("cover_art")}
                                     margin="normal"
@@ -180,8 +180,7 @@ export default function AnimeCreate() {
                                 <TextField
                                     fullWidth
                                     id="logo"
-                                    label={t("anime.common.inputs.logo.label")}
-                                    helperText={t("anime.common.inputs.logo.helperText")}
+                                    label={t("common.inputs.logo.label")}
                                     value={animeData.logo}
                                     onChange={handleInputChange("logo")}
                                     margin="normal"
@@ -195,8 +194,7 @@ export default function AnimeCreate() {
                                 <TextField
                                     fullWidth
                                     id="header"
-                                    label={t("anime.common.inputs.header.label")}
-                                    helperText={t("anime.common.inputs.header.helperText")}
+                                    label={t("common.inputs.header.label")}
                                     value={animeData.header}
                                     onChange={handleInputChange("header")}
                                     margin="normal"
@@ -211,8 +209,8 @@ export default function AnimeCreate() {
                                 <TextField
                                     fullWidth
                                     id="name"
-                                    label={t("anime.common.inputs.name.label")}
-                                    helperText={t("anime.common.inputs.name.helperText")}
+                                    label={t("common.inputs.name.label")}
+                                    helperText={t("common.inputs.name.helperText")}
                                     value={animeData.name}
                                     onChange={handleInputChange("name")}
                                     margin="normal"
@@ -227,8 +225,8 @@ export default function AnimeCreate() {
                                     multiline
                                     rows={3}
                                     rowsMax={3}
-                                    label={t("anime.common.inputs.synopsis.label")}
-                                    helperText={t("anime.common.inputs.synopsis.helperText")}
+                                    label={t("common.inputs.synopsis.label")}
+                                    helperText={t("common.inputs.synopsis.helperText")}
                                     value={animeData.synopsis}
                                     onChange={handleInputChange("synopsis")}
                                     margin="normal"
@@ -240,8 +238,8 @@ export default function AnimeCreate() {
                                 <TextField
                                     fullWidth
                                     id="translators"
-                                    label={t("anime.common.inputs.translators.label")}
-                                    helperText={t("anime.common.inputs.translators.helperText")}
+                                    label={t("common.inputs.translators.label")}
+                                    helperText={t("common.inputs.translators.helperText")}
                                     value={animeData.translators}
                                     onChange={handleInputChange("translators")}
                                     margin="normal"
@@ -253,8 +251,8 @@ export default function AnimeCreate() {
                                 <TextField
                                     fullWidth
                                     id="encoders"
-                                    label={t("anime.common.inputs.encoders.label")}
-                                    helperText={t("anime.common.inputs.encoders.helperText")}
+                                    label={t("common.inputs.encoders.label")}
+                                    helperText={t("common.inputs.encoders.helperText")}
                                     value={animeData.encoders}
                                     onChange={handleInputChange("encoders")}
                                     margin="normal"
@@ -266,8 +264,8 @@ export default function AnimeCreate() {
                                 <TextField
                                     fullWidth
                                     id="studios"
-                                    label={t("anime.common.inputs.studios.label")}
-                                    helperText={t("anime.common.inputs.studios.helperText")}
+                                    label={t("common.inputs.studios.label")}
+                                    helperText={t("common.inputs.studios.helperText")}
                                     value={animeData.studios}
                                     onChange={handleInputChange("studios")}
                                     margin="normal"
@@ -279,8 +277,8 @@ export default function AnimeCreate() {
                                 <TextField
                                     fullWidth
                                     id="genres"
-                                    label={t("anime.common.inputs.genres.label")}
-                                    helperText={t("anime.common.inputs.genres.helperText")}
+                                    label={t("common.inputs.genres.label")}
+                                    helperText={t("common.inputs.genres.helperText")}
                                     value={animeData.genres}
                                     onChange={handleInputChange("genres")}
                                     margin="normal"
@@ -292,8 +290,8 @@ export default function AnimeCreate() {
                                 <TextField
                                     fullWidth
                                     id="premiered"
-                                    label={t("anime.common.inputs.premiered.label")}
-                                    helperText={t("anime.common.inputs.premiered.helperText")}
+                                    label={t("common.inputs.premiered.label")}
+                                    helperText={t("common.inputs.premiered.helperText")}
                                     value={animeData.premiered}
                                     onChange={handleInputChange("premiered")}
                                     margin="normal"
@@ -304,8 +302,8 @@ export default function AnimeCreate() {
                                 <TextField
                                     fullWidth
                                     id="pv"
-                                    label={t("anime.common.inputs.pv.label")}
-                                    helperText={t("anime.common.inputs.pv.helperText")}
+                                    label={t("common.inputs.pv.label")}
+                                    helperText={t("common.inputs.pv.helperText")}
                                     value={animeData.pv}
                                     onChange={handleInputChange("pv")}
                                     margin="normal"
@@ -323,8 +321,8 @@ export default function AnimeCreate() {
                                 <TextField
                                     fullWidth
                                     id="episode_count"
-                                    label={t("anime.common.inputs.episode_count.label")}
-                                    helperText={t("anime.common.inputs.episode_count.helperText")}
+                                    label={t("common.inputs.episode_count.label")}
+                                    helperText={t("common.inputs.episode_count.helperText")}
                                     value={animeData.episode_count}
                                     onChange={handleInputChange("episode_count")}
                                     margin="normal"
@@ -334,7 +332,7 @@ export default function AnimeCreate() {
                             </Grid>
                             <Grid item xs={12} md={4}>
                                 <FormControl component="fieldset" style={{ width: "100%", textAlign: "center" }}>
-                                    <FormLabel component="legend">{t("anime.common.inputs.version.label")}</FormLabel>
+                                    <FormLabel component="legend">{t("common.inputs.version.label")}</FormLabel>
                                     <RadioGroup
                                         style={{ display: "flex", flexDirection: "row", justifyContent: "center" }}
                                         aria-label="version selector"
@@ -349,7 +347,7 @@ export default function AnimeCreate() {
                             </Grid>
                             <Grid item xs={12} md={4}>
                                 <FormControl component="fieldset" style={{ width: "100%", textAlign: "center" }}>
-                                    <FormLabel component="legend">{t("anime.common.inputs.series_status.label")}</FormLabel>
+                                    <FormLabel component="legend">{t("common.inputs.series_status.label")}</FormLabel>
                                     <RadioGroup
                                         style={{ display: "flex", flexDirection: "row", justifyContent: "center" }}
                                         aria-label="series_status"
@@ -367,7 +365,7 @@ export default function AnimeCreate() {
                             </Grid>
                             <Grid item xs={12} md={4}>
                                 <FormControl component="fieldset" style={{ width: "100%", textAlign: "center" }}>
-                                    <FormLabel component="legend">{t("anime.common.inputs.trans_status.label")}</FormLabel>
+                                    <FormLabel component="legend">{t("common.inputs.trans_status.label")}</FormLabel>
                                     <RadioGroup
                                         style={{ display: "flex", flexDirection: "row", justifyContent: "center" }}
                                         aria-label="trans_status"
@@ -388,7 +386,7 @@ export default function AnimeCreate() {
                             variant="outlined"
                             color="primary"
                             type="submit">
-                            {t("common.buttons.save")}
+                            {t("anime.common.buttons.save")}
                         </Button>
                     </form>
                 </>

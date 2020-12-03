@@ -87,7 +87,7 @@ const defaultMangaData = {
     logo: "",
     mal_link: "",
     genres: "",
-    mos_link: "",
+    reader_link: "",
     download_link: "",
     error: false,
     confirm: false,

@@ -45,7 +45,7 @@ export default function VerticalTabs() {
                     indicatorColor="primary"
                     textColor="primary"
                     variant="fullWidth"
-                    aria-label="Yatay menüler"
+                    aria-label="episode tabs"
                 >
                     <Tab disabled={!adminPermList["add-episode"]} style={!adminPermList["add-episode"] ? { display: "none" } : null} label={t("common.index.create")} {...a11yProps(0)} />
                     <Tab disabled={!adminPermList["update-episode"]} style={!adminPermList["update-episode"] ? { display: "none" } : null} label={t("common.index.update")} {...a11yProps(1)} />
@@ -61,21 +61,21 @@ export default function VerticalTabs() {
                 : <></>}
             {adminPermList["update-episode"] && value === 1 ?
                 <TabPanel value={value} index={1} dir={theme.direction}>
-                    <EpisodeUpdate theme={theme} />
+                    <EpisodeUpdate />
                 </TabPanel>
                 : <></>}
             {adminPermList["delete-episode"] && value === 2 ?
                 <TabPanel value={value} index={2} dir={theme.direction}>
-                    <EpisodeDelete theme={theme} />
+                    <EpisodeDelete />
                 </TabPanel>
                 : <></>}
             {adminPermList["add-watch-link"] && value === 3 ?
-                <TabPanel value={value} index={3} dir={theme.direction}>
+                <TabPanel value={value} index={3} dir={theme.direction} withoutStyle>
                     <EpisodeWatchLinkIndex />
                 </TabPanel>
                 : <></>}
             {adminPermList["add-download-link"] && value === 4 ?
-                <TabPanel value={value} index={4} dir={theme.direction}>
+                <TabPanel value={value} index={4} dir={theme.direction} withoutStyle>
                     <EpisodeDownloadLinkIndex />
                 </TabPanel>
                 : <></>}

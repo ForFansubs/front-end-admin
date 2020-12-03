@@ -8,6 +8,7 @@ import { Button, Grid, TextField, Divider, makeStyles } from '@material-ui/core'
 import { checkMyAnimeListMangaLink } from '../../components/pages/functions';
 import { defaultMangaData } from '../../components/pages/default-props';
 import { jikanIndex, addManga } from '../../config/api-routes';
+import { useTranslation } from 'react-i18next'
 
 const useStyles = makeStyles(theme => ({
     ImageContainer: {
@@ -20,6 +21,7 @@ const useStyles = makeStyles(theme => ({
 }))
 
 export default function MangaCreate() {
+    const { t } = useTranslation('pages')
     const classes = useStyles()
 
     const token = useGlobal("user")[0].token
@@ -38,7 +40,7 @@ export default function MangaCreate() {
             const payload = {
                 container: "process-error",
                 type: "error",
-                message: "Girdiğiniz link MyMangaList Manga linki değil."
+                message: t("manga.create.errors.wrong_mal_link")
             }
             return ToastNotification(payload)
         }
@@ -48,7 +50,7 @@ export default function MangaCreate() {
             const payload = {
                 container: "process-error",
                 type: "error",
-                message: "Girdiğiniz linkin bilgisi bulunamadı."
+                message: t("anime.create.errors.cant_find_link")
             }
 
             ToastNotification(payload)
@@ -63,7 +65,7 @@ export default function MangaCreate() {
                 const payload = {
                     container: "process-error",
                     type: "error",
-                    message: "Girdiğiniz linkin bilgisi bulunamadı."
+                    message: t("anime.create.errors.cant_find_link")
                 }
 
                 ToastNotification(payload)
@@ -108,7 +110,7 @@ export default function MangaCreate() {
             .then(res => {
                 const payload = {
                     container: "process-success",
-                    message: "Manga başarıyla eklendi.",
+                    message: t('manga.create.warnings.success'),
                     type: "success"
                 }
                 ToastNotification(payload)
@@ -117,7 +119,7 @@ export default function MangaCreate() {
                 console.log(err)
                 const payload = {
                     container: "process-error",
-                    message: err.response.data.err || "Mangayı eklerken bir sorunla karşılaştık.",
+                    message: err.response.data.err || t('manga.create.errors.error'),
                     type: "error"
                 }
                 ToastNotification(payload)
@@ -134,12 +136,12 @@ export default function MangaCreate() {
                 autoComplete="off"
                 fullWidth
                 id="mal_link"
-                label="MyAnimeList Linki"
+                label={t('common.inputs.mal_link.label')}
+                helperText={t('common.inputs.mal_link.helperText')}
                 value={mangaData.mal_link}
                 onChange={handleInputChange("mal_link")}
                 margin="normal"
                 variant="filled"
-                helperText="https://myanimelist.net/manga/99529/Love_Live_Sunshine ya da https://myanimelist.net/manga/99529 (Yoksa -)"
                 required
                 error={mangaData.mal_link ? checkMyAnimeListMangaLink(mangaData.mal_link) : false}
             />
@@ -150,17 +152,19 @@ export default function MangaCreate() {
                 onClick={handleMALSubmit}
                 disabled={mangaData.mal_get ? true : false}
             >
-                Bilgileri getir
+                {t("common.buttons.get_information")}
             </Button>
             <Button
                 style={{ marginRight: "5px" }}
                 color="secondary"
                 variant="outlined"
-                onClick={clearData}>Bilgileri temizle</Button>
+                onClick={clearData}>{t("common.buttons.clean_information")}</Button>
             <Button
                 color="secondary"
                 variant="outlined"
-                onClick={() => setMangaData({ ...mangaData, mal_get: !mangaData.mal_get })}>API Kullanmadan Ekle</Button>
+                onClick={() => setMangaData({ ...mangaData, mal_get: !mangaData.mal_get })}>
+                {t("common.buttons.add_without_api")}
+            </Button>
             {mangaData.mal_get ?
                 <>
                     <form onSubmit={th => handleDataSubmit(th)} autoComplete="off">
@@ -169,7 +173,7 @@ export default function MangaCreate() {
                                 <TextField
                                     fullWidth
                                     id="cover_art"
-                                    label="Manga poster resmi"
+                                    label={t("common.inputs.cover_art.label")}
                                     value={mangaData.cover_art}
                                     onChange={handleInputChange("cover_art")}
                                     margin="normal"
@@ -184,7 +188,8 @@ export default function MangaCreate() {
                                 <TextField
                                     fullWidth
                                     id="logo"
-                                    label="Manga logo resmi"
+                                    label={t('common.inputs.logo.label')}
+                                    helperText={t('common.inputs.logo.helperText')}
                                     value={mangaData.logo}
                                     onChange={handleInputChange("logo")}
                                     margin="normal"
@@ -198,7 +203,8 @@ export default function MangaCreate() {
                                 <TextField
                                     fullWidth
                                     id="header"
-                                    label="Manga header resmi"
+                                    label={t("common.inputs.header.label")}
+                                    helperText={t("common.inputs.header.helperText")}
                                     value={mangaData.header}
                                     onChange={handleInputChange("header")}
                                     margin="normal"
@@ -213,7 +219,8 @@ export default function MangaCreate() {
                                 <TextField
                                     fullWidth
                                     id="name"
-                                    label="Manga ismi"
+                                    label={t("common.inputs.name.label")}
+                                    helperText={t("common.inputs.name.helperText")}
                                     value={mangaData.name}
                                     onChange={handleInputChange("name")}
                                     margin="normal"
@@ -226,7 +233,8 @@ export default function MangaCreate() {
                                     fullWidth
                                     id="synopsis"
                                     multiline
-                                    label="Manga konusu"
+                                    label={t("common.inputs.synopsis.label")}
+                                    helperText={t("common.inputs.synopsis.helperText")}
                                     value={mangaData.synopsis}
                                     onChange={handleInputChange("synopsis")}
                                     margin="normal"
@@ -238,12 +246,12 @@ export default function MangaCreate() {
                                 <TextField
                                     fullWidth
                                     id="translators"
-                                    label="Çevirmenler"
+                                    label={t("common.inputs.translators.label")}
+                                    helperText={t("common.inputs.translators.helperText")}
                                     value={mangaData.translators}
                                     onChange={handleInputChange("translators")}
                                     margin="normal"
                                     variant="filled"
-                                    helperText="Çevirmenleri arasında virgülle, boşluksuz yazın. çevirmen1,çevirmen2 gibi"
                                     required
                                 />
                             </Grid>
@@ -251,12 +259,12 @@ export default function MangaCreate() {
                                 <TextField
                                     fullWidth
                                     id="editors"
-                                    label="Editörler"
+                                    label={t("common.inputs.editors.label")}
+                                    helperText={t("common.inputs.editors.helperText")}
                                     value={mangaData.editors}
                                     onChange={handleInputChange("editors")}
                                     margin="normal"
                                     variant="filled"
-                                    helperText="Editörleri arasında virgülle, boşluksuz yazın. editör1,editör2 gibi"
                                     required
                                 />
                             </Grid>
@@ -264,12 +272,12 @@ export default function MangaCreate() {
                                 <TextField
                                     fullWidth
                                     id="authors"
-                                    label="Yazarlar"
+                                    label={t("common.inputs.authors.label")}
+                                    helperText={t("common.inputs.authors.helperText")}
                                     value={mangaData.authors}
                                     onChange={handleInputChange("authors")}
                                     margin="normal"
                                     variant="filled"
-                                    helperText="Yazarları arasında virgülle, boşluksuz yazın. yazar1,yazar2 gibi"
                                     required
                                 />
                             </Grid>
@@ -277,22 +285,23 @@ export default function MangaCreate() {
                                 <TextField
                                     fullWidth
                                     id="genres"
-                                    label="Türler"
+                                    label={t("common.inputs.genres.label")}
+                                    helperText={t("common.inputs.genres.helperText")}
                                     value={mangaData.genres}
                                     onChange={handleInputChange("genres")}
                                     margin="normal"
                                     variant="filled"
-                                    helperText="Türleri arasında virgülle, boşluksuz yazın. tür1,tür2 gibi"
                                     required
                                 />
                             </Grid>
                             <Grid item xs={12} md={6}>
                                 <TextField
                                     fullWidth
-                                    id="mos_link"
-                                    label="Okuma Linki"
-                                    value={mangaData.mos_link}
-                                    onChange={handleInputChange("mos_link")}
+                                    id="reader_link"
+                                    label={t("common.inputs.reader_link.label")}
+                                    helperText={t("common.inputs.reader_link.helperText")}
+                                    value={mangaData.reader_link}
+                                    onChange={handleInputChange("reader_link")}
                                     margin="normal"
                                     variant="filled"
                                 />
@@ -301,7 +310,8 @@ export default function MangaCreate() {
                                 <TextField
                                     fullWidth
                                     id="download_link"
-                                    label="İndirme Linki"
+                                    label={t("common.inputs.download_link.label")}
+                                    helperText={t("common.inputs.download_link.helperText")}
                                     value={mangaData.download_link}
                                     onChange={handleInputChange("download_link")}
                                     margin="normal"
@@ -313,7 +323,7 @@ export default function MangaCreate() {
                             variant="outlined"
                             color="primary"
                             type="submit">
-                            Kaydet
+                            {t("common.buttons.save")}
                         </Button>
                     </form>
                 </>

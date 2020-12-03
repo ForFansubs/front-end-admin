@@ -76,10 +76,10 @@ export default function EpisodeCreate() {
 
         axios.post(addEpisode, data, { headers })
             .then(_ => {
-                ToastNotification(payload("success", "Bölüm başarıyla eklendi."))
+                ToastNotification(payload("success", t('episode.create.warnings.success')))
             })
             .catch(err => {
-                ToastNotification(payload("error", err.response.data.err || "Bölümü eklerken bir sorunla karşılaştık."))
+                ToastNotification(payload("error", err.response.data.err || t('episode.create.errors.error')))
             })
     }
 
@@ -87,7 +87,7 @@ export default function EpisodeCreate() {
         <>
             {!loading && data.length ?
                 <FormControl fullWidth>
-                    <InputLabel htmlFor="anime-selector">Bölüm ekleyeceğiniz animeyi seçin</InputLabel>
+                    <InputLabel htmlFor="anime-selector">{t('episode.create.anime_selector')}</InputLabel>
                     <Select
                         fullWidth
                         value={currentAnimeData.id || ""}
@@ -109,7 +109,7 @@ export default function EpisodeCreate() {
                                 <TextField
                                     fullWidth
                                     id="episode_number"
-                                    label="Bölüm Numarası - (Sadece sayı)"
+                                    label={t('common.inputs.episode_number_input')}
                                     value={episodeData.episode_number}
                                     onChange={handleInputChange("episode_number")}
                                     margin="normal"
@@ -121,7 +121,7 @@ export default function EpisodeCreate() {
                                 <TextField
                                     fullWidth
                                     id="credits"
-                                    label="Emektar"
+                                    label={t('common.inputs.credits_input')}
                                     value={episodeData.credits}
                                     onChange={handleInputChange("credits")}
                                     margin="normal"
@@ -139,7 +139,7 @@ export default function EpisodeCreate() {
                                 </Button>
                             </Grid>
                             <Grid item xs={12} style={{ textAlign: "center" }}>
-                                <FormLabel component="legend">Bölüm Özel Türü</FormLabel>
+                                <FormLabel component="legend">{t('common.inputs.special_type_input')}</FormLabel>
                                 <FormGroup row style={{ display: "flex", justifyContent: "center" }}>
                                     <FormControlLabel
                                         control={
@@ -169,7 +169,7 @@ export default function EpisodeCreate() {
                                                 value="toplu"
                                             />
                                         }
-                                        label="Toplu Link"
+                                        label={t('episode.update.inputs.batch_link')}
                                     />
                                 </FormGroup>
                             </Grid>
@@ -178,8 +178,8 @@ export default function EpisodeCreate() {
                             variant="outlined"
                             color="primary"
                             type="submit">
-                            Kaydet
-                    </Button>
+                            {t("common.buttons.save")}
+                        </Button>
                     </form>
                 </>
                 : ""}

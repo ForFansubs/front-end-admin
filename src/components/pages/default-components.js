@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import React from "react";
 
 function TabPanel(props) {
-    const { children, value, index, ...other } = props;
+    const { children, value, index, withoutStyle, ...other } = props;
 
     return (
         <Typography
@@ -15,7 +15,7 @@ function TabPanel(props) {
             aria-labelledby={`vertical-tab-${index}`}
             {...other}
         >
-            <Box p={2} bgcolor="background.level2" boxShadow={2}>{children}</Box>
+            <Box mt={withoutStyle ? 2 : 0} p={!withoutStyle ? 2 : 0} bgcolor={!withoutStyle ? "background.level2" : ""} boxShadow={!withoutStyle ? 2 : 0}>{children}</Box>
         </Typography>
     );
 }
@@ -33,4 +33,4 @@ function a11yProps(index) {
     };
 }
 
-export {a11yProps, TabPanel}
+export { a11yProps, TabPanel }

@@ -12,8 +12,10 @@ import EpisodeUpdate from './duzenle'
 import EpisodeDelete from './sil'
 
 import { a11yProps, TabPanel } from "../../components/pages/default-components";
+import { useTranslation } from 'react-i18next';
 
 export default function VerticalTabs() {
+    const { t } = useTranslation('pages')
     const theme = useTheme()
     const token = useGlobal("user")[0].token
     const [value, setValue] = useState(0)
@@ -43,9 +45,9 @@ export default function VerticalTabs() {
                     variant="fullWidth"
                     aria-label="Yatay menüler"
                 >
-                    <Tab disabled={!adminPermList["add-manga-episode"]} style={!adminPermList["add-manga-episode"] ? { display: "none" } : null} label="Oluştur" {...a11yProps(0)} />
-                    <Tab disabled={!adminPermList["update-manga-episode"]} style={!adminPermList["update-manga-episode"] ? { display: "none" } : null} label="Düzenle" {...a11yProps(1)} />
-                    <Tab disabled={!adminPermList["delete-manga-episode"]} style={!adminPermList["delete-manga-episode"] ? { display: "none" } : null} label="Sil" {...a11yProps(2)} />
+                    <Tab disabled={!adminPermList["add-manga-episode"]} style={!adminPermList["add-manga-episode"] ? { display: "none" } : null} label={t("common.index.create")} {...a11yProps(0)} />
+                    <Tab disabled={!adminPermList["update-manga-episode"]} style={!adminPermList["update-manga-episode"] ? { display: "none" } : null} label={t("common.index.update")} {...a11yProps(1)} />
+                    <Tab disabled={!adminPermList["delete-manga-episode"]} style={!adminPermList["delete-manga-episode"] ? { display: "none" } : null} label={t("common.index.delete")} {...a11yProps(2)} />
                 </Tabs>
             </AppBar>
             {adminPermList["add-manga-episode"] && value === 0 ?
@@ -55,12 +57,12 @@ export default function VerticalTabs() {
                 : <></>}
             {adminPermList["update-manga-episode"] && value === 1 ?
                 <TabPanel value={value} index={1} dir={theme.direction}>
-                    <EpisodeUpdate theme={theme} />
+                    <EpisodeUpdate />
                 </TabPanel>
                 : <></>}
             {adminPermList["delete-manga-episode"] && value === 2 ?
                 <TabPanel value={value} index={2} dir={theme.direction}>
-                    <EpisodeDelete theme={theme} />
+                    <EpisodeDelete />
                 </TabPanel>
                 : <></>}
         </>

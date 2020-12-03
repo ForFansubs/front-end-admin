@@ -9,6 +9,7 @@ import { Button, Grid, TextField, CircularProgress, FormControl, InputLabel, Sel
 import { checkMyAnimeListMangaLink } from '../../components/pages/functions';
 import { defaultMangaData } from '../../components/pages/default-props';
 import { getFullMangaList, updateManga } from '../../config/api-routes';
+import { useTranslation } from 'react-i18next'
 
 const useStyles = makeStyles(theme => ({
     ImageContainer: {
@@ -21,6 +22,7 @@ const useStyles = makeStyles(theme => ({
 }))
 
 export default function MangaUpdate() {
+    const { t } = useTranslation('pages')
     const classes = useStyles()
 
     const token = useGlobal("user")[0].token
@@ -69,10 +71,10 @@ export default function MangaUpdate() {
         axios.post(updateManga, newData, { headers })
             .then(_ => {
                 clearData()
-                ToastNotification(payload("success", "Manga başarıyla güncellendi."))
+                ToastNotification(payload("success", t('manga.update.warnings.success')))
             })
             .catch(_ => {
-                ToastNotification(payload("error", "Mangayı güncellerken bir sorunla karşılaştık."))
+                ToastNotification(payload("error", t('manga.update.errors.error')))
             })
     }
 
@@ -90,7 +92,7 @@ export default function MangaUpdate() {
         <>
             {!loading && data.length ?
                 <FormControl fullWidth>
-                    <InputLabel htmlFor="manga-selector">Düzenleyeceğiniz mangayı seçin</InputLabel>
+                    <InputLabel htmlFor="manga-selector">{t('manga.update.manga_selector')}</InputLabel>
                     <Select
                         fullWidth
                         value={currentMangaData.id || ""}
@@ -111,12 +113,12 @@ export default function MangaUpdate() {
                             autoComplete="off"
                             fullWidth
                             id="mal_link"
-                            label="MyAnimeList Linki"
+                            label={t('common.inputs.mal_link.label')}
+                            helperText={t('common.inputs.mal_link.helperText')}
                             value={currentMangaData.mal_link}
                             onChange={handleInputChange("mal_link")}
                             margin="normal"
                             variant="filled"
-                            helperText="https://myanimelist.net/manga/99529/Love_Live_Sunshine ya da https://myanimelist.net/manga/99529 (Yoksa -)"
                             required
                             error={currentMangaData.mal_link ? checkMyAnimeListMangaLink(currentMangaData.mal_link) : false}
                         />
@@ -125,7 +127,7 @@ export default function MangaUpdate() {
                                 <TextField
                                     fullWidth
                                     id="cover_art"
-                                    label="Manga poster resmi"
+                                    label={t('common.inputs.cover_art.label')}
                                     value={currentMangaData.cover_art}
                                     onChange={handleInputChange("cover_art")}
                                     margin="normal"
@@ -140,12 +142,12 @@ export default function MangaUpdate() {
                                 <TextField
                                     fullWidth
                                     id="logo"
-                                    label="Manga logo resmi"
+                                    label={t('common.inputs.logo.label')}
+                                    helperText={t('common.inputs.logo.helperText')}
                                     value={currentMangaData.logo || undefined}
                                     onChange={handleInputChange("logo")}
                                     margin="normal"
                                     variant="filled"
-                                    helperText="- koyarak diskteki resmi silebilirsiniz."
                                 />
                                 {currentMangaData.logo ?
                                     <img src={currentMangaData.logo} alt={"logo"} />
@@ -155,12 +157,12 @@ export default function MangaUpdate() {
                                 <TextField
                                     fullWidth
                                     id="header"
-                                    label="Manga header resmi"
+                                    label={t("common.inputs.header.label")}
+                                    helperText={t("common.inputs.header.helperText")}
                                     value={currentMangaData.header || undefined}
                                     onChange={handleInputChange("header")}
                                     margin="normal"
                                     variant="filled"
-                                    helperText="- koyarak diskteki resmi silebilirsiniz."
                                 />
                                 {currentMangaData.header ?
                                     <img src={currentMangaData.header} alt={"header"} />
@@ -171,7 +173,8 @@ export default function MangaUpdate() {
                                 <TextField
                                     fullWidth
                                     id="name"
-                                    label="Manga ismi"
+                                    label={t("common.inputs.name.label")}
+                                    helperText={t("common.inputs.name.helperText")}
                                     value={currentMangaData.name}
                                     onChange={handleInputChange("name")}
                                     margin="normal"
@@ -184,7 +187,8 @@ export default function MangaUpdate() {
                                     fullWidth
                                     id="synopsis"
                                     multiline
-                                    label="Manga konusu"
+                                    label={t("common.inputs.synopsis.label")}
+                                    helperText={t("common.inputs.synopsis.helperText")}
                                     value={currentMangaData.synopsis}
                                     onChange={handleInputChange("synopsis")}
                                     margin="normal"
@@ -196,12 +200,12 @@ export default function MangaUpdate() {
                                 <TextField
                                     fullWidth
                                     id="translators"
-                                    label="Çevirmenler"
+                                    label={t("common.inputs.translators.label")}
+                                    helperText={t("common.inputs.translators.helperText")}
                                     value={currentMangaData.translators}
                                     onChange={handleInputChange("translators")}
                                     margin="normal"
                                     variant="filled"
-                                    helperText="Çevirmenleri arasında virgülle, boşluksuz yazın. çevirmen1,çevirmen2 gibi"
                                     required
                                 />
                             </Grid>
@@ -209,12 +213,12 @@ export default function MangaUpdate() {
                                 <TextField
                                     fullWidth
                                     id="editors"
-                                    label="Editörler"
+                                    label={t("common.inputs.editors.label")}
+                                    helperText={t("common.inputs.editors.helperText")}
                                     value={currentMangaData.editors}
                                     onChange={handleInputChange("editors")}
                                     margin="normal"
                                     variant="filled"
-                                    helperText="Editörleri arasında virgülle, boşluksuz yazın. editör1,editör2 gibi"
                                     required
                                 />
                             </Grid>
@@ -222,12 +226,12 @@ export default function MangaUpdate() {
                                 <TextField
                                     fullWidth
                                     id="authors"
-                                    label="Yazarlar"
+                                    label={t("common.inputs.authors.label")}
+                                    helperText={t("common.inputs.authors.helperText")}
                                     value={currentMangaData.authors}
                                     onChange={handleInputChange("authors")}
                                     margin="normal"
                                     variant="filled"
-                                    helperText="Yazarları arasında virgülle, boşluksuz yazın. yazar1,yazar2 gibi"
                                     required
                                 />
                             </Grid>
@@ -235,22 +239,23 @@ export default function MangaUpdate() {
                                 <TextField
                                     fullWidth
                                     id="genres"
-                                    label="Türler"
+                                    label={t("common.inputs.genres.label")}
+                                    helperText={t("common.inputs.genres.helperText")}
                                     value={currentMangaData.genres}
                                     onChange={handleInputChange("genres")}
                                     margin="normal"
                                     variant="filled"
-                                    helperText="Türleri arasında virgülle, boşluksuz yazın. tür1,tür2 gibi"
                                     required
                                 />
                             </Grid>
                             <Grid item xs={12} md={6}>
                                 <TextField
                                     fullWidth
-                                    id="mos_link"
-                                    label="Okuma Linki"
-                                    value={currentMangaData.mos_link}
-                                    onChange={handleInputChange("mos_link")}
+                                    id="reader_link"
+                                    label={t("common.inputs.reader_link.label")}
+                                    helperText={t("common.inputs.reader_link.helperText")}
+                                    value={currentMangaData.reader_link}
+                                    onChange={handleInputChange("reader_link")}
                                     margin="normal"
                                     variant="filled"
                                 />
@@ -259,7 +264,8 @@ export default function MangaUpdate() {
                                 <TextField
                                     fullWidth
                                     id="download_link"
-                                    label="İndirme Linki"
+                                    label={t("common.inputs.download_link.label")}
+                                    helperText={t("common.inputs.download_link.helperText")}
                                     value={currentMangaData.download_link}
                                     onChange={handleInputChange("download_link")}
                                     margin="normal"
@@ -271,8 +277,8 @@ export default function MangaUpdate() {
                             variant="outlined"
                             color="primary"
                             type="submit">
-                            Kaydet
-                            </Button>
+                            {t("common.buttons.save")}
+                        </Button>
                     </form>
                 </>}
         </>

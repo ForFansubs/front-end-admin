@@ -1,5 +1,4 @@
 import 'date-fns';
-import React from 'react';
 import DateFnsUtils from '@date-io/date-fns';
 import {
     MuiPickersUtilsProvider,
@@ -15,8 +14,6 @@ function DatePicker(props) {
 
     function handleInputChange(date) {
         setAnimeData(state => ({ ...state, release_date: date }))
-
-        console.log(date)
 
         if (setData) {
             setData(data => {
@@ -37,6 +34,7 @@ function DatePicker(props) {
                 value={release_date}
                 onChange={handleInputChange}
                 fullWidth
+                inputVariant="filled"
                 KeyboardButtonProps={{
                     'aria-label': 'change date',
                 }}
@@ -50,8 +48,6 @@ function TimePicker(props) {
 
     function handleInputChange(date) {
         setAnimeData(state => ({ ...state, release_date: date }))
-
-        console.log(date)
 
         if (setData) {
             setData(data => {
@@ -71,6 +67,7 @@ function TimePicker(props) {
                 value={release_date}
                 onChange={handleInputChange}
                 fullWidth
+                inputVariant="filled"
                 KeyboardButtonProps={{
                     'aria-label': 'change time',
                 }}

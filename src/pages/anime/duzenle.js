@@ -6,7 +6,7 @@ import axios from '../../config/axios/axios'
 import ToastNotification, { payload } from '../../components/toastify/toast'
 
 import { Button, Grid, TextField, CircularProgress, FormControl, InputLabel, Select, MenuItem, FormLabel, Radio, RadioGroup, FormControlLabel, makeStyles, Divider } from '@material-ui/core'
-import { checkMyAnimeListAnimeLink, handleSelectData, checkYoutubeLink } from '../../components/pages/functions';
+import { checkMyAnimeListAnimeLink, checkYoutubeLink } from '../../components/pages/functions';
 import { defaultAnimeData } from '../../components/pages/default-props';
 import { getFullAnimeList, updateAnime } from '../../config/api-routes';
 import { useTranslation } from 'react-i18next'
@@ -119,8 +119,8 @@ export default function AnimeUpdate() {
                             autoComplete="off"
                             fullWidth
                             id="mal_link"
-                            label={t("anime.common.inputs.mal_link.label")}
-                            helperText={t("anime.common.inputs.mal_link.helperText")}
+                            label={t("common.inputs.mal_link.label")}
+                            helperText={t("common.inputs.mal_link.helperText")}
                             value={currentAnimeData.mal_link}
                             onChange={handleInputChange("mal_link")}
                             margin="normal"
@@ -133,8 +133,8 @@ export default function AnimeUpdate() {
                                 <TextField
                                     fullWidth
                                     id="cover_art"
-                                    label={t("anime.common.inputs.cover_art.label")}
-                                    helperText={t("anime.common.inputs.cover_art.helperText")}
+                                    label={t("common.inputs.cover_art.label")}
+                                    helperText={t("common.inputs.cover_art.helperText")}
                                     value={currentAnimeData.cover_art}
                                     onChange={handleInputChange("cover_art")}
                                     margin="normal"
@@ -149,7 +149,7 @@ export default function AnimeUpdate() {
                                 <TextField
                                     fullWidth
                                     id="logo"
-                                    label={t("anime.common.inputs.logo.label")}
+                                    label={t("common.inputs.logo.label")}
                                     helperText={t("anime.update.inputs.logo.helperText")}
                                     value={currentAnimeData.logo || undefined}
                                     onChange={handleInputChange("logo")}
@@ -164,7 +164,7 @@ export default function AnimeUpdate() {
                                 <TextField
                                     fullWidth
                                     id="header"
-                                    label={t("anime.common.inputs.header.label")}
+                                    label={t("common.inputs.header.label")}
                                     helperText={t("anime.update.inputs.header.helperText")}
                                     value={currentAnimeData.header || undefined}
                                     onChange={handleInputChange("header")}
@@ -180,8 +180,8 @@ export default function AnimeUpdate() {
                                 <TextField
                                     fullWidth
                                     id="name"
-                                    label={t("anime.common.inputs.name.label")}
-                                    helperText={t("anime.common.inputs.name.helperText")}
+                                    label={t("common.inputs.name.label")}
+                                    helperText={t("common.inputs.name.helperText")}
                                     value={currentAnimeData.name}
                                     onChange={handleInputChange("name")}
                                     margin="normal"
@@ -196,8 +196,8 @@ export default function AnimeUpdate() {
                                     multiline
                                     rows={3}
                                     rowsMax={3}
-                                    label={t("anime.common.inputs.synopsis.label")}
-                                    helperText={t("anime.common.inputs.synopsis.helperText")}
+                                    label={t("common.inputs.synopsis.label")}
+                                    helperText={t("common.inputs.synopsis.helperText")}
                                     value={currentAnimeData.synopsis}
                                     onChange={handleInputChange("synopsis")}
                                     margin="normal"
@@ -209,8 +209,8 @@ export default function AnimeUpdate() {
                                 <TextField
                                     fullWidth
                                     id="translators"
-                                    label={t("anime.common.inputs.translators.label")}
-                                    helperText={t("anime.common.inputs.translators.helperText")}
+                                    label={t("common.inputs.translators.label")}
+                                    helperText={t("common.inputs.translators.helperText")}
                                     value={currentAnimeData.translators}
                                     onChange={handleInputChange("translators")}
                                     margin="normal"
@@ -222,8 +222,8 @@ export default function AnimeUpdate() {
                                 <TextField
                                     fullWidth
                                     id="encoders"
-                                    label={t("anime.common.inputs.encoders.label")}
-                                    helperText={t("anime.common.inputs.encoders.helperText")}
+                                    label={t("common.inputs.encoders.label")}
+                                    helperText={t("common.inputs.encoders.helperText")}
                                     value={currentAnimeData.encoders}
                                     onChange={handleInputChange("encoders")}
                                     margin="normal"
@@ -235,8 +235,8 @@ export default function AnimeUpdate() {
                                 <TextField
                                     fullWidth
                                     id="studios"
-                                    label={t("anime.common.inputs.studios.label")}
-                                    helperText={t("anime.common.inputs.studios.helperText")}
+                                    label={t("common.inputs.studios.label")}
+                                    helperText={t("common.inputs.studios.helperText")}
                                     value={currentAnimeData.studios}
                                     onChange={handleInputChange("studios")}
                                     margin="normal"
@@ -248,8 +248,8 @@ export default function AnimeUpdate() {
                                 <TextField
                                     fullWidth
                                     id="genres"
-                                    label={t("anime.common.inputs.genres.label")}
-                                    helperText={t("anime.common.inputs.genres.helperText")}
+                                    label={t("common.inputs.genres.label")}
+                                    helperText={t("common.inputs.genres.helperText")}
                                     value={currentAnimeData.genres}
                                     onChange={handleInputChange("genres")}
                                     margin="normal"
@@ -261,8 +261,8 @@ export default function AnimeUpdate() {
                                 <TextField
                                     fullWidth
                                     id="premiered"
-                                    label={t("anime.common.inputs.premiered.label")}
-                                    helperText={t("anime.common.inputs.premiered.helperText")}
+                                    label={t("common.inputs.premiered.label")}
+                                    helperText={t("common.inputs.premiered.helperText")}
                                     value={currentAnimeData.premiered}
                                     onChange={handleInputChange("premiered")}
                                     margin="normal"
@@ -273,8 +273,8 @@ export default function AnimeUpdate() {
                                 <TextField
                                     fullWidth
                                     id="pv"
-                                    label={t("anime.common.inputs.pv.label")}
-                                    helperText={t("anime.common.inputs.pv.helperText")}
+                                    label={t("common.inputs.pv.label")}
+                                    helperText={t("common.inputs.pv.helperText")}
                                     value={currentAnimeData.pv}
                                     onChange={handleInputChange("pv")}
                                     margin="normal"
@@ -300,8 +300,8 @@ export default function AnimeUpdate() {
                                 <TextField
                                     fullWidth
                                     id="episode_count"
-                                    label={t("anime.common.inputs.episode_count.label")}
-                                    helperText={t("anime.common.inputs.episode_count.helperText")}
+                                    label={t("common.inputs.episode_count.label")}
+                                    helperText={t("common.inputs.episode_count.helperText")}
                                     value={currentAnimeData.episode_count}
                                     onChange={handleInputChange("episode_count")}
                                     margin="normal"
@@ -310,7 +310,7 @@ export default function AnimeUpdate() {
                             </Grid>
                             <Grid item xs={12} md={4}>
                                 <FormControl component="fieldset" style={{ width: "100%", textAlign: "center" }}>
-                                    <FormLabel component="legend">{t("anime.common.inputs.version.label")}</FormLabel>
+                                    <FormLabel component="legend">{t("common.inputs.version.label")}</FormLabel>
                                     <RadioGroup
                                         style={{ display: "flex", flexDirection: "row", justifyContent: "center" }}
                                         aria-label="version selector"
@@ -325,7 +325,7 @@ export default function AnimeUpdate() {
                             </Grid>
                             <Grid item xs={12} md={4}>
                                 <FormControl component="fieldset" style={{ width: "100%", textAlign: "center" }}>
-                                    <FormLabel component="legend">{t("anime.common.inputs.series_status.label")}</FormLabel>
+                                    <FormLabel component="legend">{t("common.inputs.series_status.label")}</FormLabel>
                                     <RadioGroup
                                         style={{ display: "flex", flexDirection: "row", justifyContent: "center" }}
                                         aria-label="series_status"
@@ -343,7 +343,7 @@ export default function AnimeUpdate() {
                             </Grid>
                             <Grid item xs={12} md={4}>
                                 <FormControl component="fieldset" style={{ width: "100%", textAlign: "center" }}>
-                                    <FormLabel component="legend">{t("anime.common.inputs.trans_status.label")}</FormLabel>
+                                    <FormLabel component="legend">{t("common.inputs.trans_status.label")}</FormLabel>
                                     <RadioGroup
                                         style={{ display: "flex", flexDirection: "row", justifyContent: "center" }}
                                         aria-label="trans_status"

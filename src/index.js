@@ -1,4 +1,4 @@
-import React, { StrictMode, Suspense } from 'react'
+import { StrictMode, Suspense } from 'react'
 import { setGlobal, addReducer } from 'reactn'
 import ReactDOM from 'react-dom';
 import { indexURL, isAdmin, jikanIndex } from './config/api-routes'
