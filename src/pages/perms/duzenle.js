@@ -12,6 +12,7 @@ import { getFullPermissionList, updatePermission } from '../../config/api-routes
 
 import PermissionList from '../../config/permission-list'
 import PermissionListHelperText from '../../config/permission-list-helper-text'
+import { useTranslation } from 'react-i18next'
 
 const useStyles = makeStyles(theme => ({
     HeaderText: {
@@ -24,6 +25,7 @@ const useStyles = makeStyles(theme => ({
 }))
 
 export default function PermissionUpdate(props) {
+    const { t } = useTranslation('pages')
     const classes = useStyles()
     const token = useGlobal("user")[0].token
     const [permData, setPermissionData] = useState([])
@@ -107,11 +109,11 @@ export default function PermissionUpdate(props) {
             setPermissionData([...newPermissionDataSet])
             setCurrentPermissionData({ ...defaultPermissionUpdateData })
             handleClose()
-            ToastNotification(payload("success", res.data.message || "Yetki bilgileri başarıyla değiştirildi."))
+            ToastNotification(payload("success", res.data.message || t('perms.update.warnings.success')))
         }
 
         else {
-            ToastNotification(payload("error", res.response.data.err || "Yetki bilgileri değiştirilirken bir sorunla karşılaştık."))
+            ToastNotification(payload("error", res.response.data.err || t('perms.update.errors.error')))
         }
     }
 
@@ -123,14 +125,14 @@ export default function PermissionUpdate(props) {
         <>
             {!loading && permData.length ?
                 <FormControl fullWidth>
-                    <InputLabel htmlFor="anime-selector">Düzenleyeceğiniz rolü seçin</InputLabel>
+                    <InputLabel htmlFor="perm-selector">{t('perms.update.perm_selector')}</InputLabel>
                     <Select
                         fullWidth
                         value={currentPermissionData.id || ""}
                         onChange={handleChange}
                         inputProps={{
-                            name: "user",
-                            id: "user-selector"
+                            name: "perm",
+                            id: "perm-selector"
                         }}
                     >
                         {permData.map(d => <MenuItem key={d.id} value={d.id}>{d.name}</MenuItem>)}
@@ -145,7 +147,7 @@ export default function PermissionUpdate(props) {
                                 <TextField
                                     fullWidth
                                     id="name"
-                                    label="Yetki ismi"
+                                    label={t('perms.common.inputs.name')}
                                     value={currentPermissionData.name}
                                     onChange={handleInputChange("name")}
                                     margin="normal"
@@ -157,7 +159,7 @@ export default function PermissionUpdate(props) {
                                 <TextField
                                     fullWidth
                                     id="color"
-                                    label="Yetki rengi"
+                                    label={t('perms.common.inputs.color')}
                                     value={currentPermissionData.color}
                                     onChange={handleInputChange("color")}
                                     margin="normal"
@@ -309,7 +311,7 @@ export default function PermissionUpdate(props) {
                             variant="outlined"
                             color="primary"
                             type="submit">
-                            Kaydet
+                            {t("common.buttons.save")}
                         </Button>
                     </form>
                 </Box>

@@ -9,6 +9,7 @@ import { Button, Grid, TextField, FormControl, FormLabel, RadioGroup, FormContro
 import { defaultMotdData } from '../../components/pages/default-props';
 import { addMotd, getFullAnimeList, getFullMangaList, getAnimeData, getMangaData } from '../../config/api-routes';
 import { handleEpisodeTitleFormat } from '../../components/pages/functions'
+import { useTranslation } from 'react-i18next'
 
 const useStyles = makeStyles(theme => ({
     Container: {
@@ -19,7 +20,8 @@ const useStyles = makeStyles(theme => ({
     }
 }))
 
-export default function () {
+export default function MotdCreate() {
+    const { t } = useTranslation(['pages', 'components'])
     const classes = useStyles()
 
     const token = useGlobal("user")[0].token
@@ -48,7 +50,7 @@ export default function () {
                         setParentData(res.data)
                     }
                     else {
-                        ToastNotification(payload("error", res.response.data.err || "Animeleri getirirken bir sorunla karşılaştık."))
+                        ToastNotification(payload("error", res.response.data.err || t('motd.create.errors.anime_database_error')))
                     }
                     break
                 }
@@ -58,7 +60,7 @@ export default function () {
                         setParentData(res.data)
                     }
                     else {
-                        ToastNotification(payload("error", res.response.data.err || "Mangaları getirirken bir sorunla karşılaştık."))
+                        ToastNotification(payload("error", res.response.data.err || t('motd.create.errors.manga_database_error')))
                     }
                     break
                 }
@@ -68,7 +70,7 @@ export default function () {
                         setParentData(res.data)
                     }
                     else {
-                        ToastNotification(payload("error", res.response.data.err || "Animeleri getirirken bir sorunla karşılaştık."))
+                        ToastNotification(payload("error", res.response.data.err || t('motd.create.errors.episode_database_error')))
                     }
                     break
                 }
@@ -78,7 +80,7 @@ export default function () {
                         setParentData(res.data)
                     }
                     else {
-                        ToastNotification(payload("error", res.response.data.err || "Animeleri getirirken bir sorunla karşılaştık."))
+                        ToastNotification(payload("error", res.response.data.err || t('motd.create.errors.manga_episode_database_error')))
                     }
                     break
                 }
@@ -106,7 +108,7 @@ export default function () {
                         setChildData(res.data.episodes)
                     }
                     else {
-                        ToastNotification(payload("error", "Bölümleri getirirken bir sorunla karşılaştık."))
+                        ToastNotification(payload("error", t('common.errors.database_error')))
                     }
                     break
                 }
@@ -116,7 +118,7 @@ export default function () {
                         setChildData(res.data.episodes)
                     }
                     else {
-                        ToastNotification(payload("error", "Bölümleri getirirken bir sorunla karşılaştık."))
+                        ToastNotification(payload("error", t('common.errors.database_error')))
                     }
                     break
                 }
@@ -144,11 +146,11 @@ export default function () {
 
         axios.post(addMotd, data, { headers })
             .then(_ => {
-                ToastNotification(payload("success", "MOTD başarıyla eklendi."))
+                ToastNotification(payload("success", t('motd.create.warnings.success')))
                 clearData()
             })
             .catch(err => {
-                ToastNotification(payload("error", "MOTDyi eklerken bir sorunla karşılaştık."))
+                ToastNotification(payload("error", t('motd.create.errors.error')))
             })
     }
 
@@ -193,7 +195,7 @@ export default function () {
                             <TextField
                                 fullWidth
                                 id="title"
-                                label="MOTD Başlığı"
+                                label={t('motd.create.inputs.title')}
                                 value={motdData.title}
                                 onChange={handleInputChange("title")}
                                 margin="normal"
@@ -209,7 +211,7 @@ export default function () {
                                 rows={5}
                                 rowsMax={10}
                                 id="subtitle"
-                                label="MOTD İçerik"
+                                label={t('motd.create.inputs.subtitle')}
                                 multiline
                                 value={motdData.subtitle}
                                 type="text"
@@ -222,7 +224,7 @@ export default function () {
                         </Grid>
                         <Grid item xs={12} md={6}>
                             <FormControl fullWidth variant="filled">
-                                <InputLabel htmlFor="content-type">Görünmesini istediğiniz sayfayı seçin</InputLabel>
+                                <InputLabel htmlFor="content-type">{t('motd.create.page_selector')}</InputLabel>
                                 <Select
                                     fullWidth
                                     value={contentType}
@@ -233,17 +235,17 @@ export default function () {
                                         id: "content-type"
                                     }}
                                 >
-                                    <MenuItem value="">Hiçbiri (Ana sayfa)</MenuItem>
-                                    <MenuItem value="anime">Anime</MenuItem>
-                                    <MenuItem value="manga">Manga</MenuItem>
-                                    <MenuItem value="episode">Anime Bölüm</MenuItem>
-                                    <MenuItem value="manga-episode">Manga Bölüm</MenuItem>
+                                    <MenuItem value="">{t('motd.create.inputs.homepage')}</MenuItem>
+                                    <MenuItem value="anime">{t('components:header.anime.default')}</MenuItem>
+                                    <MenuItem value="manga">{t('components:header.manga.default')}</MenuItem>
+                                    <MenuItem value="episode">{t('components:header.episode.default')}</MenuItem>
+                                    <MenuItem value="manga-episode">{t('components:header.manga_episode.default')}</MenuItem>
                                 </Select>
                             </FormControl>
                         </Grid>
                         <Grid item xs={12} md={6}>
                             <FormControl fullWidth variant="filled" disabled={parentData.length !== 0 ? false : true}>
-                                <InputLabel htmlFor="parent-data">Görünmesini istediğiniz içeriği seçin</InputLabel>
+                                <InputLabel htmlFor="parent-data">{t('motd.create.content_selector')}</InputLabel>
                                 <Select
                                     fullWidth
                                     id="parent-data"
@@ -256,14 +258,14 @@ export default function () {
                                 >
                                     {parentData.length !== 0 ?
                                         parentData.map(d => <MenuItem key={d.id} value={d.slug}>{d.name} {d.version ? `- ${d.version}` : ""}</MenuItem>)
-                                        : <MenuItem>Boş</MenuItem>}
+                                        : <MenuItem>---</MenuItem>}
                                 </Select>
                             </FormControl>
                         </Grid>
                         {childData.length !== 0 ?
                             <Grid item xs={12}>
                                 <FormControl fullWidth variant="filled" disabled={childData.length !== 0 ? false : true}>
-                                    <InputLabel htmlFor="parent-data">Görünmesini istediğiniz bölümü seçin</InputLabel>
+                                    <InputLabel htmlFor="parent-data">{t('motd.create.episode_selector')}</InputLabel>
                                     <Select
                                         fullWidth
                                         value={motdContentId ? motdContentId : ""}
@@ -304,8 +306,8 @@ export default function () {
                                     value={Number(motdData.is_active)}
                                     onChange={handleInputChange("is_active")}
                                 >
-                                    <FormControlLabel value={1} control={<Radio />} label="Evet" />
-                                    <FormControlLabel value={0} control={<Radio />} label="Hayır" />
+                                    <FormControlLabel value={1} control={<Radio />} label={t('common.buttons.yes')} />
+                                    <FormControlLabel value={0} control={<Radio />} label={t('common.buttons.no')} />
                                 </RadioGroup>
                             </FormControl>
                         </Grid>
@@ -314,7 +316,7 @@ export default function () {
                         variant="outlined"
                         color="primary"
                         type="submit">
-                        Kaydet
+                        {t("common.buttons.save")}
                     </Button>
                 </form>
             </>

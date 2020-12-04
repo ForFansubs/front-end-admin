@@ -1,31 +1,29 @@
 import React, { useState, useEffect } from 'react'
 import { useGlobal } from 'reactn'
 
-import styled from 'styled-components'
 import Find from 'lodash-es/find'
 
 import axios from '../../config/axios/axios'
 import ToastNotification, { payload } from '../../components/toastify/toast'
 
-import { Button, Grid, TextField, Box, FormControl, InputLabel, Select, MenuItem, Modal } from '@material-ui/core'
+import { Button, Grid, TextField, Box, FormControl, InputLabel, Select, MenuItem, Modal, makeStyles } from '@material-ui/core'
 import { defaultUserUpdateData } from '../../components/pages/default-props';
 import { getFullUserList, updateUser } from '../../config/api-routes';
+import { useTranslation } from 'react-i18next'
 
-const ModalContainer = styled(Box)`
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: ${props => props.theme.breakpoints.values.sm}px;
-
-    @media(max-width:${props => props.theme.breakpoints.values.sm}px) {
-        width: 100%;
+const useStyles = makeStyles(theme => ({
+    HeaderText: {
+        color: theme.palette.grey[500],
+        fontWeight: "bold"
+    },
+    HelperText: {
+        color: theme.palette.grey[500]
     }
-`
+}))
 
 export default function UserUpdate(props) {
-    const { theme } = props
-
+    const { t } = useTranslation('pages')
+    const classes = useStyles()
     const token = useGlobal("user")[0].token
 
     const [open, setOpen] = useState(false)
@@ -91,11 +89,11 @@ export default function UserUpdate(props) {
             setUserData([...newUserDataSet])
             setCurrentUserData({ ...defaultUserUpdateData })
             handleClose()
-            ToastNotification(payload("success", res.data.message || "Kullanıcı bilgileri başarıyla değiştirildi."))
+            ToastNotification(payload("success", res.data.message || t('user.update.warnings.success')))
         }
 
         else {
-            ToastNotification(payload("error", res.response.data.err || "Kullanıcı bilgileri değiştirilirken bir sorunla karşılaştık."))
+            ToastNotification(payload("error", res.response.data.err || t('user.update.errors.error')))
         }
     }
 
@@ -108,7 +106,7 @@ export default function UserUpdate(props) {
         <>
             {!loading && userData.length ?
                 <FormControl fullWidth>
-                    <InputLabel htmlFor="anime-selector">Düzenleyeceğiniz kullanıcıyı seçin</InputLabel>
+                    <InputLabel htmlFor="anime-selector">{t('user.update.user_selector')}</InputLabel>
                     <Select
                         fullWidth
                         value={currentUserData.id || ""}
@@ -127,78 +125,77 @@ export default function UserUpdate(props) {
                 aria-describedby="simple-modal-description"
                 open={open}
                 onClose={handleClose}
+                className={classes.ModalContainer}
             >
-                <ModalContainer theme={theme}>
-                    <Box p={2} bgcolor="background.level2">
-                        <form onSubmit={th => handleDataSubmit(th)} autoComplete="off">
-                            <Grid container spacing={2}>
-                                <Grid item xs={12} md={6}>
-                                    <TextField
-                                        fullWidth
-                                        id="name"
-                                        label="Kullanıcı ismi"
-                                        value={currentUserData.name}
-                                        onChange={handleInputChange("name")}
-                                        margin="normal"
-                                        variant="filled"
-                                        required
-                                    />
-                                </Grid>
-                                <Grid item xs={12} md={6}>
-                                    <TextField
-                                        fullWidth
-                                        id="password"
-                                        label="Kullanıcı şifresi"
-                                        value={currentUserData.password}
-                                        onChange={handleInputChange("password")}
-                                        margin="normal"
-                                        variant="filled"
-                                    />
-                                </Grid>
-                                <Grid item xs={12} md={6}>
-                                    <TextField
-                                        fullWidth
-                                        id="permission_level"
-                                        label="Kullanıcı yetki grubu"
-                                        value={currentUserData.permission_level}
-                                        onChange={handleInputChange("permission_level")}
-                                        margin="normal"
-                                        variant="filled"
-                                    />
-                                </Grid>
-                                <Grid item xs={12} md={6}>
-                                    <TextField
-                                        fullWidth
-                                        id="avatar"
-                                        label="Kullanıcı avatar linki"
-                                        value={currentUserData.avatar}
-                                        onChange={handleInputChange("avatar")}
-                                        margin="normal"
-                                        variant="filled"
-                                    />
-                                </Grid>
-                                <Grid item xs={12} md={6}>
-                                    <TextField
-                                        fullWidth
-                                        disabled
-                                        id="permission_level"
-                                        label="Kullanıcı email"
-                                        value={currentUserData.email}
-                                        onChange={handleInputChange("email")}
-                                        margin="normal"
-                                        variant="filled"
-                                    />
-                                </Grid>
+                <Box p={2} bgcolor="background.level2">
+                    <form onSubmit={th => handleDataSubmit(th)} autoComplete="off">
+                        <Grid container spacing={2}>
+                            <Grid item xs={12} md={6}>
+                                <TextField
+                                    fullWidth
+                                    id="name"
+                                    label={t('user.common.inputs.name')}
+                                    value={currentUserData.name}
+                                    onChange={handleInputChange("name")}
+                                    margin="normal"
+                                    variant="filled"
+                                    required
+                                />
                             </Grid>
-                            <Button
-                                variant="outlined"
-                                color="primary"
-                                type="submit">
-                                Kaydet
-                            </Button>
-                        </form>
-                    </Box>
-                </ModalContainer>
+                            <Grid item xs={12} md={6}>
+                                <TextField
+                                    fullWidth
+                                    id="password"
+                                    label={t('user.common.inputs.password')}
+                                    value={currentUserData.password}
+                                    onChange={handleInputChange("password")}
+                                    margin="normal"
+                                    variant="filled"
+                                />
+                            </Grid>
+                            <Grid item xs={12} md={6}>
+                                <TextField
+                                    fullWidth
+                                    id="permission_level"
+                                    label={t('user.common.inputs.permission_level')}
+                                    value={currentUserData.permission_level}
+                                    onChange={handleInputChange("permission_level")}
+                                    margin="normal"
+                                    variant="filled"
+                                />
+                            </Grid>
+                            <Grid item xs={12} md={6}>
+                                <TextField
+                                    fullWidth
+                                    id="avatar"
+                                    label={t('user.common.inputs.avatar')}
+                                    value={currentUserData.avatar}
+                                    onChange={handleInputChange("avatar")}
+                                    margin="normal"
+                                    variant="filled"
+                                />
+                            </Grid>
+                            <Grid item xs={12} md={6}>
+                                <TextField
+                                    fullWidth
+                                    disabled
+                                    id="email"
+                                    label={t('user.common.inputs.email')}
+                                    value={currentUserData.email}
+                                    onChange={handleInputChange("email")}
+                                    margin="normal"
+                                    variant="filled"
+                                />
+                            </Grid>
+                        </Grid>
+                        <Button
+                            variant="outlined"
+                            color="primary"
+                            type="submit">
+                            {t("common.buttons.save")}
+                        </Button>
+                    </form>
+                </Box>
             </Modal>
         </>
     )

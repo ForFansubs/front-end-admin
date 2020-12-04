@@ -12,8 +12,10 @@ import Markdown from '../../components/markdown/markdown'
 
 import VisibilityIcon from '@material-ui/icons/Visibility'
 import VisibilityOffIcon from '@material-ui/icons/VisibilityOff'
+import { useTranslation } from 'react-i18next'
 
 export default function MotdUpdate() {
+    const { t } = useTranslation('pages')
     const token = useGlobal("user")[0].token
 
     const [data, setData] = useState([])
@@ -56,11 +58,11 @@ export default function MotdUpdate() {
             newData[clickedDataIdx].is_active = Number(!data[clickedDataIdx].is_active)
 
             setData([...newData])
-            ToastNotification(payload("success", res.data.message || "Görünürlük başarıyla değiştirildi."))
+            ToastNotification(payload("success", res.data.message || t('motd.update.warnings.is_active_success')))
         }
 
         else {
-            ToastNotification(payload("error", res.response.data.err || "Görünürlük değiştirilirken bir sorunla karşılaştık."))
+            ToastNotification(payload("error", res.response.data.err || t('motd.update.errors.is_active_error')))
         }
     }
 
@@ -73,15 +75,14 @@ export default function MotdUpdate() {
                             <Grid item xs={12} key={e.id}>
                                 <Box p={1} boxShadow={2} bgcolor="background.level1" display="flex" alignItems="center" justifyContent="space-between">
                                     <div>
-                                        <Typography variant="subtitle1" gutterBottom>
-                                            {!e.content_id ? "Ana sayfa" : ""}
-                                            {e.content_id ? `İçerik IDsi: ${e.content_id}` : ""}{e.content_type ? ` - İçerik tipi: ${e.content_type}` : ""}
+                                        <Typography variant="body1" gutterBottom>
+                                            {!e.content_id ? "Ana sayfa - " : ""}{t('motd.update.content_info', { content_id: e.content_id || "-", content_type: e.content_type || "-" })}
                                         </Typography>
                                         <Typography variant="h4" gutterBottom>
                                             {e.title ? e.title : ""}
                                         </Typography>
                                         <Markdown>
-                                            {e.subtitle ? e.subtitle : "**Bir sorun var? (Bu bir sistem mesajıdır.)**"}
+                                            {e.subtitle ? e.subtitle : "---"}
                                         </Markdown>
                                     </div>
                                     <div>

@@ -8,25 +8,23 @@ import PullAt from 'lodash-es/pullAt'
 import axios from '../../config/axios/axios'
 import ToastNotification, { payload } from '../../components/toastify/toast'
 
-import { Button, Box, Modal, CircularProgress, FormControl, InputLabel, Select, MenuItem, Typography } from '@material-ui/core'
-import styled from 'styled-components'
+import { Button, Box, Modal, CircularProgress, FormControl, InputLabel, Select, MenuItem, Typography, makeStyles } from '@material-ui/core'
 import { defaultUserData } from '../../components/pages/default-props';
 import { getFullUserList, deleteUser } from '../../config/api-routes';
+import { useTranslation } from 'react-i18next'
 
-const ModalContainer = styled(Box)`
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: ${props => props.theme.breakpoints.values.sm}px;
-
-    @media(max-width:${props => props.theme.breakpoints.values.sm}px) {
-        width: 100%;
+const useStyles = makeStyles(theme => ({
+    ModalContainer: {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center'
     }
-`
+}))
 
-export default function UserDelete(props) {
-    const { theme } = props
+
+export default function UserDelete() {
+    const { t } = useTranslation('pages')
+    const classes = useStyles()
     const token = useGlobal("user")[0].token
     const [data, setData] = useState([])
 
@@ -78,9 +76,9 @@ export default function UserDelete(props) {
                 handleClose()
                 setCurrentUserData({ ...defaultUserData })
                 setData(newData)
-                ToastNotification(payload("success", "Kullanıcı başarıyla silindi."))
+                ToastNotification(payload("success", t('user.delete.warnings.warning')))
             })
-            .catch(_ => ToastNotification(payload("error", "Kullanıcıyı silerken bir sorunla karşılaştık.")))
+            .catch(_ => ToastNotification(payload("error", t('user.delete.errors.error'))))
     }
 
     function handleClose() {
@@ -97,7 +95,7 @@ export default function UserDelete(props) {
         <>
             {!loading && data.length ?
                 <FormControl fullWidth>
-                    <InputLabel htmlFor="anime-selector">Sileceğiniz kullanıcıyı seçin</InputLabel>
+                    <InputLabel htmlFor="anime-selector">{t('user.delete.user_selector')}</InputLabel>
                     <Select
                         fullWidth
                         value={currentUserData.id || ""}
@@ -116,26 +114,25 @@ export default function UserDelete(props) {
                 aria-describedby="simple-modal-description"
                 open={open}
                 onClose={handleClose}
+                className={classes.ModalContainer}
             >
-                <ModalContainer theme={theme}>
-                    <Box p={2} bgcolor="background.level2">
-                        <Typography variant="h4"><em>{currentUserData.name}</em> kullanıcısını silmek üzeresiniz.</Typography>
-                        <Typography variant="body1">Bu yıkıcı bir komuttur. Kullanıcının açtığı tüm konularda "Silinmiş Üye" yazacaktır.</Typography>
-                        <Button
-                            style={{ marginRight: "5px" }}
-                            variant="contained"
-                            color="secondary"
-                            onClick={() => handleDeleteButton(currentUserData.slug)}>
-                            Sil
-                            </Button>
-                        <Button
-                            variant="contained"
-                            color="primary"
-                            onClick={handleClose}>
-                            Kapat
-                        </Button>
-                    </Box>
-                </ModalContainer>
+                <Box p={2} bgcolor="background.level2">
+                    <Typography variant="h4">{t('user.delete.user_title', { user_title: currentUserData.name })}</Typography>
+                    <Typography variant="body1"></Typography>
+                    <Button
+                        style={{ marginRight: "5px" }}
+                        variant="contained"
+                        color="secondary"
+                        onClick={() => handleDeleteButton(currentUserData.slug)}>
+                        {t('common.index.delete')}
+                    </Button>
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={handleClose}>
+                        {t('common.buttons.close')}
+                    </Button>
+                </Box>
             </Modal>
         </>
     )

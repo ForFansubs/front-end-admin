@@ -7,8 +7,10 @@ import ToastNotification, { payload } from '../../components/toastify/toast'
 import { Button, Grid, TextField } from '@material-ui/core'
 import { defaultUserData } from '../../components/pages/default-props';
 import { addUser } from '../../config/api-routes';
+import { useTranslation } from 'react-i18next'
 
 export default function AnimeCreate() {
+    const { t } = useTranslation('pages')
     const token = useGlobal("user")[0].token
     const [userData, setUserData] = useState({ ...defaultUserData })
 
@@ -27,11 +29,11 @@ export default function AnimeCreate() {
 
         axios.post(addUser, data, { headers })
             .then(_ => {
-                ToastNotification(payload("success", "Kullanıcı başarıyla eklendi."))
+                ToastNotification(payload("success", t('user.create.warnings.success')))
                 clearData()
             })
             .catch(err => {
-                ToastNotification(payload("error", err.response.data.err || "Kullanıcıyı eklerken bir sorunla karşılaştık."))
+                ToastNotification(payload("error", err.response.data.err || t('user.create.errors.error')))
             })
     }
 
@@ -48,7 +50,7 @@ export default function AnimeCreate() {
                             <TextField
                                 fullWidth
                                 id="name"
-                                label="Kullanıcı adı"
+                                label={t('user.common.inputs.name')}
                                 value={userData.name}
                                 onChange={handleInputChange("name")}
                                 margin="normal"
@@ -60,7 +62,7 @@ export default function AnimeCreate() {
                             <TextField
                                 fullWidth
                                 id="email"
-                                label="Kullanıcı emaili"
+                                label={t('user.common.inputs.email')}
                                 value={userData.email}
                                 type="email"
                                 onChange={handleInputChange("email")}
@@ -73,7 +75,7 @@ export default function AnimeCreate() {
                             <TextField
                                 fullWidth
                                 id="password"
-                                label="Kullanıcı şifresi"
+                                label={t('user.common.inputs.password')}
                                 value={userData.password}
                                 onChange={handleInputChange("password")}
                                 type="password"
@@ -86,7 +88,7 @@ export default function AnimeCreate() {
                             <TextField
                                 fullWidth
                                 id="password2"
-                                label="Kullanıcı şifresi tekrar"
+                                label={t('user.common.inputs.password2')}
                                 value={userData.password2}
                                 onChange={handleInputChange("password2")}
                                 type="password"
@@ -100,8 +102,8 @@ export default function AnimeCreate() {
                         variant="outlined"
                         color="primary"
                         type="submit">
-                        Kaydet
-                        </Button>
+                        {t("common.buttons.save")}
+                    </Button>
                 </form>
             </>
         </>

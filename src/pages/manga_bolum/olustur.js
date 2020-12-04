@@ -9,8 +9,10 @@ import { Button, Grid, TextField, FormControl, InputLabel, Select, MenuItem, Box
 import { defaultMangaEpisodeData, defaultMangaData } from '../../components/pages/default-props';
 import { addMangaEpisode, getFullMangaList } from '../../config/api-routes';
 import { handleSelectData } from '../../components/pages/functions';
+import { useTranslation } from 'react-i18next'
 
 export default function EpisodeCreate() {
+    const { t } = useTranslation('pages')
     const token = useGlobal("user")[0].token
 
     const [data, setData] = useState([])
@@ -32,7 +34,7 @@ export default function EpisodeCreate() {
             try {
                 res = await axios.get(getFullMangaList, { headers })
             } catch (err) {
-                ToastNotification(payload("error", err.response.data.err || "Manga listesini çekerken bir sorunla karşılaştık."))
+                ToastNotification(payload("error", err.response.data.err || t("common.errors.database_error")))
             }
 
             if (res.status === 200) {
@@ -96,11 +98,11 @@ export default function EpisodeCreate() {
 
         axios.post(addMangaEpisode, formData, config)
             .then(res => {
-                ToastNotification(payload("success", "Bölüm başarıyla eklendi."))
+                ToastNotification(payload("success", t('episode.create.warnings.success')))
                 setTimeout(() => setProgress(0), 1000)
             })
             .catch(err => {
-                ToastNotification(payload("error", err.response.data.err || "Bölümü eklerken bir sorunla karşılaştık."))
+                ToastNotification(payload("error", err.response.data.err || t('episode.create.errors.error')))
             })
     }
 
@@ -108,7 +110,7 @@ export default function EpisodeCreate() {
         <>
             {!loading && data.length ?
                 <FormControl fullWidth>
-                    <InputLabel htmlFor="manga-selector">Bölüm ekleyeceğiniz mangayı seçin</InputLabel>
+                    <InputLabel htmlFor="manga-selector">{t('manga_episode.create.manga_selector')}</InputLabel>
                     <Select
                         fullWidth
                         value={`${currentMangaData.name}`}
@@ -130,7 +132,7 @@ export default function EpisodeCreate() {
                                 <TextField
                                     fullWidth
                                     id="episode_number"
-                                    label="Bölüm Numarası - (Sadece sayı)"
+                                    label={t('common.inputs.episode_number_input')}
                                     value={episodeData.episode_number}
                                     onChange={handleInputChange("episode_number")}
                                     margin="normal"
@@ -142,7 +144,7 @@ export default function EpisodeCreate() {
                                 <TextField
                                     fullWidth
                                     id="episode_name"
-                                    label="Bölüm İsmi"
+                                    label={t('common.inputs.episode_number_input')}
                                     value={episodeData.episode_name}
                                     onChange={handleInputChange("episode_name")}
                                     margin="normal"
@@ -153,7 +155,7 @@ export default function EpisodeCreate() {
                                 <TextField
                                     fullWidth
                                     id="credits"
-                                    label="Emektarlar"
+                                    label={t('common.inputs.credits_input')}
                                     value={episodeData.credits}
                                     onChange={handleInputChange("credits")}
                                     margin="normal"
@@ -174,8 +176,8 @@ export default function EpisodeCreate() {
                                     />
                                     <label htmlFor="upload_manga_pages">
                                         <Button variant="outlined" component="span">
-                                            Sayfa Yükle
-                                    </Button>
+                                            {t('common.buttons.upload_pages')}
+                                        </Button>
                                     </label>
                                     {nameList ?
                                         <Typography variant="body1" component="p">
@@ -197,8 +199,8 @@ export default function EpisodeCreate() {
                             variant="outlined"
                             color="primary"
                             type="submit">
-                            Kaydet
-                    </Button>
+                            {t("common.buttons.save")}
+                        </Button>
                     </form>
                 </>
                 : ""}
