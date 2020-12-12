@@ -23,7 +23,7 @@ const useStyles = makeStyles(theme => ({
 }))
 
 export default function AnimeUpdate() {
-    const { t } = useTranslation("pages")
+    const { t } = useTranslation(["pages", "common"])
     const classes = useStyles()
 
     const token = useGlobal("user")[0].token
@@ -112,7 +112,7 @@ export default function AnimeUpdate() {
                     </Select>
                 </FormControl>
                 : ""}
-            {currentAnimeData.slug === "" ? "" :
+            {currentAnimeData.id ?
                 <>
                     <form onSubmit={th => handleDataSubmit(th)} autoComplete="off">
                         <TextField
@@ -333,11 +333,11 @@ export default function AnimeUpdate() {
                                         value={currentAnimeData.series_status}
                                         onChange={handleInputChange("series_status")}
                                     >
-                                        <FormControlLabel value="currently_airing" control={<Radio />} label={t("anime.common.radios.currently_airing")} />
-                                        <FormControlLabel value="finished_airing" control={<Radio />} label={t("anime.common.radios.finished_airing")} />
-                                        <FormControlLabel value="not_aired_yet" control={<Radio />} label={t("anime.common.radios.not_aired_yet")} />
-                                        <FormControlLabel value="postponed" control={<Radio />} label={t("anime.common.radios.postponed")} />
-                                        <FormControlLabel value="canceled" control={<Radio />} label={t("anime.common.radios.canceled")} />
+                                        <FormControlLabel value="currently_airing" control={<Radio />} label={t("common:ns.currently_airing")} />
+                                        <FormControlLabel value="finished_airing" control={<Radio />} label={t("common:ns.finished_airing")} />
+                                        <FormControlLabel value="not_aired_yet" control={<Radio />} label={t("common:ns.not_aired_yet")} />
+                                        <FormControlLabel value="postponed" control={<Radio />} label={t("common:ns.postponed")} />
+                                        <FormControlLabel value="canceled" control={<Radio />} label={t("common:ns.canceled")} />
                                     </RadioGroup>
                                 </FormControl>
                             </Grid>
@@ -351,11 +351,11 @@ export default function AnimeUpdate() {
                                         value={currentAnimeData.trans_status}
                                         onChange={handleInputChange("trans_status")}
                                     >
-                                        <FormControlLabel value="currently_airing" control={<Radio />} label={t("anime.common.radios.currently_airing")} />
-                                        <FormControlLabel value="finished_airing" control={<Radio />} label={t("anime.common.radios.finished_airing")} />
-                                        <FormControlLabel value="not_aired_yet" control={<Radio />} label={t("anime.common.radios.not_aired_yet")} />
-                                        <FormControlLabel value="postponed" control={<Radio />} label={t("anime.common.radios.postponed")} />
-                                        <FormControlLabel value="canceled" control={<Radio />} label={t("anime.common.radios.canceled")} />
+                                        <FormControlLabel value="currently_airing" control={<Radio />} label={t("common:ns.currently_airing")} />
+                                        <FormControlLabel value="finished_airing" control={<Radio />} label={t("common:ns.finished_airing")} />
+                                        <FormControlLabel value="not_aired_yet" control={<Radio />} label={t("common:ns.not_aired_yet")} />
+                                        <FormControlLabel value="postponed" control={<Radio />} label={t("common:ns.postponed")} />
+                                        <FormControlLabel value="canceled" control={<Radio />} label={t("common:ns.canceled")} />
                                     </RadioGroup>
                                 </FormControl>
                             </Grid>
@@ -367,7 +367,9 @@ export default function AnimeUpdate() {
                             {t("common.buttons.save")}
                         </Button>
                     </form>
-                </>}
+                </>
+                :
+                ""}
         </>
     )
 }

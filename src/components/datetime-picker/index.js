@@ -8,8 +8,10 @@ import {
 import FindIndex from 'lodash-es/findIndex'
 
 import PropTypes from 'prop-types'
+import { useTranslation } from 'react-i18next';
 
 function DatePicker(props) {
+    const { t } = useTranslation('components')
     const { release_date, setAnimeData, setData, slug } = props
 
     function handleInputChange(date) {
@@ -29,8 +31,8 @@ function DatePicker(props) {
             <KeyboardDatePicker
                 margin="normal"
                 id="date-picker-dialog"
-                label="Çıkış tarihi"
-                format="MM/dd/yyyy"
+                label={t('datepicker.label')}
+                format={t('datepicker.format')}
                 value={release_date}
                 onChange={handleInputChange}
                 fullWidth
@@ -44,6 +46,7 @@ function DatePicker(props) {
 }
 
 function TimePicker(props) {
+    const { t } = useTranslation('components')
     const { release_date, setAnimeData, setData, slug } = props
 
     function handleInputChange(date) {
@@ -63,7 +66,7 @@ function TimePicker(props) {
             <KeyboardTimePicker
                 margin="normal"
                 id="time-picker"
-                label="Çıkış saati"
+                label={t('timepicker.label')}
                 value={release_date}
                 onChange={handleInputChange}
                 fullWidth

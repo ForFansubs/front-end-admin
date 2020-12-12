@@ -4,7 +4,7 @@ import { useGlobal } from 'reactn'
 import axios from '../../config/axios/axios'
 import ToastNotification from '../../components/toastify/toast'
 
-import { Button, Grid, TextField, Divider, makeStyles } from '@material-ui/core'
+import { Button, Grid, TextField, Divider, makeStyles, FormLabel, FormControl, RadioGroup, FormControlLabel, Radio } from '@material-ui/core'
 import { checkMyAnimeListMangaLink } from '../../components/pages/functions';
 import { defaultMangaData } from '../../components/pages/default-props';
 import { jikanIndex, addManga } from '../../config/api-routes';
@@ -317,6 +317,42 @@ export default function MangaCreate() {
                                     margin="normal"
                                     variant="filled"
                                 />
+                            </Grid>
+                            <Grid item xs={12} md={6}>
+                                <FormControl component="fieldset" style={{ width: "100%", textAlign: "center" }}>
+                                    <FormLabel component="legend">{t("common.inputs.series_status.label")}</FormLabel>
+                                    <RadioGroup
+                                        style={{ display: "flex", flexDirection: "row", justifyContent: "center" }}
+                                        aria-label="series_status"
+                                        name="series status"
+                                        value={mangaData.series_status}
+                                        onChange={handleInputChange("series_status")}
+                                    >
+                                        <FormControlLabel value="currently_airing" control={<Radio />} label={t("common:ns.currently_airing")} />
+                                        <FormControlLabel value="finished_airing" control={<Radio />} label={t("common:ns.finished_airing")} />
+                                        <FormControlLabel value="not_aired_yet" control={<Radio />} label={t("common:ns.not_aired_yet")} />
+                                        <FormControlLabel value="postponed" control={<Radio />} label={t("common:ns.postponed")} />
+                                        <FormControlLabel value="canceled" control={<Radio />} label={t("common:ns.canceled")} />
+                                    </RadioGroup>
+                                </FormControl>
+                            </Grid>
+                            <Grid item xs={12} md={6}>
+                                <FormControl component="fieldset" style={{ width: "100%", textAlign: "center" }}>
+                                    <FormLabel component="legend">{t("common.inputs.trans_status.label")}</FormLabel>
+                                    <RadioGroup
+                                        style={{ display: "flex", flexDirection: "row", justifyContent: "center" }}
+                                        aria-label="trans_status"
+                                        name="trans_status"
+                                        value={mangaData.trans_status}
+                                        onChange={handleInputChange("trans_status")}
+                                    >
+                                        <FormControlLabel value="currently_airing" control={<Radio />} label={t("common:ns.currently_airing")} />
+                                        <FormControlLabel value="finished_airing" control={<Radio />} label={t("common:ns.finished_airing")} />
+                                        <FormControlLabel value="not_aired_yet" control={<Radio />} label={t("common:ns.not_aired_yet")} />
+                                        <FormControlLabel value="postponed" control={<Radio />} label={t("common:ns.postponed")} />
+                                        <FormControlLabel value="canceled" control={<Radio />} label={t("common:ns.canceled")} />
+                                    </RadioGroup>
+                                </FormControl>
                             </Grid>
                         </Grid>
                         <Button

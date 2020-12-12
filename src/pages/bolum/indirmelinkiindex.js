@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useGlobal } from 'reactn'
 import { Redirect } from 'react-router-dom'
-import axios from '../../config/axios/axios'
 
 import { useTheme } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
@@ -10,8 +9,6 @@ import Tab from '@material-ui/core/Tab';
 
 import DownloadlinkCreate from './indirmelinki/olustur'
 import DownloadLinkDelete from './indirmelinki/sil'
-import WarningBox from '../../components/warningerrorbox/warning';
-import { downloadLinkList } from '../../config/api-routes';
 
 import { a11yProps, TabPanel } from "../../components/pages/default-components";
 import { useTranslation } from 'react-i18next';
@@ -21,7 +18,6 @@ export default function EpisodeDownloadLinkIndex() {
     const theme = useTheme()
     const token = useGlobal("user")[0].token
     const [value, setValue] = useState(0)
-    const [downloadLinks, setDownloadLinks] = useState([])
     const [adminPermList] = useGlobal('adminPermList')
     const [error, setError] = useState(false)
 
@@ -29,18 +25,6 @@ export default function EpisodeDownloadLinkIndex() {
         if (!adminPermList["add-download-link"] && !adminPermList["delete-download-link"]) {
             setError(true)
         }
-
-        async function fetchData() {
-            const headers = {
-                "Authorization": token
-            }
-
-            const downloadLink = await axios.get(downloadLinkList, { headers }).catch(res => res)
-
-            if (downloadLink.status === 200) setDownloadLinks(downloadLink.data.list)
-        }
-
-        fetchData()
     }, [adminPermList, token])
 
     function handleChange(event, newValue) {
@@ -74,11 +58,6 @@ export default function EpisodeDownloadLinkIndex() {
                     <DownloadLinkDelete />
                 </TabPanel>
                 : <></>}
-            {/*downloadLinkList.length ?
-                <WarningBox bgcolor="background.level1" mb={2} variant="h6">
-                    {downloadLinks.map((w, i) => i === downloadLinks.length - 1 ? w.toUpperCase() : `${w.toUpperCase()} - `)}
-                </WarningBox>
-            : ""*/}
         </>
     );
 }

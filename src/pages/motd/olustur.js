@@ -8,8 +8,8 @@ import ToastNotification, { payload } from '../../components/toastify/toast'
 import { Button, Grid, TextField, FormControl, FormLabel, RadioGroup, FormControlLabel, Radio, Select, MenuItem, InputLabel, makeStyles } from '@material-ui/core'
 import { defaultMotdData } from '../../components/pages/default-props';
 import { addMotd, getFullAnimeList, getFullMangaList, getAnimeData, getMangaData } from '../../config/api-routes';
-import { handleEpisodeTitleFormat } from '../../components/pages/functions'
 import { useTranslation } from 'react-i18next'
+import EpisodeTitleParser from '../../config/episode-title-parser'
 
 const useStyles = makeStyles(theme => ({
     Container: {
@@ -275,7 +275,7 @@ export default function MotdCreate() {
                                             id: "childData"
                                         }}
                                     >
-                                        {childData.map(d => <MenuItem key={d.id} value={d.id}>{handleEpisodeTitleFormat(d)}</MenuItem>)}
+                                        {childData.map(d => <MenuItem key={d.id} value={d.id}>{EpisodeTitleParser({ episodeNumber: d.episode_number, specialType: "" }).title}</MenuItem>)}
                                     </Select>
                                 </FormControl>
                             </Grid>

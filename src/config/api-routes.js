@@ -16,8 +16,6 @@ const featuredAnime = "/anime/update-featured-anime" // POST                    
 //--------------
 
 //-------------- EPISODE
-const downloadLinkList = "/bolum/download-link-list" // GET                         (add-download-link)
-const watchLinkList = "/bolum/watch-link-list" // GET                               (add-watch-link)
 
 const addEpisode = "/bolum/bolum-ekle" // POST                                      (add-bolum)
 const updateEpisode = "/bolum/bolum-duzenle" // POST                                (update-bolum)
@@ -81,8 +79,6 @@ export {
     updateAnime,
     deleteAnime,
     featuredAnime,
-    downloadLinkList,
-    watchLinkList,
     addEpisode,
     updateEpisode,
     deleteEpisode,

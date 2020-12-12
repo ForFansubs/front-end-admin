@@ -1,4 +1,3 @@
-import React from 'react'
 import { useGlobal } from 'reactn'
 
 import { useTranslation } from 'react-i18next';

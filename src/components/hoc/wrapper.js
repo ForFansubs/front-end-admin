@@ -1,4 +1,3 @@
-import React from 'react'
 import { useGlobal } from 'reactn'
 
 import Header from '../header/header'

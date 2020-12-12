@@ -25,7 +25,8 @@ export default function AnimeCreate() {
     const { t } = useTranslation("pages")
     const token = useGlobal("user")[0].token
     const [jikanStatus] = useGlobal('jikanStatus')
-    const [animeData, setAnimeData] = useState({ ...defaultAnimeData, mal_get: jikanStatus.status ? false : true })
+    const [animeData, setAnimeData] = useState({ ...defaultAnimeData })
+    const [malGet, setMalGet] = useState(jikanStatus.status ? false : true)
     const classes = useStyles()
 
     const handleInputChange = name => event => {
@@ -52,7 +53,7 @@ export default function AnimeCreate() {
             }
 
             ToastNotification(payload)
-            setAnimeData({ mal_get: true })
+            setMalGet(true)
             return { status: 408, data: { NOTICE: "err" } }
         })
 
@@ -66,7 +67,7 @@ export default function AnimeCreate() {
                 }
 
                 ToastNotification(payload)
-                return setAnimeData({ mal_get: true })
+                return setMalGet(true)
             }
         }
 
@@ -79,7 +80,6 @@ export default function AnimeCreate() {
             release_date: anime && anime.data && anime.data.aired ? new Date(anime.data.aired.from) : new Date(),
             studios: studyolar ? studyolar.join(',') : [],
             genres: turler ? turler.join(',') : [],
-            airing: anime.data.airing ? anime.data.airing : false,
             premiered: anime.data.premiered ? anime.data.premiered : "",
             episode_count: anime.data.episodes ? anime.data.episodes : 0,
             pv: anime.data.trailer_url ? anime.data.trailer_url : ""
@@ -95,7 +95,8 @@ export default function AnimeCreate() {
             newAnimeData.header = ""
         }
 
-        setAnimeData({ ...animeData, ...newAnimeData, mal_get: true })
+        setAnimeData({ ...animeData, ...newAnimeData })
+        setMalGet(true)
     }
 
     function handleDataSubmit(th) {
@@ -114,12 +115,18 @@ export default function AnimeCreate() {
                 ToastNotification(payload)
             })
             .catch(err => {
-                ToastNotification(payload("error", t("anime.create.errors.error")))
+                ToastNotification(payload("error", err && err.response && err.response.data && err.response.data.err ? err.response.data.err : t("anime.create.errors.error")))
             })
     }
 
     function clearData() {
-        setAnimeData({ ...defaultAnimeData, mal_get: jikanStatus.status ? false : true })
+        setAnimeData({ ...defaultAnimeData })
+        setMalGet(jikanStatus.status ? false : true)
+    }
+
+    function handleAddWithoutAPIButton() {
+        setAnimeData({ ...animeData })
+        setMalGet(state => !state)
     }
 
     return (
@@ -142,7 +149,7 @@ export default function AnimeCreate() {
                 color="primary"
                 variant="outlined"
                 onClick={handleMALSubmit}
-                disabled={animeData.mal_get ? true : false}
+                disabled={malGet}
             >
                 {t("common.buttons.get_information")}
             </Button>
@@ -154,10 +161,10 @@ export default function AnimeCreate() {
             <Button
                 color="secondary"
                 variant="outlined"
-                onClick={() => setAnimeData({ ...animeData, mal_get: !animeData.mal_get })}>
+                onClick={handleAddWithoutAPIButton}>
                 {t("common.buttons.add_without_api")}
             </Button>
-            {animeData.mal_get ?
+            {malGet ?
                 <>
                     <form onSubmit={th => handleDataSubmit(th)} autoComplete="off">
                         <Grid container spacing={2}>
@@ -355,11 +362,11 @@ export default function AnimeCreate() {
                                         value={animeData.series_status}
                                         onChange={handleInputChange("series_status")}
                                     >
-                                        <FormControlLabel value="currently_airing" control={<Radio />} label={t("anime.common.radios.currently_airing")} />
-                                        <FormControlLabel value="finished_airing" control={<Radio />} label={t("anime.common.radios.finished_airing")} />
-                                        <FormControlLabel value="not_aired_yet" control={<Radio />} label={t("anime.common.radios.not_aired_yet")} />
-                                        <FormControlLabel value="postponed" control={<Radio />} label={t("anime.common.radios.postponed")} />
-                                        <FormControlLabel value="canceled" control={<Radio />} label={t("anime.common.radios.canceled")} />
+                                        <FormControlLabel value="currently_airing" control={<Radio />} label={t("common:ns.currently_airing")} />
+                                        <FormControlLabel value="finished_airing" control={<Radio />} label={t("common:ns.finished_airing")} />
+                                        <FormControlLabel value="not_aired_yet" control={<Radio />} label={t("common:ns.not_aired_yet")} />
+                                        <FormControlLabel value="postponed" control={<Radio />} label={t("common:ns.postponed")} />
+                                        <FormControlLabel value="canceled" control={<Radio />} label={t("common:ns.canceled")} />
                                     </RadioGroup>
                                 </FormControl>
                             </Grid>
@@ -373,11 +380,11 @@ export default function AnimeCreate() {
                                         value={animeData.trans_status}
                                         onChange={handleInputChange("trans_status")}
                                     >
-                                        <FormControlLabel value="currently_airing" control={<Radio />} label={t("anime.common.radios.currently_airing")} />
-                                        <FormControlLabel value="finished_airing" control={<Radio />} label={t("anime.common.radios.finished_airing")} />
-                                        <FormControlLabel value="not_aired_yet" control={<Radio />} label={t("anime.common.radios.not_aired_yet")} />
-                                        <FormControlLabel value="postponed" control={<Radio />} label={t("anime.common.radios.postponed")} />
-                                        <FormControlLabel value="canceled" control={<Radio />} label={t("anime.common.radios.canceled")} />
+                                        <FormControlLabel value="currently_airing" control={<Radio />} label={t("common:ns.currently_airing")} />
+                                        <FormControlLabel value="finished_airing" control={<Radio />} label={t("common:ns.finished_airing")} />
+                                        <FormControlLabel value="not_aired_yet" control={<Radio />} label={t("common:ns.not_aired_yet")} />
+                                        <FormControlLabel value="postponed" control={<Radio />} label={t("common:ns.postponed")} />
+                                        <FormControlLabel value="canceled" control={<Radio />} label={t("common:ns.canceled")} />
                                     </RadioGroup>
                                 </FormControl>
                             </Grid>
@@ -386,7 +393,7 @@ export default function AnimeCreate() {
                             variant="outlined"
                             color="primary"
                             type="submit">
-                            {t("anime.common.buttons.save")}
+                            {t("common.buttons.save")}
                         </Button>
                     </form>
                 </>

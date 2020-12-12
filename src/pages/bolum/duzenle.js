@@ -9,11 +9,11 @@ import ToastNotification, { payload } from '../../components/toastify/toast'
 import { Button, Grid, TextField, Box, FormControl, FormLabel, FormControlLabel, InputLabel, Select, MenuItem, FormGroup, Checkbox, Typography, Modal, makeStyles } from '@material-ui/core'
 import { defaultEpisodeData, defaultAnimeData } from '../../components/pages/default-props';
 import { getFullAnimeList, getAnimeData, updateEpisode } from '../../config/api-routes';
-import { handleEpisodeTitleFormat } from '../../components/pages/functions';
 
 import VisibilityIcon from '@material-ui/icons/Visibility'
 import VisibilityOffIcon from '@material-ui/icons/VisibilityOff'
 import { useTranslation } from 'react-i18next'
+import EpisodeTitleParser from '../../config/episode-title-parser'
 
 const useStyles = makeStyles(theme => ({
     ModalContainer: {
@@ -209,7 +209,7 @@ export default function EpisodeUpdate(props) {
                         {episodeData.map(e =>
                             <Grid item xs={6} md={3} lg={2} key={e.id}>
                                 <Box p={1} boxShadow={2} bgcolor="background.level1" display="flex" alignItems="center" justifyContent="space-between">
-                                    <Typography variant="h6">{handleEpisodeTitleFormat(e)}</Typography>
+                                    <Typography variant="h6">{EpisodeTitleParser({ episodeNumber: e.episode_number, specialType: e.special_type }).title}</Typography>
                                     <div>
                                         <Button size="small" onClick={() => handleUpdateButtonClick(e.id)}>{t('common.index.update')}</Button>
 

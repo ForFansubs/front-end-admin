@@ -8,10 +8,10 @@ import axios from '../../config/axios/axios'
 import ToastNotification, { payload } from '../../components/toastify/toast'
 
 import { Button, Grid, Box, FormControl, InputLabel, Select, MenuItem, Typography, Modal, makeStyles } from '@material-ui/core'
-import { defaultEpisodeData, defaultMangaData } from '../../components/pages/default-props';
+import { defaultMangaData, defaultMangaEpisodeData } from '../../components/pages/default-props';
 import { getFullMangaList, getMangaData, deleteMangaEpisode } from '../../config/api-routes';
-import { handleEpisodeTitleFormat } from '../../components/pages/functions';
 import { useTranslation } from 'react-i18next'
+import EpisodeTitleParser from '../../config/episode-title-parser'
 
 const useStyles = makeStyles(theme => ({
     ModalContainer: {
@@ -34,7 +34,7 @@ export default function EpisodeDelete(props) {
     const [data, setData] = useState([])
     const [currentMangaData, setCurrentMangaData] = useState({ ...defaultMangaData })
     const [episodeData, setEpisodeData] = useState([])
-    const [currentEpisodeData, setCurrentEpisodeData] = useState({ ...defaultEpisodeData })
+    const [currentEpisodeData, setCurrentEpisodeData] = useState({ ...defaultMangaEpisodeData })
     const [loading, setLoading] = useState(true)
 
     useEffect(() => {
@@ -94,7 +94,7 @@ export default function EpisodeDelete(props) {
             const newEpisodeDataSet = episodeData
             PullAllBy(newEpisodeDataSet, [{ "id": episode_id }], "id")
             setEpisodeData(oldData => ([...newEpisodeDataSet]))
-            setCurrentEpisodeData({ ...defaultEpisodeData })
+            setCurrentEpisodeData({ ...defaultMangaEpisodeData })
             handleClose()
             ToastNotification(payload("success", res.data.message || t('manga_episode.delete.warnings.success')))
         }
@@ -123,7 +123,7 @@ export default function EpisodeDelete(props) {
     }
 
     function handleClose() {
-        setCurrentEpisodeData({ ...defaultEpisodeData })
+        setCurrentEpisodeData({ ...defaultMangaEpisodeData })
         setOpen(false)
     }
 
@@ -152,7 +152,7 @@ export default function EpisodeDelete(props) {
                         {episodeData.map(e =>
                             <Grid item xs={6} md={3} lg={2} key={e.id}>
                                 <Box p={1} boxShadow={2} bgcolor="background.level1" display="flex" alignItems="center" justifyContent="space-between">
-                                    <Typography variant="h6">{handleEpisodeTitleFormat(e)}</Typography>
+                                    <Typography variant="h6">{EpisodeTitleParser({ episodeNumber: e.episode_number, specialType: "" }).title}</Typography>
                                     <div>
                                         <Button size="small" variant="outlined" color="secondary" onClick={() => handleDeleteModalButton(e.id)}>{t('common.index.delete')}</Button>
                                     </div>
@@ -170,7 +170,7 @@ export default function EpisodeDelete(props) {
                 className={classes.ModalContainer}
             >
                 <Box p={2} bgcolor="background.level2">
-                    <Typography variant="h4">{t('manga_episode.delete.manga_title', { manga_title: `${currentMangaData.name} ${handleEpisodeTitleFormat(currentEpisodeData)}` })}</Typography>
+                    <Typography variant="h4">{t('manga_episode.delete.manga_title', { manga_title: `${currentMangaData.name} ${EpisodeTitleParser({ episodeNumber: currentEpisodeData.episode_number, specialType: "" }).title}` })}</Typography>
                     <Button
                         style={{ marginRight: "5px" }}
                         variant="contained"

@@ -24,10 +24,8 @@ const getPermList = () => {
 
 const defaultAnimeData = {
     name: "",
-    slug: "",
     series_status: "currently_airing",
     trans_status: "currently_airing",
-    airing: 1,
     synopsis: "",
     translators: "",
     encoders: "",
@@ -38,12 +36,9 @@ const defaultAnimeData = {
     logo: "",
     mal_link: "",
     genres: "",
-    ta_link: "",
     premiered: "",
     episode_count: 0,
     version: "tv",
-    error: false,
-    confirm: false,
 }
 
 const defaultEpisodeData = {
@@ -74,9 +69,8 @@ const defaultWatchLinkData = {
 const defaultMangaData = {
     id: '',
     name: "",
-    series_status: "Tamamlandı",
-    trans_status: "Devam Ediyor",
-    slug: "",
+    series_status: "finished_airing",
+    trans_status: "currently_airing",
     synopsis: "",
     translators: "",
     editors: "",
@@ -89,8 +83,6 @@ const defaultMangaData = {
     genres: "",
     reader_link: "",
     download_link: "",
-    error: false,
-    confirm: false,
 }
 
 const defaultUserData = {

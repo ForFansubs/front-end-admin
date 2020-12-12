@@ -10,7 +10,7 @@ import { Box, Typography } from '@material-ui/core'
 
 function Message(props) {
     const { message, overridemessage } = props
-
+    console.log(props)
     return (
         <Box
             borderRadius="5px"

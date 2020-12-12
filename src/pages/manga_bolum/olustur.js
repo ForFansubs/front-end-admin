@@ -8,7 +8,6 @@ import ToastNotification, { payload } from '../../components/toastify/toast'
 import { Button, Grid, TextField, FormControl, InputLabel, Select, MenuItem, Box, Typography, LinearProgress } from '@material-ui/core'
 import { defaultMangaEpisodeData, defaultMangaData } from '../../components/pages/default-props';
 import { addMangaEpisode, getFullMangaList } from '../../config/api-routes';
-import { handleSelectData } from '../../components/pages/functions';
 import { useTranslation } from 'react-i18next'
 
 export default function EpisodeCreate() {
@@ -49,8 +48,7 @@ export default function EpisodeCreate() {
     }, [token])
 
     function handleChange(event) {
-        const mangaData = handleSelectData(event.target.value)
-        const newData = Find(data, { name: mangaData.name })
+        const newData = Find(data, { id: event.target.value })
         setCurrentMangaData({ ...newData });
     }
 
@@ -113,14 +111,14 @@ export default function EpisodeCreate() {
                     <InputLabel htmlFor="manga-selector">{t('manga_episode.create.manga_selector')}</InputLabel>
                     <Select
                         fullWidth
-                        value={`${currentMangaData.name}`}
+                        value={currentMangaData.id || ""}
                         onChange={handleChange}
                         inputProps={{
                             name: "manga",
                             id: "manga-selector"
                         }}
                     >
-                        {data.map(d => <MenuItem key={d.id} value={`${d.name}`}>{d.name}</MenuItem>)}
+                        {data.map(d => <MenuItem key={d.id} value={d.id}>{d.name}</MenuItem>)}
                     </Select>
                 </FormControl>
                 : ""}
