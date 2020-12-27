@@ -42,15 +42,13 @@ const defaultAnimeData = {
 }
 
 const defaultEpisodeData = {
-    id: null,
     episode_number: "",
     credits: "",
     special_type: "",
-    can_user_download: 1
+    can_user_download: true
 }
 
 const defaultMangaEpisodeData = {
-    id: null,
     manga_id: null,
     episode_number: "",
     episode_name: "",

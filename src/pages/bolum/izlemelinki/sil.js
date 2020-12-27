@@ -79,7 +79,7 @@ export default function WatchlinkCreate() {
 
         axios.post(getWatchlinks, data, { headers })
             .then(res => {
-                if (!res.data.length) return ToastNotification(payload("error", t('episode.download_link.delete.errors.links_not_found')))
+                if (!res.data.length) return ToastNotification(payload("error", t('episode.watch_link.delete.errors.links_not_found')))
                 setCurrentEpisodeWatchlinkData(res.data)
             }).catch(err => console.log(err))
 
@@ -106,7 +106,7 @@ export default function WatchlinkCreate() {
         }
 
         else {
-            ToastNotification(payload("error", t('episode.download_link.delete.errors.error')))
+            ToastNotification(payload("error", t('episode.watch_link.delete.errors.error')))
         }
     }
 
@@ -114,7 +114,7 @@ export default function WatchlinkCreate() {
         <>
             {!loading && data.length ?
                 <FormControl fullWidth>
-                    <InputLabel htmlFor="anime-selector">{t('episode.download_link.delete.anime_selector')}</InputLabel>
+                    <InputLabel htmlFor="anime-selector">{t('episode.watch_link.delete.anime_selector')}</InputLabel>
                     <Select
                         fullWidth
                         value={currentAnimeData.id || ""}
@@ -131,7 +131,7 @@ export default function WatchlinkCreate() {
             <Box mt={2}>
                 {episodeData.length ?
                     <FormControl fullWidth>
-                        <InputLabel htmlFor="anime-selector">{t('episode.download_link.delete.episode_selector')}</InputLabel>
+                        <InputLabel htmlFor="anime-selector">{t('episode.watch_link.delete.episode_selector')}</InputLabel>
                         <Select
                             fullWidth
                             value={currentEpisodeData.id || ""}

@@ -67,7 +67,7 @@ export default function EpisodeCreate() {
         const data = {
             ...episodeData,
             anime_id: currentAnimeData.id,
-            sendDiscordEmbed: sendDiscordEmbed
+            send_discord_embed: sendDiscordEmbed
         }
 
         const headers = {
@@ -129,13 +129,13 @@ export default function EpisodeCreate() {
                                 />
                             </Grid>
                             <Grid item style={{ textAlign: "center" }}>
-                                <Button onClick={handleCanUserDownloadButton} variant="contained" color={episodeData.can_user_download ? "primary" : "secondary"}>
+                                <Button onClick={handleDiscordEmbedButton} variant="contained" color={sendDiscordEmbed ? "primary" : "secondary"}>
                                     {sendDiscordEmbed ? t('common.buttons.send_discord_embed') : t('common.buttons.dont_send_discord_embed')}
                                 </Button>
                             </Grid>
                             <Grid item style={{ textAlign: "center" }}>
-                                <Button onClick={handleDiscordEmbedButton} variant="contained" color={sendDiscordEmbed ? "primary" : "secondary"}>
-                                    {sendDiscordEmbed ? t('common.buttons.can_user_download') : t('common.buttons.cant_user_download')}
+                                <Button onClick={handleCanUserDownloadButton} variant="contained" color={episodeData.can_user_download ? "primary" : "secondary"}>
+                                    {episodeData.can_user_download ? t('common.buttons.can_user_download') : t('common.buttons.cant_user_download')}
                                 </Button>
                             </Grid>
                             <Grid item xs={12} style={{ textAlign: "center" }}>

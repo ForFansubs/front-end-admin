@@ -118,7 +118,7 @@ export default function AnimeDelete(props) {
                         variant="outlined"
                         color="secondary"
                         onClick={() => handleDeleteButton(currentAnimeData.slug)}>
-                        {t('anime.index.delete')}
+                        {t('common.index.delete')}
                     </Button>
                     <Button
                         variant="outlined"
