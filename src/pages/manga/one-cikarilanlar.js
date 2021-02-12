@@ -4,15 +4,15 @@ import axios from '../../config/axios/axios'
 import ToastNotification, { payload } from '../../components/toastify/toast'
 
 import { Button, CircularProgress, FormControl, InputLabel, Select, MenuItem } from '@material-ui/core'
-import { getFullAnimeList, featuredAnime, getFullFeaturedAnimeList } from '../../config/api-routes';
-import { handleFeaturedSelectData } from '../../components/pages/functions';
+import { getFullMangaList, featuredManga, getFullFeaturedMangaList } from '../../config/api-routes';
+import { handleMangaFeaturedSelectData } from '../../components/pages/functions';
 import { useTranslation } from 'react-i18next'
 
-export default function AnimeFeatured() {
+export default function MangaFeatured() {
     const { t } = useTranslation('pages')
     const token = useGlobal("user")[0].token
     const [data, setData] = useState([])
-    const [featuredAnimes, setFeaturedAnimes] = useState([])
+    const [featuredMangas, setFeaturedMangas] = useState([])
     const [loading, setLoading] = useState(true)
 
     useEffect(() => {
@@ -21,11 +21,11 @@ export default function AnimeFeatured() {
                 "Authorization": token
             }
 
-            const res = await axios.get(getFullAnimeList, { headers }).catch(res => res)
-            const featured = await axios.get(getFullFeaturedAnimeList, { headers }).catch(res => res)
+            const res = await axios.get(getFullMangaList, { headers }).catch(res => res)
+            const featured = await axios.get(getFullFeaturedMangaList, { headers }).catch(res => res)
             if (res.status === 200 && featured.status === 200) {
                 setData(res.data)
-                setFeaturedAnimes(featured.data.map(({ name, version }) => `${name} [${version}]`))
+                setFeaturedMangas(featured.data.map(({ name }) => name))
                 setLoading(false)
             }
             else {
@@ -39,22 +39,20 @@ export default function AnimeFeatured() {
     function handleChange(event) {
         const newData = []
         newData.push(...event.target.value)
-        setFeaturedAnimes(newData)
+        setFeaturedMangas(newData)
     }
 
-    function handleFeaturedAnimesUpdateButton() {
-        const animeData = handleFeaturedSelectData(featuredAnimes)
-
+    function handleFeaturedMangasUpdateButton() {
         const headers = {
             "Authorization": token
         }
 
-        axios.post(featuredAnime, { data: animeData }, { headers })
+        axios.post(featuredManga, { data: featuredMangas }, { headers })
             .then(_ => {
 
-                ToastNotification(payload("success", t('anime.featured.warnings.success')))
+                ToastNotification(payload("success", t('manga.featured.warnings.success')))
             })
-            .catch(_ => ToastNotification(payload("error", t('anime.featured.errors.error'))))
+            .catch(_ => ToastNotification(payload("error", t('manga.featured.errors.error'))))
     }
 
     if (loading) {
@@ -68,22 +66,21 @@ export default function AnimeFeatured() {
             {!loading && data.length ?
                 <>
                     <FormControl fullWidth margin="normal">
-                        <InputLabel htmlFor="anime-selector">{t('anime.featured.selector')}</InputLabel>
+                        <InputLabel htmlFor="Manga-selector">{t('manga.featured.selector')}</InputLabel>
                         <Select
                             fullWidth
                             multiple
-                            value={featuredAnimes}
+                            value={featuredMangas}
                             onChange={handleChange}
                             inputProps={{
-                                name: "anime",
-                                id: "anime-selector"
+                                name: "Manga",
+                                id: "manga-selector"
                             }}
-                            renderValue={selected => selected.join(', ')}
                         >
-                            {data.map(d => <MenuItem key={d.id} value={`${d.name} [${d.version}]`}>{d.name} [{d.version}]</MenuItem>)}
+                            {data.map(d => <MenuItem key={d.id} value={d.name}>{d.name}</MenuItem>)}
                         </Select>
                     </FormControl>
-                    <Button variant="outlined" color="primary" onClick={handleFeaturedAnimesUpdateButton}>{t('common.buttons.save')}</Button>
+                    <Button variant="outlined" color="primary" onClick={handleFeaturedMangasUpdateButton}>{t('common.buttons.save')}</Button>
                 </>
                 : ""}
         </>

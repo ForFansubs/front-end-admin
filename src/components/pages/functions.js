@@ -50,10 +50,21 @@ const handleFeaturedSelectData = (featuredAnimes) => {
     return animeData
 }
 
+const handleMangaFeaturedSelectData = (featuredMangas) => {
+    const animeData = featuredMangas.map(f => {
+        let data = {
+            name: f
+        }
+        return data
+    })
+    return animeData
+}
+
 export {
     checkMyAnimeListAnimeLink,
     checkMyAnimeListMangaLink,
     checkYoutubeLink,
     checkTurkAnimeLink,
-    handleFeaturedSelectData
+    handleFeaturedSelectData,
+    handleMangaFeaturedSelectData
 }

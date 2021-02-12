@@ -43,7 +43,7 @@ export default function LoginModal() {
         event.preventDefault()
 
         const userData = {
-            name: userInfo.username,
+            username: userInfo.username,
             password: userInfo.password
         }
 
@@ -83,7 +83,7 @@ export default function LoginModal() {
                         <TextField
                             id="password"
                             label="Şifre"
-                            value={t('login.password')}
+                            value={userInfo.password}
                             helperText={errContainer.password ? errContainer.password : ""}
                             onChange={handleChange('password')}
                             margin="normal"

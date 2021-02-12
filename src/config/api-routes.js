@@ -4,19 +4,27 @@ const isAdmin = "/kullanici/adminpage?withprops=true" // GET                    
 const getFullLogs = "/logs" // GET                                                  (see-logs)
 
 const getAnimeData = (slug) => `/anime/${slug}/admin-view` // GET                   (update-anime)
-const getFullAnimeList = "/anime/admin-liste" // GET                                (see-admin-page)
 const getFullFeaturedAnimeList = "/anime/admin-featured-anime" // GET               (featured-anime)
-const getMangaData = (slug) => `/manga/${slug}/admin-view`
+const getMangaData = (slug) => `/manga/${slug}/admin-view` // GET                   (update-manga)
+const getFullFeaturedMangaList = "/manga/admin-featured-manga" // GET               (featured-manga)
 
 //-------------- ANIME
+const getFullAnimeList = "/anime/admin-liste" // GET                                (see-admin-page)
 const addAnime = "/anime/anime-ekle" // POST                                        (add-anime)
 const updateAnime = "/anime/anime-guncelle" // POST                                 (update-anime)
 const deleteAnime = "/anime/anime-sil" // POST                                      (delete-anime)
 const featuredAnime = "/anime/update-featured-anime" // POST                        (featured-anime)
 //--------------
 
-//-------------- EPISODE
+//-------------- MANGA
+const getFullMangaList = "/manga/admin-liste" // GET                                (see-admin-page)
+const addManga = "/manga/manga-ekle" // POST                                        (add-manga)
+const updateManga = "/manga/manga-guncelle" // POST                                 (update-manga)
+const deleteManga = "/manga/manga-sil" // POST                                      (delete-manga)
+const featuredManga = "/manga/update-featured-manga" // POST                        (featured-manga)
+//--------------
 
+//-------------- EPISODE
 const addEpisode = "/bolum/bolum-ekle" // POST                                      (add-bolum)
 const updateEpisode = "/bolum/bolum-duzenle" // POST                                (update-bolum)
 const deleteEpisode = "/bolum/bolum-sil" // POST                                    (delete-bolum)
@@ -28,13 +36,6 @@ const deleteWatchlink = "/bolum/izleme-linki-sil" // POST                       
 const addDownloadlink = "/bolum/indirme-linki-ekle" // POST                         (add-download-link)
 const getDownloadlinks = "/bolum/indirme-linkleri/admin-view" // POST               (add-download-link)
 const deleteDownloadlink = "/bolum/indirme-linki-sil" // POST                       (delete-download-link)
-//--------------
-
-//-------------- MANGA
-const getFullMangaList = "/manga/admin-liste" // GET                                (see-admin-page)
-const addManga = "/manga/manga-ekle" // POST                                        (add-manga)
-const updateManga = "/manga/manga-guncelle" // POST                                 (update-manga)
-const deleteManga = "/manga/manga-sil" // POST                                      (delete-manga)
 //--------------
 
 //-------------- MANGA EPISODE
@@ -75,6 +76,7 @@ export {
     getFullAnimeList,
     getFullFeaturedAnimeList,
     getMangaData,
+    getFullFeaturedMangaList,
     addAnime,
     updateAnime,
     deleteAnime,
@@ -92,6 +94,7 @@ export {
     addManga,
     updateManga,
     deleteManga,
+    featuredManga,
     addMangaEpisode,
     updateMangaEpisode,
     deleteMangaEpisode,

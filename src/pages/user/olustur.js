@@ -50,9 +50,9 @@ export default function AnimeCreate() {
                             <TextField
                                 fullWidth
                                 id="name"
-                                label={t('user.common.inputs.name')}
-                                value={userData.name}
-                                onChange={handleInputChange("name")}
+                                label={t('user.common.inputs.username')}
+                                value={userData.username}
+                                onChange={handleInputChange("username")}
                                 margin="normal"
                                 variant="filled"
                                 required
@@ -87,10 +87,10 @@ export default function AnimeCreate() {
                         <Grid item xs={12} md={6}>
                             <TextField
                                 fullWidth
-                                id="password2"
-                                label={t('user.common.inputs.password2')}
-                                value={userData.password2}
-                                onChange={handleInputChange("password2")}
+                                id="repeat_password"
+                                label={t('user.common.inputs.repeat_password')}
+                                value={userData.repeat_password}
+                                onChange={handleInputChange("repeat_password")}
                                 type="password"
                                 margin="normal"
                                 variant="filled"

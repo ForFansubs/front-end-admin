@@ -28,7 +28,7 @@ const theme = {
         },
     },
     typography: {
-        fontFamily: `'Rubik', sans-serif`,
+        fontFamily: "'Source Sans Pro', sans-serif",
         h1: {
 
             fontWeight: "bold",

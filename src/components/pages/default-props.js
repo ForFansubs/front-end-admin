@@ -84,10 +84,10 @@ const defaultMangaData = {
 }
 
 const defaultUserData = {
-    name: "",
+    username: "",
     email: "",
     password: "",
-    password2: ""
+    repeat_password: ""
 }
 
 const defaultUserUpdateData = {
