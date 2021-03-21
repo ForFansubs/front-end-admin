@@ -23,7 +23,7 @@ function DatePicker(props) {
                 newDataSet[FindIndex(data, { slug: slug })][
                     "release_date"
                 ] = date;
-                setData(newDataSet);
+                return newDataSet;
             });
         }
     }
@@ -60,7 +60,7 @@ function TimePicker(props) {
                 newDataSet[FindIndex(data, { slug: slug })][
                     "release_date"
                 ] = date;
-                setData(newDataSet);
+                return newDataSet;
             });
         }
     }
