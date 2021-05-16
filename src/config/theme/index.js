@@ -28,7 +28,7 @@ const theme = {
         },
     },
     typography: {
-        fontFamily: `'Rubik', sans-serif`,
+        fontFamily: "'Source Sans Pro', sans-serif",
         h1: {
 
             fontWeight: "bold",
@@ -93,6 +93,13 @@ const theme = {
                 }
             },
             focused: {}
+        },
+        MuiToolbar: {
+            gutters: {
+                ['@media (min-width:600px)']: {
+                    paddingLeft: 29
+                }
+            }
         },
         defaultMargin: "80px 40px 24px",
         defaultMarginMobile: "80px 24px 24px",

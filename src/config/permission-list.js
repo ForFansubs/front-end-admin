@@ -49,7 +49,8 @@ module.exports = [
         "perms": {
             "Manga Ekle": "add-manga",
             "Manga Güncelle": "update-manga",
-            "Manga Sil": "delete-manga"
+            "Manga Sil": "delete-manga",
+            "Öne Çıkarılan Mangaları Düzenle": "featured-manga"
         }
     },
     {

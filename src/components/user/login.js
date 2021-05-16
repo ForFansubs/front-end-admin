@@ -1,118 +1,128 @@
-import React, { useState } from 'react'
+import { useState } from "react";
 
-import { Box, Button, Typography, TextField } from '@material-ui/core';
-import { useTheme } from '@material-ui/styles'
-import { useDispatch } from 'reactn'
-import styled from 'styled-components'
+import {
+    Box,
+    Button,
+    Typography,
+    TextField,
+    makeStyles,
+} from "@material-ui/core";
+import { useDispatch } from "reactn";
 
-import axios from '../../config/axios/axios'
-import { loginRoute } from '../../config/api-routes';
+import axios from "../../config/axios/axios";
+import { loginRoute } from "../../config/api-routes";
+import { useTranslation } from "react-i18next";
 
-const ModalContainer = styled(Box)`
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: ${props => props.theme.breakpoints.values.sm}px;
-
-    @media(max-width:${props => props.theme.breakpoints.values.sm}px) {
-        width: 100%;
-    }
-`
-
-const ButtonContainer = styled(Box)``
-
-const ModalTitle = styled(Typography)``
-
-const FormContainer = styled.form``
-
-const FormButton = styled(Button)`
-    :first-child {
-        margin-right: 5px;
-    }
-`
+const useStyles = makeStyles((theme) => ({
+    ModalContainer: {
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+    },
+}));
 
 const UserModel = {
     username: "",
-    password: ""
-}
+    password: "",
+};
 
 const errContainerModel = {
     err: "",
     username: "",
-    password: ""
-}
+    password: "",
+};
 
 export default function LoginModal() {
-    const theme = useTheme()
+    const { t } = useTranslation("components");
+    const classes = useStyles();
 
-    const setUser = useDispatch('loginHandler')
-    const [userInfo, setUserInfo] = useState(UserModel)
-    const [errContainer, setErrContainer] = useState(errContainerModel)
+    const setUser = useDispatch("loginHandler");
+    const [userInfo, setUserInfo] = useState(UserModel);
+    const [errContainer, setErrContainer] = useState(errContainerModel);
 
-    const handleChange = type => event => {
-        setUserInfo({ ...userInfo, [type]: event.target.value })
-        setErrContainer(errContainerModel)
-    }
+    const handleChange = (type) => (event) => {
+        setUserInfo({ ...userInfo, [type]: event.target.value });
+        setErrContainer(errContainerModel);
+    };
 
     const handleSubmitForm = (event) => {
-        event.preventDefault()
+        event.preventDefault();
 
         const userData = {
-            name: userInfo.username,
-            password: userInfo.password
-        }
+            username: userInfo.username,
+            password: userInfo.password,
+        };
 
-        axios.post(loginRoute, userData)
-            .then(res => {
-                setUser(res.data)
-                setUserInfo(UserModel)
-                setErrContainer(errContainerModel)
+        axios
+            .post(loginRoute, userData)
+            .then((res) => {
+                setUser(res.data);
+                setUserInfo(UserModel);
+                setErrContainer(errContainerModel);
             })
-            .catch(err => {
-                const errors = err.response.data.username ? err.response.data : { username: "Giriş yaparken bir sorun oluştu." }
-                setErrContainer({ ...errContainer, ...errors })
-            })
-    }
+            .catch((err) => {
+                const errors = err.response.data.username
+                    ? err.response.data
+                    : { username: t("login.errors.error") };
+                setErrContainer({ ...errContainer, ...errors });
+            });
+    };
 
     return (
         <>
-            <ModalContainer
-                theme={theme}
-                p={2}
-                bgcolor="background.level1"
-                boxShadow={2}>
-                <ModalTitle variant="h4">{process.env.REACT_APP_SITENAME} Admin - Giriş yap</ModalTitle>
-                <FormContainer autoComplete="off" onSubmit={event => handleSubmitForm(event)}>
-                    <TextField
-                        id="username"
-                        error={errContainer.username ? true : false}
-                        helperText={errContainer.username ? errContainer.username : ""}
-                        label="Kullanıcı adı"
-                        value={userInfo.username}
-                        onChange={handleChange('username')}
-                        margin="normal"
-                        variant="outlined"
-                        required
-                        autoFocus
-                        fullWidth />
-                    <TextField
-                        id="password"
-                        label="Şifre"
-                        value={userInfo.password}
-                        helperText={errContainer.password ? errContainer.password : ""}
-                        onChange={handleChange('password')}
-                        margin="normal"
-                        variant="outlined"
-                        type="password"
-                        required
-                        autoFocus
-                        fullWidth />
-                    <ButtonContainer mt={2}>
-                        <FormButton variant="outlined" type="submit">Giriş yap</FormButton>
-                    </ButtonContainer>
-                </FormContainer>
-            </ModalContainer>
+            <div className={classes.ModalContainer}>
+                <Box p={2} bgcolor='background.level1' boxShadow={2}>
+                    <Typography variant='h4'>
+                        {t("login.site_title", {
+                            site_name: process.env.REACT_APP_SITENAME,
+                        })}
+                    </Typography>
+                    <form
+                        autoComplete='off'
+                        onSubmit={(event) => handleSubmitForm(event)}
+                    >
+                        <TextField
+                            id='username'
+                            error={errContainer.username ? true : false}
+                            helperText={
+                                errContainer.username
+                                    ? errContainer.username
+                                    : ""
+                            }
+                            label={t("common:ns.username")}
+                            value={userInfo.username}
+                            onChange={handleChange("username")}
+                            margin='normal'
+                            variant='outlined'
+                            required
+                            autoFocus
+                            fullWidth
+                        />
+                        <TextField
+                            id='password'
+                            label={t("common:ns.password")}
+                            value={userInfo.password}
+                            helperText={
+                                errContainer.password
+                                    ? errContainer.password
+                                    : ""
+                            }
+                            onChange={handleChange("password")}
+                            margin='normal'
+                            variant='outlined'
+                            type='password'
+                            required
+                            autoFocus
+                            fullWidth
+                        />
+                        <Box mt={2}>
+                            <Button variant='outlined' type='submit'>
+                                {t("login.login_button")}
+                            </Button>
+                        </Box>
+                    </form>
+                </Box>
+            </div>
         </>
-    )
+    );
 }

@@ -10,6 +10,7 @@ import { addPermission } from '../../config/api-routes';
 
 import PermissionList from '../../config/permission-list'
 import PermissionListHelperText from '../../config/permission-list-helper-text'
+import { useTranslation } from 'react-i18next'
 
 const useStyles = makeStyles(theme => ({
     HeaderText: {
@@ -21,7 +22,8 @@ const useStyles = makeStyles(theme => ({
     }
 }))
 
-export default function () {
+export default function PermissionCreate() {
+    const { t } = useTranslation('pages')
     const classes = useStyles()
     const token = useGlobal("user")[0].token
     const [permissionData, setPermissionData] = useState({ ...defaultPermissionData })
@@ -58,11 +60,11 @@ export default function () {
 
         axios.post(addPermission, data, { headers })
             .then(_ => {
-                ToastNotification(payload("success", "Rol başarıyla eklendi."))
+                ToastNotification(payload("success", t('perms.create.warnings.success')))
                 clearData()
             })
             .catch(err => {
-                ToastNotification(payload("error", err.response.data.err || "Rolü eklerken bir sorunla karşılaştık."))
+                ToastNotification(payload("error", err.response.data.err || t('perms.create.errors.error')))
             })
     }
 
@@ -79,7 +81,7 @@ export default function () {
                             <TextField
                                 fullWidth
                                 id="name"
-                                label="Rol adı"
+                                label={t('perms.common.inputs.name')}
                                 value={permissionData.name}
                                 onChange={handleInputChange("name")}
                                 margin="normal"
@@ -91,7 +93,7 @@ export default function () {
                             <TextField
                                 fullWidth
                                 id="color"
-                                label="Rol renk kodu"
+                                label={t('perms.common.inputs.color')}
                                 value={permissionData.email}
                                 type="text"
                                 onChange={handleInputChange("color")}
@@ -242,7 +244,7 @@ export default function () {
                     <Button
                         variant="outlined"
                         type="submit">
-                        Kaydet
+                        {t("common.buttons.save")}
                     </Button>
                 </form>
             </>

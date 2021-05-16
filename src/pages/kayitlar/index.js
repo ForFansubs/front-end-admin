@@ -13,23 +13,25 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
-
-const columns = [
-    { id: 'user', label: 'Kullanıcı Adı', minWidth: 170 },
-    { id: 'text', label: 'Yapılan İşlem', minWidth: 200 },
-    {
-        id: 'created_time',
-        label: 'İşlem Zamanı',
-        minWidth: 170,
-        align: 'right'
-    }
-];
+import { useTranslation } from 'react-i18next';
 
 export default function VerticalTabs() {
+    const { t } = useTranslation('pages')
     const token = useGlobal("user")[0].token
     const [adminPermList] = useGlobal('adminPermList')
     const [data, setData] = useState([])
     // const [loading, setLoading] = useState(true)
+
+    const columns = [
+        { id: 'user', label: t('logs.keys.user_name'), minWidth: 170 },
+        { id: 'text', label: t('logs.keys.text'), minWidth: 200 },
+        {
+            id: 'created_time',
+            label: t('logs.keys.created_time'),
+            minWidth: 170,
+            align: 'right'
+        }
+    ]
 
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(25);

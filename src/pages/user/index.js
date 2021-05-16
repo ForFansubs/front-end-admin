@@ -12,8 +12,10 @@ import UserUpdate from './duzenle'
 import UserDelete from './sil'
 
 import { a11yProps, TabPanel } from "../../components/pages/default-components";
+import { useTranslation } from 'react-i18next';
 
 export default function VerticalTabs() {
+    const { t } = useTranslation('pages')
     const theme = useTheme()
     const token = useGlobal("user")[0].token
     const [value, setValue] = useState(0)
@@ -43,9 +45,9 @@ export default function VerticalTabs() {
                     variant="fullWidth"
                     aria-label="Yatay menüler"
                 >
-                    {adminPermList["add-user"] ? <Tab label="Oluştur" {...a11yProps(0)} /> : ""}
-                    {adminPermList["update-user"] ? <Tab label="Düzenle" {...a11yProps(1)} /> : ""}
-                    {adminPermList["delete-user"] ? <Tab label="Sil" {...a11yProps(2)} /> : ""}
+                    {adminPermList["add-user"] ? <Tab label={t("common.index.create")} {...a11yProps(0)} /> : ""}
+                    {adminPermList["update-user"] ? <Tab label={t("common.index.update")} {...a11yProps(1)} /> : ""}
+                    {adminPermList["delete-user"] ? <Tab label={t("common.index.delete")} {...a11yProps(2)} /> : ""}
                 </Tabs>
             </AppBar>
             {adminPermList["add-user"] ?
@@ -55,12 +57,12 @@ export default function VerticalTabs() {
                 : ""}
             {adminPermList["update-user"] ?
                 <TabPanel value={value} index={1} dir={theme.direction}>
-                    {value === 1 ? <UserUpdate theme={theme} /> : 0}
+                    {value === 1 ? <UserUpdate /> : 0}
                 </TabPanel>
                 : ""}
             {adminPermList["delete-user"] ?
                 <TabPanel value={value} index={2} dir={theme.direction}>
-                    {value === 2 ? <UserDelete theme={theme} /> : 0}
+                    {value === 2 ? <UserDelete /> : 0}
                 </TabPanel>
                 : ""}
         </>

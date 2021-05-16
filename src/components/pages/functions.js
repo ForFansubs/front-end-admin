@@ -26,27 +26,6 @@ const checkTurkAnimeLink = function (link) {
     else return true
 }
 
-const handleSelectData = (value) => {
-    const bdregex = /\[bd\]/
-    let data = {
-        version: "",
-        name: ""
-    }
-    if (value.match(bdregex)) {
-        data = {
-            version: "bd",
-            name: value.replace(' [bd]', '')
-        }
-    }
-    else {
-        data = {
-            version: "tv",
-            name: value.replace(' [tv]', '')
-        }
-    }
-    return data
-}
-
 const handleFeaturedSelectData = (featuredAnimes) => {
     const bdregex = /\[bd\]/
     const animeData = featuredAnimes.map(f => {
@@ -71,44 +50,14 @@ const handleFeaturedSelectData = (featuredAnimes) => {
     return animeData
 }
 
-const handleEpisodeSelectData = (episode_title) => {
-    const ovaregex = /OVA/
-    const filmregex = /FILM/
-    const topluregex = /TOPLU/
-
-    if (episode_title.match(ovaregex)) {
-        return {
-            special_type: "ova",
-            episode_number: episode_title.replace("OVA ", "")
+const handleMangaFeaturedSelectData = (featuredMangas) => {
+    const animeData = featuredMangas.map(f => {
+        let data = {
+            name: f
         }
-    }
-    else if (episode_title.match(filmregex)) {
-        return {
-            special_type: "film",
-            episode_number: episode_title.replace("FILM ", "")
-        }
-    }
-    else if (episode_title.match(topluregex)) {
-        return {
-            special_type: "toplu",
-            episode_number: episode_title.replace("TOPLU ", "")
-        }
-    }
-    else {
-        return {
-            special_type: "",
-            episode_number: episode_title.replace(". Bölüm", "")
-        }
-    }
-}
-
-const handleEpisodeTitleFormat = (data) => {
-    const { special_type, episode_number } = data
-
-    if (special_type) {
-        return `${special_type.toUpperCase()} ${episode_number}`
-    }
-    else return `${episode_number}. Bölüm`
+        return data
+    })
+    return animeData
 }
 
 export {
@@ -116,8 +65,6 @@ export {
     checkMyAnimeListMangaLink,
     checkYoutubeLink,
     checkTurkAnimeLink,
-    handleSelectData,
     handleFeaturedSelectData,
-    handleEpisodeSelectData,
-    handleEpisodeTitleFormat
+    handleMangaFeaturedSelectData
 }

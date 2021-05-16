@@ -10,9 +10,11 @@ import ToastNotification, { payload } from '../../../components/toastify/toast'
 import { Button, Box, FormControl, InputLabel, Select, MenuItem, Typography, Grid } from '@material-ui/core'
 import { defaultEpisodeData, defaultAnimeData } from '../../../components/pages/default-props';
 import { getFullAnimeList, getAnimeData, getWatchlinks, deleteWatchlink } from '../../../config/api-routes';
-import { handleSelectData, handleEpisodeTitleFormat, handleEpisodeSelectData } from '../../../components/pages/functions';
+import EpisodeTitleParser from '../../../config/episode-title-parser'
+import { useTranslation } from 'react-i18next'
 
 export default function WatchlinkCreate() {
+    const { t } = useTranslation('pages')
     const token = useGlobal("user")[0].token
 
     const [data, setData] = useState([])
@@ -52,13 +54,12 @@ export default function WatchlinkCreate() {
         }
 
         else {
-            ToastNotification(payload("error", "Bölüm bilgilerini getirirken bir sorun oluştu."))
+            ToastNotification(payload("error", t("common.errors.database_error")))
         }
     }
 
     function handleAnimeChange(event) {
-        const animeData = handleSelectData(event.target.value)
-        const newData = Find(data, { name: animeData.name, version: animeData.version })
+        const newData = Find(data, { id: event.target.value })
 
         getEpisodeData(newData)
 
@@ -66,8 +67,7 @@ export default function WatchlinkCreate() {
     }
 
     function handleEpisodeChange(event) {
-        const selectedEpisodeData = handleEpisodeSelectData(event.target.value)
-        const newData = Find(episodeData, { episode_number: selectedEpisodeData.episode_number, special_type: selectedEpisodeData.special_type })
+        const newData = Find(episodeData, { id: event.target.value })
 
         const headers = {
             "Authorization": token
@@ -79,7 +79,7 @@ export default function WatchlinkCreate() {
 
         axios.post(getWatchlinks, data, { headers })
             .then(res => {
-                if (!res.data.length) return ToastNotification(payload("error", "Bölüme kayıtlı izleme linki bulunamadı."))
+                if (!res.data.length) return ToastNotification(payload("error", t('episode.watch_link.delete.errors.links_not_found')))
                 setCurrentEpisodeWatchlinkData(res.data)
             }).catch(err => console.log(err))
 
@@ -102,11 +102,11 @@ export default function WatchlinkCreate() {
             const newEpisodeDataSet = currentEpisodeWatchlinkData
             PullAllBy(newEpisodeDataSet, [{ "id": watchlink_id }], "id")
             setCurrentEpisodeWatchlinkData(oldData => ([...newEpisodeDataSet]))
-            ToastNotification(payload("success", res.data.message || "Link başarıyla silindi."))
+            ToastNotification(payload("success", t('episode.common.link_delete_success')))
         }
 
         else {
-            ToastNotification(payload("error", res.response.data.err || "Linki silerken bir sorunla karşılaştık."))
+            ToastNotification(payload("error", t('episode.watch_link.delete.errors.error')))
         }
     }
 
@@ -114,34 +114,34 @@ export default function WatchlinkCreate() {
         <>
             {!loading && data.length ?
                 <FormControl fullWidth>
-                    <InputLabel htmlFor="anime-selector">İzleme linkini sileceğiniz animeyi seçin</InputLabel>
+                    <InputLabel htmlFor="anime-selector">{t('episode.watch_link.delete.anime_selector')}</InputLabel>
                     <Select
                         fullWidth
-                        value={`${currentAnimeData.name} [${currentAnimeData.version}]`}
+                        value={currentAnimeData.id || ""}
                         onChange={handleAnimeChange}
                         inputProps={{
                             name: "anime",
                             id: "anime-selector"
                         }}
                     >
-                        {data.map(d => <MenuItem key={d.id} value={`${d.name} [${d.version}]`}>{d.name} [{d.version}]</MenuItem>)}
+                        {data.map(d => <MenuItem key={d.id} value={d.id}>{d.name} [{d.version}]</MenuItem>)}
                     </Select>
                 </FormControl>
                 : "Yükleniyor..."}
             <Box mt={2}>
                 {episodeData.length ?
                     <FormControl fullWidth>
-                        <InputLabel htmlFor="anime-selector">İzleme linkini sileceğiniz bölümü seçin</InputLabel>
+                        <InputLabel htmlFor="anime-selector">{t('episode.watch_link.delete.episode_selector')}</InputLabel>
                         <Select
                             fullWidth
-                            value={`${handleEpisodeTitleFormat(currentEpisodeData)}`}
+                            value={currentEpisodeData.id || ""}
                             onChange={handleEpisodeChange}
                             inputProps={{
                                 name: "episode",
                                 id: "episode-selector"
                             }}
                         >
-                            {episodeData.map(e => <MenuItem key={e.id} value={handleEpisodeTitleFormat(e)}>{handleEpisodeTitleFormat(e)}</MenuItem>)}
+                            {episodeData.map(e => <MenuItem key={e.id} value={e.id}>{EpisodeTitleParser({ episodeNumber: e.episode_number, specialType: e.special_type }).title}</MenuItem>)}
                         </Select>
                     </FormControl>
                     : ""}
@@ -156,7 +156,7 @@ export default function WatchlinkCreate() {
                                         </div>
                                         <Box bgcolor="background.level1" display="flex" justifyContent="space-between" alignItems="center" padding={1}>
                                             <Typography variant="h6">{w.type.toUpperCase()}</Typography>
-                                            <Button color="secondary" onClick={() => handleDeleteButton(w.id)}>SİL</Button>
+                                            <Button color="secondary" onClick={() => handleDeleteButton(w.id)}>{t('common.index.delete')}</Button>
                                         </Box>
                                     </Box>
                                 </Grid>
@@ -165,7 +165,6 @@ export default function WatchlinkCreate() {
                         : ""
                     }
                 </Grid>
-
             </Box>
         </>
     )

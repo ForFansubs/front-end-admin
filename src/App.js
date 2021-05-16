@@ -1,4 +1,4 @@
-import React, { useEffect, lazy, Suspense } from 'react';
+import { useEffect, lazy, Suspense } from 'react';
 import { useDispatch, useGlobal } from 'reactn'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 
@@ -74,7 +74,7 @@ function App() {
     }
     else {
       return (
-        <Login theme={theme} />
+        <Login />
       )
     }
   }

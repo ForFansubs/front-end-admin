@@ -1,33 +1,32 @@
-import PermissionList from '../../config/permission-list'
+import PermissionList from "../../config/permission-list";
 
 const getPermList = () => {
-    const list = []
-    const flist = {}
-    PermissionList.map(p => {
-        if (p.main) list.push(p.main)
-        list.push(Object.values(p.perms))
+    const list = [];
+    const flist = {};
+    PermissionList.map((p) => {
+        if (p.main) list.push(p.main);
+        list.push(Object.values(p.perms));
         if (p.subperms) {
-            p.subperms.map(s => {
-                if (s.main) list.push(s.main)
-                list.push(Object.values(s.perms))
-                return null
-            })
+            p.subperms.map((s) => {
+                if (s.main) list.push(s.main);
+                list.push(Object.values(s.perms));
+                return null;
+            });
         }
-        return null
-    })
-    list.flat().map(l => {
-        flist[l] = false
-        return null
-    })
-    return flist
-}
+        return null;
+    });
+    list.flat().map((l) => {
+        flist[l] = false;
+        return null;
+    });
+    return flist;
+};
 
 const defaultAnimeData = {
+    id: null,
     name: "",
-    slug: "",
-    series_status: "Tamamlandı",
-    trans_status: "Devam Ediyor",
-    airing: 1,
+    series_status: "currently_airing",
+    trans_status: "currently_airing",
     synopsis: "",
     translators: "",
     encoders: "",
@@ -38,44 +37,39 @@ const defaultAnimeData = {
     logo: "",
     mal_link: "",
     genres: "",
-    ta_link: "",
     premiered: "",
     episode_count: 0,
     version: "tv",
-    error: false,
-    confirm: false,
-}
+};
 
 const defaultEpisodeData = {
-    id: null,
     episode_number: "",
     credits: "",
-    special_type: ""
-}
+    special_type: "",
+    can_user_download: true,
+};
 
 const defaultMangaEpisodeData = {
-    id: null,
     manga_id: null,
     episode_number: "",
     episode_name: "",
-    credits: ""
-}
+    credits: "",
+};
 
 const defaultTaBatchData = {
     taLink: "",
-    episodes: ""
-}
+    episodes: "",
+};
 
 const defaultWatchLinkData = {
-    link: ""
-}
+    link: "",
+};
 
 const defaultMangaData = {
-    id: '',
+    id: "",
     name: "",
-    series_status: "Tamamlandı",
-    trans_status: "Devam Ediyor",
-    slug: "",
+    series_status: "finished_airing",
+    trans_status: "currently_airing",
     synopsis: "",
     translators: "",
     editors: "",
@@ -86,18 +80,16 @@ const defaultMangaData = {
     logo: "",
     mal_link: "",
     genres: "",
-    mos_link: "",
+    reader_link: "",
     download_link: "",
-    error: false,
-    confirm: false,
-}
+};
 
 const defaultUserData = {
-    name: "",
+    username: "",
     email: "",
     password: "",
-    password2: ""
-}
+    repeat_password: "",
+};
 
 const defaultUserUpdateData = {
     id: null,
@@ -106,8 +98,8 @@ const defaultUserUpdateData = {
     password: "",
     permission_level: "",
     avatar: "",
-    email: ""
-}
+    email: "",
+};
 
 const defaultMotdData = {
     is_active: 1,
@@ -115,21 +107,21 @@ const defaultMotdData = {
     subtitle: "",
     content_type: "",
     content_id: "",
-    can_user_dismiss: 1
-}
+    can_user_dismiss: 1,
+};
 
 const defaultPermissionData = {
     name: "",
     color: "",
-    permission_set: getPermList()
-}
+    permission_set: getPermList(),
+};
 
 const defaultPermissionUpdateData = {
     id: null,
     name: "",
     color: "",
-    permission_set: getPermList()
-}
+    permission_set: getPermList(),
+};
 
 export {
     defaultAnimeData,
@@ -142,5 +134,5 @@ export {
     defaultUserUpdateData,
     defaultMotdData,
     defaultPermissionData,
-    defaultPermissionUpdateData
-}
+    defaultPermissionUpdateData,
+};

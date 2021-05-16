@@ -7,25 +7,26 @@ import Find from 'lodash-es/find'
 import axios from '../../config/axios/axios'
 import ToastNotification, { payload } from '../../components/toastify/toast'
 
-import { Button, Grid, TextField, Box, FormControl, InputLabel, Select, MenuItem, Typography, Modal } from '@material-ui/core'
+import { Button, Grid, TextField, Box, FormControl, InputLabel, Select, MenuItem, Typography, Modal, makeStyles } from '@material-ui/core'
 import { defaultEpisodeData, defaultMangaData } from '../../components/pages/default-props';
 import { getFullMangaList, getMangaData, updateMangaEpisode } from '../../config/api-routes';
-import { handleEpisodeTitleFormat } from '../../components/pages/functions';
+import { useTranslation } from 'react-i18next'
+import EpisodeTitleParser from '../../config/episode-title-parser'
 
-const ModalContainer = styled(Box)`
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: ${props => props.theme.breakpoints.values.sm}px;
-
-    @media(max-width:${props => props.theme.breakpoints.values.sm}px) {
-        width: 100%;
+const useStyles = makeStyles(theme => ({
+    ModalContainer: {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    EpisodeContainer: {
+        marginTop: theme.spacing(2)
     }
-`
+}))
 
 export default function EpisodeUpdate(props) {
-    const { theme } = props
+    const { t } = useTranslation('pages')
+    const classes = useStyles()
 
     const token = useGlobal("user")[0].token
 
@@ -63,12 +64,13 @@ export default function EpisodeUpdate(props) {
         const getEpisode = await axios.get(getMangaData(data.slug), { headers }).catch(res => res)
 
         if (getEpisode.status === 200) {
-            if (!getEpisode.data.episodes.length) return ToastNotification(payload("error", "Bu manganın ekli herhangi bir bölümü yok."))
+            if (!getEpisode.data.episodes.length)
+                return ToastNotification(payload("error", t('manga_episode.update.errors.episodes_not_found')))
             setEpisodeData(getEpisode.data.episodes)
         }
 
         else {
-            ToastNotification(payload("error", "Bölüm bilgilerini getirirken bir sorun oluştu."))
+            ToastNotification(payload("error", t("common.errors.database_error")))
         }
     }
 
@@ -89,10 +91,8 @@ export default function EpisodeUpdate(props) {
     }
 
     function handleChange(event) {
-        const newData = Find(data, { slug: event.target.value })
-
+        const newData = Find(data, { id: event.target.value })
         getEpisodeData(newData)
-
         setCurrentMangaData({ ...newData });
     }
 
@@ -135,11 +135,11 @@ export default function EpisodeUpdate(props) {
             setEpisodeData(oldData => ([...newEpisodeDataSet]))
             setCurrentEpisodeData({ ...defaultEpisodeData })
             handleClose()
-            ToastNotification(payload("success", res.data.message || "Bölüm bilgileri başarıyla değiştirildi."))
+            ToastNotification(payload("success", res.data.message || t('episode.update.warnings.success')))
         }
 
         else {
-            ToastNotification(payload("error", res.response.data.err || "Bölüm bilgileri değiştirilirken bir sorunla karşılaştık."))
+            ToastNotification(payload("error", res.response.data.err || t('episode.update.errors.error')))
         }
     }
 
@@ -151,29 +151,29 @@ export default function EpisodeUpdate(props) {
         <>
             {!loading && data.length ?
                 <FormControl fullWidth>
-                    <InputLabel htmlFor="manga-selector">Bölümünü düzenleyeceğiniz mangayı seçin</InputLabel>
+                    <InputLabel htmlFor="manga-selector">{t('manga_episode.update.manga_selector')}</InputLabel>
                     <Select
                         fullWidth
-                        value={currentMangaData.slug}
+                        value={currentMangaData.id || ""}
                         onChange={handleChange}
                         inputProps={{
                             name: "manga",
                             id: "manga-selector"
                         }}
                     >
-                        {data.map(d => <MenuItem key={d.id} value={`${d.slug}`}>{d.name}</MenuItem>)}
+                        {data.map(d => <MenuItem key={d.id} value={d.id}>{d.name}</MenuItem>)}
                     </Select>
                 </FormControl>
                 : ""}
             {episodeData.length ?
                 <>
-                    <Grid container spacing={2}>
+                    <Grid container spacing={2} className={classes.EpisodeContainer}>
                         {episodeData.map(e =>
                             <Grid item xs={6} md={3} lg={2} key={e.id}>
                                 <Box p={1} boxShadow={2} bgcolor="background.level1" display="flex" alignItems="center" justifyContent="space-between">
-                                    <Typography variant="h6">{handleEpisodeTitleFormat(e)}</Typography>
+                                    <Typography variant="h6">{EpisodeTitleParser({ episodeNumber: e.episode_number, specialType: "" }).title}</Typography>
                                     <div>
-                                        <Button size="small" onClick={() => handleUpdateButtonClick(e.id)}>Düzenle</Button>
+                                        <Button size="small" onClick={() => handleUpdateButtonClick(e.id)}>{t('common.index.update')}</Button>
                                     </div>
                                 </Box>
                             </Grid>
@@ -186,58 +186,57 @@ export default function EpisodeUpdate(props) {
                 aria-describedby="simple-modal-description"
                 open={open}
                 onClose={handleClose}
+                className={classes.ModalContainer}
             >
-                <ModalContainer theme={theme}>
-                    <Box p={2} bgcolor="background.level2">
-                        <form onSubmit={th => handleDataSubmit(th)} autoComplete="off">
-                            <Grid container spacing={2}>
-                                <Grid item xs={12} md={6}>
-                                    <TextField
-                                        fullWidth
-                                        disabled
-                                        id="episode_number"
-                                        label="Bölüm Numarası - (Sadece sayı)"
-                                        value={currentEpisodeData.episode_number}
-                                        onChange={handleInputChange("episode_number")}
-                                        margin="normal"
-                                        variant="filled"
-                                        required
-                                    />
-                                </Grid>
-                                <Grid item xs={12} md={6}>
-                                    <TextField
-                                        fullWidth
-                                        id="credits"
-                                        label="Emektar"
-                                        value={currentEpisodeData.credits}
-                                        onChange={handleInputChange("credits")}
-                                        margin="normal"
-                                        variant="filled"
-                                    />
-                                </Grid>
-                                <Grid item xs={12}>
-                                    <TextField
-                                        fullWidth
-                                        id="episode_name"
-                                        label="Bölüm ismi"
-                                        value={currentEpisodeData.episode_name}
-                                        onChange={handleInputChange("episode_name")}
-                                        margin="normal"
-                                        variant="filled"
-                                    />
-                                </Grid>
-                                <Grid item xs={12}>
-                                    <Button
-                                        variant="outlined"
-                                        color="primary"
-                                        type="submit">
-                                        Kaydet
-                                </Button>
-                                </Grid>
+                <Box p={2} bgcolor="background.level2">
+                    <form onSubmit={th => handleDataSubmit(th)} autoComplete="off">
+                        <Grid container spacing={2}>
+                            <Grid item xs={12} md={6}>
+                                <TextField
+                                    fullWidth
+                                    disabled
+                                    id="episode_number"
+                                    label={t('common.inputs.episode_number_input')}
+                                    value={currentEpisodeData.episode_number}
+                                    onChange={handleInputChange("episode_number")}
+                                    margin="normal"
+                                    variant="filled"
+                                    required
+                                />
                             </Grid>
-                        </form>
-                    </Box>
-                </ModalContainer>
+                            <Grid item xs={12} md={6}>
+                                <TextField
+                                    fullWidth
+                                    id="credits"
+                                    label={t('common.inputs.credits_input')}
+                                    value={currentEpisodeData.credits}
+                                    onChange={handleInputChange("credits")}
+                                    margin="normal"
+                                    variant="filled"
+                                />
+                            </Grid>
+                            <Grid item xs={12}>
+                                <TextField
+                                    fullWidth
+                                    id="episode_name"
+                                    label={t('common.inputs.episode_name_input')}
+                                    value={currentEpisodeData.episode_name}
+                                    onChange={handleInputChange("episode_name")}
+                                    margin="normal"
+                                    variant="filled"
+                                />
+                            </Grid>
+                            <Grid item xs={12}>
+                                <Button
+                                    variant="outlined"
+                                    color="primary"
+                                    type="submit">
+                                    {t("common.buttons.save")}
+                                </Button>
+                            </Grid>
+                        </Grid>
+                    </form>
+                </Box>
             </Modal>
         </>
     )

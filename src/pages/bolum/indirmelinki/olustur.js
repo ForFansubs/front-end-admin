@@ -7,12 +7,14 @@ import IsEmpty from 'lodash-es/isEmpty'
 import axios from '../../../config/axios/axios'
 import ToastNotification, { payload } from '../../../components/toastify/toast'
 
-import { Button, TextField, Box, FormControl, InputLabel, Select, MenuItem } from '@material-ui/core'
+import { Button, TextField, Box, FormControl, InputLabel, Select, MenuItem, CircularProgress } from '@material-ui/core'
 import { defaultEpisodeData, defaultAnimeData } from '../../../components/pages/default-props';
 import { getFullAnimeList, getAnimeData, addDownloadlink } from '../../../config/api-routes';
-import { handleSelectData, handleEpisodeTitleFormat, handleEpisodeSelectData } from '../../../components/pages/functions';
+import { useTranslation } from 'react-i18next'
+import EpisodeTitleParser from '../../../config/episode-title-parser'
 
 export default function DownloadlinkCreate() {
+    const { t } = useTranslation('pages')
     const token = useGlobal("user")[0].token
 
     const [data, setData] = useState([])
@@ -52,13 +54,13 @@ export default function DownloadlinkCreate() {
         }
 
         else {
-            ToastNotification(payload("error", "Bölüm bilgilerini getirirken bir sorun oluştu."))
+            ToastNotification(payload("error", t("common.errors.database_error")))
         }
     }
 
     function handleAnimeChange(event) {
-        const animeData = handleSelectData(event.target.value)
-        const newData = Find(data, { name: animeData.name, version: animeData.version })
+        setCurrentEpisodeData({ ...defaultEpisodeData })
+        const newData = Find(data, { id: event.target.value })
 
         getEpisodeData(newData)
 
@@ -66,8 +68,7 @@ export default function DownloadlinkCreate() {
     }
 
     function handleEpisodeChange(event) {
-        const selectedEpisodeData = handleEpisodeSelectData(event.target.value)
-        const newData = Find(episodeData, { episode_number: selectedEpisodeData.episode_number, special_type: selectedEpisodeData.special_type })
+        const newData = Find(episodeData, { id: event.target.value })
 
         setCurrentEpisodeData({ ...newData })
     }
@@ -113,7 +114,7 @@ export default function DownloadlinkCreate() {
             newEpisodeDataSet[clickedEpisodeDataIndex] = currentEpisodeData
             setEpisodeData(oldData => ([...newEpisodeDataSet]))
 
-            ToastNotification(payload("success", res.data.message || "İndirme linki başarıyla eklendi."))
+            ToastNotification(payload("success", t('episode.common.links_add_success')))
             setCurrentEpisodeData(state => ({ ...state, link: "" }))
             if (!IsEmpty(res.data.errors)) {
                 let links = ""
@@ -127,7 +128,7 @@ export default function DownloadlinkCreate() {
         }
 
         else {
-            ToastNotification(payload("error", res.response.data.err || "İndirme linkini eklerken bir sorunla karşılaştık."))
+            ToastNotification(payload("error", t('episode.download_link.create.errors.error')))
         }
     }
 
@@ -135,34 +136,34 @@ export default function DownloadlinkCreate() {
         <>
             {!loading && data.length ?
                 <FormControl fullWidth>
-                    <InputLabel htmlFor="anime-selector">İndirme linki ekleyeceğiniz animeyi seçin</InputLabel>
+                    <InputLabel htmlFor="anime-selector">{t('episode.download_link.create.anime_selector')}</InputLabel>
                     <Select
                         fullWidth
-                        value={`${currentAnimeData.name} [${currentAnimeData.version}]`}
+                        value={currentAnimeData.id || ""}
                         onChange={handleAnimeChange}
                         inputProps={{
                             name: "anime",
                             id: "anime-selector"
                         }}
                     >
-                        {data.map(d => <MenuItem key={d.id} value={`${d.name} [${d.version}]`}>{d.name} [{d.version}]</MenuItem>)}
+                        {data.map(d => <MenuItem key={d.id} value={d.id}>{d.name} [{d.version}]</MenuItem>)}
                     </Select>
                 </FormControl>
-                : "Yükleniyor..."}
+                : <CircularProgress />}
             <Box mt={2}>
                 {episodeData.length ?
                     <FormControl fullWidth>
-                        <InputLabel htmlFor="anime-selector">İndirme linki ekleyeceğiniz bölümü seçin</InputLabel>
+                        <InputLabel htmlFor="anime-selector">{t('episode.download_link.create.episode_selector')}</InputLabel>
                         <Select
                             fullWidth
-                            value={`${handleEpisodeTitleFormat(currentEpisodeData)}`}
+                            value={currentEpisodeData.id || ""}
                             onChange={handleEpisodeChange}
                             inputProps={{
                                 name: "episode",
                                 id: "episode-selector"
                             }}
                         >
-                            {episodeData.map(e => <MenuItem key={e.id} value={handleEpisodeTitleFormat(e)}>{handleEpisodeTitleFormat(e)}</MenuItem>)}
+                            {episodeData.map(e => <MenuItem key={e.id} value={e.id}>{EpisodeTitleParser({ episodeNumber: e.episode_number, specialType: e.special_type }).title}</MenuItem>)}
                         </Select>
                     </FormControl>
                     : ""}
@@ -171,13 +172,13 @@ export default function DownloadlinkCreate() {
                         <TextField
                             fullWidth
                             id="link"
-                            label="Link"
+                            label={t('episode.common.links')}
                             error={linkError}
                             value={currentEpisodeData.link}
                             onChange={handleInputChange("link")}
                             margin="normal"
                             variant="filled"
-                            helperText={linkError ? "Hatalı linkler var!" : "Buraya birden fazla link koyabilirsiniz. Her link kendine ait satırda olmalıdır."}
+                            helperText={linkError ? t('episode.common.inputs.helper_text_error') : t('episode.common.inputs.helper_text_success')}
                             multiline
                             rows={4}
                             rowsMax={20}
@@ -187,8 +188,8 @@ export default function DownloadlinkCreate() {
                             variant="outlined"
                             color="primary"
                             type="submit">
-                            Kaydet
-                            </Button>
+                            {t('common.buttons.save')}
+                        </Button>
                     </form>
                     : ""
                 }

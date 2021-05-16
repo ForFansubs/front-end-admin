@@ -12,8 +12,10 @@ import PermissionUpdate from './duzenle'
 import PermissionDelete from './sil'
 
 import { a11yProps, TabPanel } from "../../components/pages/default-components";
+import { useTranslation } from 'react-i18next';
 
 export default function VerticalTabs() {
+    const { t } = useTranslation('pages')
     const theme = useTheme()
     const token = useGlobal("user")[0].token
     const [value, setValue] = useState(0)
@@ -43,9 +45,9 @@ export default function VerticalTabs() {
                     variant="fullWidth"
                     aria-label="Yatay menüler"
                 >
-                    {adminPermList["add-permission"] ? <Tab label="Oluştur" {...a11yProps(0)} /> : ""}
-                    {adminPermList["update-permission"] ? <Tab label="Düzenle" {...a11yProps(1)} /> : ""}
-                    {adminPermList["delete-permission"] ? <Tab label="Sil" {...a11yProps(2)} /> : ""}
+                    {adminPermList["add-permission"] ? <Tab label={t("common.index.create")} {...a11yProps(0)} /> : ""}
+                    {adminPermList["update-permission"] ? <Tab label={t("common.index.update")} {...a11yProps(1)} /> : ""}
+                    {adminPermList["delete-permission"] ? <Tab label={t("common.index.delete")} {...a11yProps(2)} /> : ""}
                 </Tabs>
             </AppBar>
             {adminPermList["add-permission"] ?
@@ -55,12 +57,12 @@ export default function VerticalTabs() {
                 : ""}
             {adminPermList["update-permission"] ?
                 <TabPanel value={value} index={1} dir={theme.direction}>
-                    {value === 1 ? <PermissionUpdate theme={theme} /> : 0}
+                    {value === 1 ? <PermissionUpdate /> : 0}
                 </TabPanel>
                 : ""}
             {adminPermList["delete-permission"] ?
                 <TabPanel value={value} index={2} dir={theme.direction}>
-                    {value === 2 ? <PermissionDelete theme={theme} /> : 0}
+                    {value === 2 ? <PermissionDelete /> : 0}
                 </TabPanel>
                 : ""}
         </>

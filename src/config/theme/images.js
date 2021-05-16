@@ -1,12 +1,29 @@
-import logo from '../../static/logo.png'
-import fullLogo from '../../static/fullLogo.png'
+// Değişken görselleri tanımla.
+var logo = null
+var fullLogo = null
 
-var fullLogoGif = null
-// GIF logosunun dosyalarını dene. Varsa içeri al, birisi yoksa hata ver ve header'da statik logoyu göster. (/components/header/header.js)
+// Tam logonun dosyasını dene. Varsa içeri al.
 try {
-    fullLogoGif = require('../../static/fullLogo.gif');
+    logo = require('../../static/logo.png').default;
 } catch (err) {
-    console.warn('GIF logo bulunamadı.')
+    console.error('Tam logo bulunamadı.')
 }
 
-export { logo, fullLogo, fullLogoGif }
+// GIF logosunun dosyalarını dene. Varsa içeri al, birisi yoksa hata ver ve header'da statik logoyu göster. (/components/header/header.js)
+if (process.env.REACT_APP_HEADER_LOGO_TYPE === "gif") {
+    try {
+        fullLogo = require('../../static/fullLogo.gif').default;
+    } catch (err) {
+        console.warn('GIF logo bulunamadı.')
+    }
+}
+else {
+    // Header logosunun dosyalarını dene. Varsa içeri al, birisi yoksa hata ver.
+    try {
+        fullLogo = require('../../static/fullLogo.png').default;
+    } catch (err) {
+        console.error('Header logosu bulunamadı.')
+    }
+}
+
+export { logo, fullLogo }

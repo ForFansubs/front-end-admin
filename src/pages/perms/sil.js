@@ -8,25 +8,22 @@ import PullAt from 'lodash-es/pullAt'
 import axios from '../../config/axios/axios'
 import ToastNotification, { payload } from '../../components/toastify/toast'
 
-import { Button, Box, Modal, CircularProgress, FormControl, InputLabel, Select, MenuItem, Typography } from '@material-ui/core'
-import styled from 'styled-components'
+import { Button, Box, Modal, CircularProgress, FormControl, InputLabel, Select, MenuItem, Typography, makeStyles } from '@material-ui/core'
 import { defaultPermissionData } from '../../components/pages/default-props';
 import { getFullPermissionList, deletePermission } from '../../config/api-routes';
+import { useTranslation } from 'react-i18next'
 
-const ModalContainer = styled(Box)`
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: ${props => props.theme.breakpoints.values.sm}px;
-
-    @media(max-width:${props => props.theme.breakpoints.values.sm}px) {
-        width: 100%;
+const useStyles = makeStyles(theme => ({
+    ModalContainer: {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center'
     }
-`
+}))
 
 export default function PermissionDelete(props) {
-    const { theme } = props
+    const { t } = useTranslation('pages')
+    const classes = useStyles()
     const token = useGlobal("user")[0].token
     const [permissionData, setPermissionData] = useState([])
 
@@ -55,7 +52,7 @@ export default function PermissionDelete(props) {
     }, [token])
 
     function handleChange(event) {
-        const newData = Find(permissionData, { name: event.target.value })
+        const newData = Find(permissionData, { id: event.target.value })
 
         setCurrentPermissionData({ ...newData })
         setOpen(true)
@@ -78,9 +75,9 @@ export default function PermissionDelete(props) {
                 handleClose()
                 setCurrentPermissionData({ ...defaultPermissionData })
                 setPermissionData(newData)
-                ToastNotification(payload("success", "Rol başarıyla silindi."))
+                ToastNotification(payload("success", t('perms.delete.warnings.success')))
             })
-            .catch(_ => ToastNotification(payload("error", "Rolü silerken bir sorunla karşılaştık.")))
+            .catch(_ => ToastNotification(payload("error", t('perms.delete.errors.error'))))
     }
 
     function handleClose() {
@@ -97,17 +94,17 @@ export default function PermissionDelete(props) {
         <>
             {!loading && permissionData.length ?
                 <FormControl fullWidth>
-                    <InputLabel htmlFor="anime-selector">Sileceğiniz rolü seçin</InputLabel>
+                    <InputLabel htmlFor="anime-selector">{t('perms.delete.perm_selector')}</InputLabel>
                     <Select
                         fullWidth
-                        value={`${currentPermissionData.name}`}
+                        value={currentPermissionData.id || ""}
                         onChange={handleChange}
                         inputProps={{
                             name: "anime",
                             id: "anime-selector"
                         }}
                     >
-                        {permissionData.map(d => <MenuItem key={d.id} value={`${d.name}`}>{d.name}</MenuItem>)}
+                        {permissionData.map(d => <MenuItem key={d.id} value={d.id}>{d.name}</MenuItem>)}
                     </Select>
                 </FormControl>
                 : ""}
@@ -116,26 +113,24 @@ export default function PermissionDelete(props) {
                 aria-describedby="simple-modal-description"
                 open={open}
                 onClose={handleClose}
+                className={classes.ModalContainer}
             >
-                <ModalContainer theme={theme}>
-                    <Box p={2} bgcolor="background.level2">
-                        <Typography variant="h4"><em>{currentPermissionData.name}</em> kullanıcısını silmek üzeresiniz.</Typography>
-                        <Typography variant="body1">Bu yıkıcı bir komuttur. Yetkinın açtığı tüm konularda "Silinmiş Üye" yazacaktır.</Typography>
-                        <Button
-                            style={{ marginRight: "5px" }}
-                            variant="contained"
-                            color="secondary"
-                            onClick={() => handleDeleteButton(currentPermissionData.slug)}>
-                            Sil
-                        </Button>
-                        <Button
-                            variant="contained"
-                            color="primary"
-                            onClick={handleClose}>
-                            Kapat
-                        </Button>
-                    </Box>
-                </ModalContainer>
+                <Box p={2} bgcolor="background.level2">
+                    <Typography variant="h4">{t('perms.delete.perm_title', { perm_title: currentPermissionData.name })}</Typography>
+                    <Button
+                        style={{ marginRight: "5px" }}
+                        variant="contained"
+                        color="secondary"
+                        onClick={() => handleDeleteButton(currentPermissionData.slug)}>
+                        {t('common.index.delete')}
+                    </Button>
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={handleClose}>
+                        {t('common.buttons.close')}
+                    </Button>
+                </Box>
             </Modal>
         </>
     )

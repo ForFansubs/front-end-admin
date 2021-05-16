@@ -3,14 +3,16 @@ import { useGlobal } from 'reactn'
 
 import CountUp from 'react-countup'
 import { Grid, Box, Card, Typography, CardContent } from '@material-ui/core';
+import { useTranslation } from 'react-i18next';
 
 export default function IndexPage() {
+    const { t } = useTranslation('pages')
     const [statistics] = useGlobal('statistics')
 
     return (
         <>
             <Typography variant="h3" gutterBottom>
-                Anime İstatistikleri
+                {t('index.anime.title')}
             </Typography>
             <Grid container spacing={2}>
                 <Grid item xs={12} sm={6} md={4} xl={2}>
@@ -18,7 +20,7 @@ export default function IndexPage() {
                         <Card>
                             <CardContent>
                                 <Typography color="textSecondary" gutterBottom>
-                                    Anime Sayısı
+                                    {t('index.anime.anime_count')}
                                 </Typography>
                                 <Typography variant="h2">
                                     {
@@ -41,8 +43,8 @@ export default function IndexPage() {
                         <Card>
                             <CardContent>
                                 <Typography color="textSecondary" gutterBottom>
-                                    Bölüm Sayısı
-                        </Typography>
+                                    {t('index.anime.episode_count')}
+                                </Typography>
                                 <Typography variant="h2">
                                     {
                                         statistics.EPISODE_COUNT ?
@@ -63,8 +65,8 @@ export default function IndexPage() {
                         <Card>
                             <CardContent>
                                 <Typography color="textSecondary" gutterBottom>
-                                    İndirme Linki Sayısı
-                        </Typography>
+                                    {t('index.anime.download_link_count')}
+                                </Typography>
                                 <Typography variant="h2">
                                     {
                                         statistics.DOWNLOADLINK_COUNT
@@ -86,7 +88,7 @@ export default function IndexPage() {
                         <Card>
                             <CardContent>
                                 <Typography color="textSecondary" gutterBottom>
-                                    İzleme Linki Sayısı
+                                    {t('index.anime.watch_link_count')}
                                 </Typography>
                                 <Typography variant="h2">
                                     {
@@ -106,7 +108,7 @@ export default function IndexPage() {
                 </Grid>
             </Grid>
             <Typography variant="h3" gutterBottom>
-                Manga İstatistikleri
+                {t('index.manga.title')}
             </Typography>
             <Grid container spacing={2}>
                 <Grid item xs={12} sm={6} md={4} xl={2}>
@@ -114,7 +116,7 @@ export default function IndexPage() {
                         <Card>
                             <CardContent>
                                 <Typography color="textSecondary" gutterBottom>
-                                    Manga Sayısı
+                                    {t('index.manga.manga_count')}
                                 </Typography>
                                 <Typography variant="h2">
                                     {
@@ -132,9 +134,32 @@ export default function IndexPage() {
                         </Card>
                     </Box>
                 </Grid>
+                <Grid item xs={12} sm={6} md={4} xl={2}>
+                    <Box mb={2}>
+                        <Card>
+                            <CardContent>
+                                <Typography color="textSecondary" gutterBottom>
+                                    {t('index.manga.episode_count')}
+                                </Typography>
+                                <Typography variant="h2">
+                                    {
+                                        statistics.MANGA_EPISODE_COUNT
+                                            ?
+                                            <CountUp
+                                                duration={3}
+                                                start={statistics.MANGA_EPISODE_COUNT > 100 ? statistics.MANGA_EPISODE_COUNT - 100 : 0}
+                                                end={statistics.MANGA_EPISODE_COUNT} />
+                                            :
+                                            "---"
+                                    }
+                                </Typography>
+                            </CardContent>
+                        </Card>
+                    </Box>
+                </Grid>
             </Grid>
             <Typography variant="h3" gutterBottom>
-                Site İstatistikleri
+                {t('index.site_statistics.title')}
             </Typography>
             <Grid container spacing={2}>
                 <Grid item xs={12} sm={6} md={4} xl={2}>
@@ -142,7 +167,7 @@ export default function IndexPage() {
                         <Card>
                             <CardContent>
                                 <Typography color="textSecondary" gutterBottom>
-                                    Kullanıcı Sayısı
+                                    {t('index.site_statistics.user_count')}
                                 </Typography>
                                 <Typography variant="h2">
                                     {

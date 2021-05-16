@@ -9,8 +9,10 @@ import ToastNotification, { payload } from '../../components/toastify/toast'
 import { Button, Grid, Box, Typography } from '@material-ui/core'
 import { getFullMotdList, deleteMotd } from '../../config/api-routes';
 import Markdown from '../../components/markdown/markdown'
+import { useTranslation } from 'react-i18next'
 
 export default function EpisodeDelete() {
+    const { t } = useTranslation('pages')
     const token = useGlobal("user")[0].token
 
     const [data, setData] = useState([])
@@ -52,11 +54,11 @@ export default function EpisodeDelete() {
             newData.splice(clickedDataIdx, 1)
 
             setData([...newData])
-            ToastNotification(payload("success", res.data.message || "MOTD başarıyla silindi."))
+            ToastNotification(payload("success", res.data.message || t('motd.delete.warnings.success')))
         }
 
         else {
-            ToastNotification(payload("error", res.response.data.err || "MOTD silinirken bir sorunla karşılaştık."))
+            ToastNotification(payload("error", res.response.data.err || t('motd.delete.errors.error')))
         }
     }
 
@@ -73,12 +75,12 @@ export default function EpisodeDelete() {
                                             {e.title ? e.title : ""}
                                         </Typography>
                                         <Markdown>
-                                            {e.subtitle ? e.subtitle : "**Bir sorun var? (Bu bir sistem mesajıdır.)**"}
+                                            {e.subtitle ? e.subtitle : "---"}
                                         </Markdown>
                                     </div>
                                     <div>
                                         <Button variant="contained" color="secondary" size="small" onClick={() => handleDeleteButton(e.id)}>
-                                            Sil
+                                            {t('common.index.delete')}
                                         </Button>
                                     </div>
                                 </Box>

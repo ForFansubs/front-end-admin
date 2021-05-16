@@ -13,8 +13,10 @@ import AnimeDelete from './sil'
 import AnimeFeatured from './one-cikarilanlar';
 
 import { a11yProps, TabPanel } from "../../components/pages/default-components";
+import { useTranslation } from 'react-i18next';
 
 export default function VerticalTabs() {
+    const { t } = useTranslation("pages")
     const theme = useTheme()
     const [value, setValue] = useState(0)
     const [adminPermList] = useGlobal('adminPermList')
@@ -42,10 +44,10 @@ export default function VerticalTabs() {
                     variant="fullWidth"
                     aria-label="Yatay menüler"
                 >
-                    <Tab disabled={!adminPermList["add-anime"]} style={!adminPermList["add-anime"] ? { display: "none" } : null} label="Oluştur" {...a11yProps(0)} />
-                    <Tab disabled={!adminPermList["update-anime"]} style={!adminPermList["update-anime"] ? { display: "none" } : null} label="Düzenle" {...a11yProps(1)} />
-                    <Tab disabled={!adminPermList["delete-anime"]} style={!adminPermList["delete-anime"] ? { display: "none" } : null} label="Sil" {...a11yProps(2)} />
-                    <Tab disabled={!adminPermList["featured-anime"]} style={!adminPermList["featured-anime"] ? { display: "none" } : null} label="Öne çıkar" {...a11yProps(3)} />
+                    <Tab disabled={!adminPermList["add-anime"]} style={!adminPermList["add-anime"] ? { display: "none" } : null} label={t("common.index.create")} {...a11yProps(0)} />
+                    <Tab disabled={!adminPermList["update-anime"]} style={!adminPermList["update-anime"] ? { display: "none" } : null} label={t("common.index.update")} {...a11yProps(1)} />
+                    <Tab disabled={!adminPermList["delete-anime"]} style={!adminPermList["delete-anime"] ? { display: "none" } : null} label={t("common.index.delete")} {...a11yProps(2)} />
+                    <Tab disabled={!adminPermList["featured-anime"]} style={!adminPermList["featured-anime"] ? { display: "none" } : null} label={t("common.index.feature")} {...a11yProps(3)} />
                 </Tabs>
             </AppBar>
 
@@ -61,7 +63,7 @@ export default function VerticalTabs() {
                 : <></>}
             {adminPermList["delete-anime"] && value === 2 ?
                 <TabPanel value={value} index={2} dir={theme.direction}>
-                    <AnimeDelete theme={theme} />
+                    <AnimeDelete />
                 </TabPanel>
                 : <></>}
             {adminPermList["featured-anime"] && value === 3 ?
