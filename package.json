@@ -19,7 +19,7 @@
         "date-fns": "^2.16.1",
         "i18next": "^19.8.4",
         "i18next-http-backend": "^1.0.21",
-        "lodash": "^4.17.20",
+        "lodash": "^4.17.21",
         "lodash-es": "^4.17.15",
         "markdown-to-jsx": "^7.1.0",
         "react": "^17.0.1",
